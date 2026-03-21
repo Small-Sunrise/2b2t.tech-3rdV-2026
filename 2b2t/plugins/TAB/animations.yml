@@ -1,0 +1,103 @@
+MyAnimation1:
+  change-interval: 100
+  texts:
+    - '&e=&b================='
+    - '&b=&e=&b================'
+    - '&b==&e=&b==============='
+    - '&b===&e=&b=============='
+    - '&b====&e=&b============='
+    - '&b=====&e=&b============'
+    - '&b======&e=&b==========='
+    - '&b=======&e=&b=========='
+    - '&b========&e=&b========='
+    - '&b=========&e=&b========'
+    - '&b==========&e=&b======='
+    - '&b===========&e=&b======'
+    - '&b============&e=&b====='
+    - '&b=============&e=&b===='
+    - '&b=================&e='
+    - '&b=============&e=&b===='
+    - '&b============&e=&b====='
+    - '&b===========&e=&b======'
+    - '&b==========&e=&b======='
+    - '&b=========&e=&b========'
+    - '&b========&e=&b========='
+    - '&b=======&e=&b=========='
+    - '&b======&e=&b==========='
+    - '&b=====&e=&b============'
+    - '&b====&e=&b============='
+    - '&b===&e=&b=============='
+    - '&b==&e=&b==============='
+    - '&b=&e=&b================'
+    - '&e=&b================='
+ServerName:
+  change-interval: 300
+  texts:
+  - '&c&l2b2t.tech'
+  - '&c&n&l2b2t.tech'
+  - '&b&l2b2t.tech'
+  - '&b&l&n2b2t.tech'
+  - '&e&l2b2t.tech'
+  - '&e&n&l2b2t.tech'
+web:
+  change-interval: 200
+  texts:
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&62&eb2t.tech'
+  - '&e2&6b&e2t.tech'
+  - '&e2b&62t&e.tech'
+  - '&e2b2t&6.tech'
+  - '&e2b2t.&6t&eech'
+  - '&e2b2t.t&6e&ech'
+  - '&e2b2t.te&6c&eh'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+  - '&e2b2t.tech'
+vote:
+  change-interval: 1000
+  texts:
+  - '&avote.domain.com'
+  - '&a&nvote.domain.com'
+  - '&5vote.domain.com'
+  - '&5&nvote.domain.com'
+Welcome:
+  change-interval: 400
+  texts:
+  - '&7&lW_'
+  - '&7&lW_'
+  - '&7&lWe_'
+  - '&7&lWel_'
+  - '&7&lWelc_'
+  - '&7&lWelco_'
+  - '&7&lWelcom_'
+  - '&7&lWelcome_'
+  - '&7&lWelcome_'
+  - '&7&lWelcome_'
+  - '&7&lWelcome_'
+  - '&7&lWelcom_'
+  - '&7&lWelco_'
+  - '&7&lWelc_'
+  - '&7&lWel_'
+  - '&7&lWe_'
+  - '&7&lW_'
+  - '&7&lW_'
+time:
+  change-interval: 3000
+  texts:
+    - '&7Time &b%time%'
+    - '&7Date &b%date%'
+barcolors:
+  change-interval: 1000
+  texts:
+    - RED
+    - BLUE
+    - GREEN
+    - YELLOW

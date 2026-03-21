@@ -1,0 +1,38 @@
+# Changes how the plugin should behave.
+# Options:
+#  - BLACKLIST (Blocks provided commands)
+#  - WHITELIST (Only allow provided commands)
+#  - HIDE (Hides the provided commands from tab complete, but doesn't block them)
+Mode: BLACKLIST
+
+Message: "<red><bold>Error</bold> <dark_gray>» <red>You do not have access to that command."
+
+# The list of commands the plugin should look for.
+Commands:
+  - /?
+  - /about
+  - /bukkit:?
+  - /bukkit:about
+  - /bukkit:help
+  - /bukkit:pl
+  - /bukkit:plugins
+  - /bukkit:ver
+  - /bukkit:version
+  - /help
+  - /paper
+  - /paper:paper
+  - /pl
+  - /plugins
+  - /pufferfish
+  - /pufferfish:pufferfish
+  - /purpur
+  - /purpur:purpur
+  - /spigot
+  - /spigot:spigot
+  - /ver
+  - /version
+  - /resadmin
+
+# Hides all commands that have a ':' in them.
+# Such as: /bukkit:version, /minecraft:tp, etc
+HideColonCommands: false
