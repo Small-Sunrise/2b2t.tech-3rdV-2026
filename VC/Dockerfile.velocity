@@ -1,0 +1,4 @@
+FROM local-java:21
+COPY velocity-3.4.0-555.jar /app/velocity.jar
+EXPOSE 50111
+ENTRYPOINT ["java", "-Xms512M", "-Xmx1G", "-jar", "/app/velocity.jar"]
