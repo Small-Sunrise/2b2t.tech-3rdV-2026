@@ -1,0 +1,16 @@
+# The messenger to use for sending plugin messages. Options are PLUGIN_MESSAGE or REDIS.
+messenger: PLUGIN_MESSAGE
+redis:
+  # Specify the credentials of your Redis server here. Set "password" to '' if you don't have one
+  credentials:
+    host: localhost
+    port: 6379
+    password: ''
+    useSsl: false
+  # Options for if you're using Redis sentinel. Don't modify this unless you know what you're doing!
+  sentinel:
+    # The master set name for the Redis sentinel.
+    master: ''
+    # List of host:port pairs
+    nodes: []
+    password: ''
