@@ -1,0 +1,4 @@
+FROM local-java:21
+COPY leaf-1.21.8-60.jar /app/server.jar
+EXPOSE 60003
+ENTRYPOINT ["java", "-Xms4G", "-Xmx6G", "-XX:+UseZGC", "-XX:+ZGenerational", "-jar", "/app/server.jar", "--nogui"]

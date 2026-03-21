@@ -1,0 +1,1 @@
+java -Xmx1G -jar MCG_2R_D.jar

@@ -1,0 +1,25 @@
+#!/bin/bash
+while true
+do
+  echo "启动 2b2t 服务器..."
+  java \
+    -Xms8G -Xmx8G \
+    -XX:SoftMaxHeapSize=6G \
+    -XX:+IgnoreUnrecognizedVMOptions \
+    -XX:+UnlockExperimentalVMOptions \
+    -Dfile.encoding=UTF-8 \
+    -XX:+AlwaysPreTouch \
+    -XX:+DisableExplicitGC \
+    -XX:-UseCompressedClassPointers \
+    -XX:-UseG1GC \
+    -XX:+UseZGC \
+    -XX:+ZGenerational \
+    -XX:-ZProactive \
+    -XX:ZCollectionIntervalMinor=0.95 \
+    -XX:ZUncommitDelay=5 \
+    --add-modules jdk.incubator.vector \
+    -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
+    -jar purpur-1.21.3-2358.jar --nogui
+  echo "服务器已关闭，5 分钟后重启..."
+  sleep 300
+done
