@@ -1,0 +1,100 @@
+# ChunkDeleter Configuration
+# Advanced chunk cleaner plugin for Paper/Folia servers
+# Author: Bloodred
+
+# General settings
+enabled: true
+
+# Chunk deletion settings
+chunkDeletion:
+  # Time in minutes before a chunk is considered for deletion
+  # Default: 30 minutes
+  timeBeforeDeletion: 120
+  
+  # Maximum number of chunks to delete per cleanup cycle
+  # Lower values reduce server lag but increase cleanup time
+  maxChunksPerCycle: 50
+  
+  # Cleanup interval in seconds
+  # How often the plugin checks for chunks to delete
+  cleanupInterval: 1800
+  
+  # Whether to delete chunks immediately or mark them for deletion
+  immediateDeletion: false
+  
+  # Grace period in minutes for marked chunks before actual deletion
+  gracePeriod: 10
+
+# World settings
+worlds:
+  # Enable chunk deletion for specific worlds
+  # Set to [] to enable for all worlds
+  enabledWorlds: []
+  
+  # Worlds to exclude from chunk deletion
+  disabledWorlds:
+  
+  # Spawn chunk protection radius (in chunks)
+  # Chunks within this radius of spawn will never be deleted
+  spawnProtectionRadius: 60
+
+# Protection settings
+protection:
+  # Protect chunks with players nearby
+  protectPlayerChunks: true
+  
+  # Player protection radius in chunks
+  playerProtectionRadius: 8
+  
+  # Protect chunks with structures (villages, temples, etc.)
+  protectStructures: true
+  
+  # Protect chunks with claimed land (if land claim plugins are present)
+  protectClaimedChunks: true
+  
+  # Protect chunks with tile entities (chests, furnaces, etc.)
+  protectTileEntities: true
+  
+  # Minimum number of tile entities to protect a chunk
+  minTileEntities: 1
+
+# Performance settings
+performance:
+  # Use async processing for chunk scanning
+  asyncScanning: true
+  
+  # Maximum time per tick for chunk processing (in milliseconds)
+  maxProcessingTimePerTick: 10
+  
+  # Batch size for chunk operations
+  batchSize: 25
+
+# Logging settings
+logging:
+  # Log chunk deletions
+  logDeletions: true
+  
+  # Log statistics periodically
+  logStatistics: true
+  
+  # Statistics logging interval in minutes
+  statisticsInterval: 60
+  
+  # Detailed debug logging
+  debug: false
+
+# Database settings (for chunk tracking)
+database:
+  # Database type: SQLITE, MYSQL, or MEMORY
+  type: SQLITE
+  
+  # SQLite file name (only used if type is SQLITE)
+  sqliteFile: "chunkdata.db"
+  
+  # MySQL settings (only used if type is MYSQL)
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "chunkdeleter"
+    username: "username"
+    password: "password"

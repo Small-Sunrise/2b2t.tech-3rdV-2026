@@ -1,0 +1,13 @@
+{
+  "cpuName": "AMD Ryzen 9 9950X 16-Core Processor            ",
+  "cpuMicroarchitecture": "unknown",
+  "cpuVendorFreq": 4292000000,
+  "logicalCores": 32,
+  "physicalCores": 16,
+  "totalMemory": 203595681792,
+  "pageSize": 4096,
+  "memoryType": "DDR5",
+  "diskCount": 2,
+  "partitionCount": 6,
+  "networkInterfaceCount": 7
+}

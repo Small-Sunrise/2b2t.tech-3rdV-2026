@@ -1,0 +1,19 @@
+# This is the config file template & default config for this plugin.
+# If you make any changes to this file you must run /ams-reload
+
+# This blocks all pings that don't come from IP's inside ipcache.txt
+block-unknown-pings: true
+
+# When a player joins the server there IP is stored into this file
+# "block-unknown-pings" will block all IP's that are NOt inside this file.
+# if disabled it will no longer add newer IP's, you can also manually add IP's
+enable-ipcache: true
+
+# Logs all instances of MOTD pings into motd-ping-logs.txt
+log-all-motd-pings: true
+
+# Logs all blocked MOTD pings into blocked-motd-logs.txt
+log-blocked-motd-pings: true
+
+# Logs all IP join logs to ip-join-logs.txt
+log-join-ips: true
