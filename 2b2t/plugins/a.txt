@@ -1,0 +1,73 @@
+.paper-remapped
+a.txt
+AdvancedCleaner
+AdvancedTeleport
+AdvancedTeleport-Bukkit-6.1.3-all.jar
+bStats
+ChunkDeleter
+ChunkDeleter-1.2.jar
+ChunkEntityLimiter
+ChunkEntityLimiter-v1.1.1.jar
+Chunky
+Chunky-Bukkit-1.4.36.jar
+CMILib
+CMILib1.5.7.1.jar
+CnUsername
+CnUsername-1.1.1-all.jar
+CommandBlocker
+CommandBlocker v1.6.jar
+CommandSync
+CommandSync-2.8.4-RELEASE.jar
+cStats
+DecentHolograms
+DecentHolograms-2.9.6.jar
+DeluxeTags
+DupePlus
+DupePlus-1.3.0.jar
+EnderChestVault
+EnderChestVault.jar
+Essentials
+EssentialsX-2.21.2(1).jar
+EssentialsX-2.21.2.jar
+JoinLeaveMessage
+LagFixer
+LagFixer (1).jar
+LuckPerms
+LuckPerms-Bukkit-5.4.131.jar
+NoLagg-1.90.4.jar
+PlaceholderAPI
+PlaceholderAPI-2.11.6.jar
+Plan
+Plan-5.6-build-2965 (1).jar
+PlayerTime
+PlayerTime-1.0.7-RELEASE (1).jar
+PluginMetrics
+ProtocolLib
+ProtocolLib_newest.jar
+QuickShop-Hikari
+QuickShop-Hikari-6.2.0.10.jar
+Residence
+Residence6.0.1.0.jar
+ServersNPC
+ShulkerBoxDrop-RE
+ShulkerBoxDrop-RE-Only (1).jar
+Skript
+Skript-2.12.1.jar
+spark
+TAB
+TAB v5.0.3.jar
+TChat
+TChat-4.3.0.0.jar
+update
+Vault
+ViaBackwards
+ViaRewind
+ViaVersion
+WorldEdit
+worldedit-bukkit-7.3.16.jar
+znpcs-5.0.jar
+[前置]Vault.jar
+[可破坏的基岩]badpo.jar
+[扫地大妈]AdvancedCleaner-1.4.jar
+[进出服提醒]JoinLeaveMessage.jar
+新建文本文档.bat

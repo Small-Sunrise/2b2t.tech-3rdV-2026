@@ -24,6 +24,7 @@ replay_pid*.log
 # Bundled JDKs and binaries
 **/jdk-*/
 **/*.jar
+**/*.jar111
 **/plugins/*.zip
 **/plugins.zip
 
