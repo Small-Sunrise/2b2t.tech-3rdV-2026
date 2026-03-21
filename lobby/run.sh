@@ -1,0 +1,23 @@
+#!/bin/bash
+while true
+do
+  echo "启动大厅服务器..."
+  java \
+    -Xms1G -Xmx1G \
+    -XX:SoftMaxHeapSize=700M \
+    -XX:+IgnoreUnrecognizedVMOptions \
+    -XX:+UnlockExperimentalVMOptions \
+    -Dfile.encoding=UTF-8 \
+    -XX:+AlwaysPreTouch \
+    -XX:+DisableExplicitGC \
+    -XX:-UseCompressedClassPointers \
+    -XX:+UseZGC \
+    -XX:+ZGenerational \
+    -XX:-ZProactive \
+    -XX:ZCollectionIntervalMinor=0.98 \
+    -XX:ZUncommitDelay=5 \
+    --add-modules jdk.incubator.vector \
+    -jar purpur-1.21.3-2358.jar --nogui
+  echo "大厅关闭，5分钟后自动重启..."
+  sleep 300
+done

@@ -1,0 +1,5 @@
+FROM local-java:21
+COPY paper.jar /app/server.jar
+EXPOSE 60001
+EULA true
+ENTRYPOINT ["java", "-Xms1G", "-Xmx2G", "-jar", "/app/server.jar", "--nogui"]
