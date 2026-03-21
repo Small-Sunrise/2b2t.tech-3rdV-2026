@@ -1,0 +1,52 @@
+version: '3.8'
+networks:
+  mc-network:
+    driver: bridge
+
+services:
+  velocity:
+    image: mc-velocity:latest  # 使用已构建的镜像
+    container_name: vc
+    restart: unless-stopped
+    ports:
+      - "50111:50111" # 对外端口（您确认的）
+    volumes:
+      # 挂载配置目录。请确保您的velocity.toml已配置为监听 0.0.0.0:50111
+      - /home/user/VC:/config
+    # 移除了 environment 和 command，镜像内已定义
+    networks:
+      - mc-network
+
+  # 2. 大厅服
+  lobby:
+    image: mc-lobby:latest  # 使用已构建的镜像
+    container_name: mc-lobby
+    restart: unless-stopped
+    environment:
+        EULA=true
+    expose:
+      - "60001"  # 在Docker网络内暴露此端口，供Velocity连接
+    volumes:
+      - /home/user/lobby:/data  # 挂载数据目录
+    # 移除了 environment 和 command，镜像内已定义
+    networks:
+      - mc-network
+    depends_on:
+      - velocity
+
+  # 3. 生存游戏服
+  survival:
+    image: mc-survival:latest  # 使用已构建的镜像
+    container_name: 2b2t
+    restart: unless-stopped
+    environment:
+        EULA=true
+    expose:
+      - "60003"  # 在Docker网络内暴露此端口，供Velocity连接
+    volumes:
+      - /home/user/2b2t:/data  # 挂载数据目录
+    # 移除了 environment 和 command，镜像内已定义
+    networks:
+      - mc-network
+    depends_on:
+      - velocity

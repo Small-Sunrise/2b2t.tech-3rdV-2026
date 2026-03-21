@@ -1,0 +1,4 @@
+# 使用官方 Eclipse Temurin 的 JRE 21 镜像作为基础
+FROM eclipse-temurin:21-jre
+# 可选：验证Java版本
+RUN java -version
