@@ -27,6 +27,7 @@ replay_pid*.log
 **/*.jar111
 **/plugins/*.zip
 **/plugins.zip
+**/*.7z
 
 # Plugin runtime data
 **/plugins/**/.libs/
