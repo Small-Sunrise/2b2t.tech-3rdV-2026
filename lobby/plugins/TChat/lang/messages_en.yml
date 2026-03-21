@@ -1,0 +1,321 @@
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                       TChat 消息配置                        │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+prefix:
+  enabled: true
+  prefix: "&#c03afeT&#ac2ff9C&#9824f4h&#8319eea&#6f0ee9t &#FEAD10> "
+
+messages:
+  no-permission: "&c权限不足。"
+  version-message: "&f版本：&a%version%"
+  reload-message: "&a配置重载完成。"
+  unknown-command: "&c未知命令。"
+  anticap: "&c您的消息因大写字母过多被屏蔽。"
+  color-selected: "&a已选择颜色：%id%%format%%color%"
+  format-selected: "&a已选择格式：%color%%id%%format%"
+  invalid-id: "&c无效的物品ID。"
+  player-not-found: "&c玩家未找到。"
+  no-reply: "&c您没有可回复的人。"
+  chat-muted: "&c聊天频道已被禁言。"
+  chat-mute: "&c聊天频道已禁言。"
+  chat-unmute: "&a聊天频道已解除禁言。"
+  repeat-message: "&c您的消息与上一条过于相似。"
+  anti-flood: "&c您的消息包含过多重复字符或相同字符比例过高，已被屏蔽。"
+  custom-commands-cooldown: "&c请等待 %cooldown% 秒后再使用此命令。"
+  ping: "&f延迟：%color%%ping%"
+  duration-number: "&c持续时间必须为数字。"
+  one-option: "&c请至少提供一个选项。"
+  no-poll: "&c没有进行中的投票。"
+  invalid-option-poll: "&c无效选项，请选择：&e%options%"
+  vote: "&a您已成功投票给 &e%option%&a。"
+  poll-create: "&a投票已创建！标题：%title%，时长：%seconds% 秒。"
+  unicode: "&c您的消息包含非法字符，已被屏蔽。"
+  level-up: "&a恭喜！您的等级已提升至 %level% 级"
+  chat-disabled-world: "&c当前世界已禁用聊天。"
+  plugin-not-found: "&c插件未找到。"
+  cc-arguments: "&c该命令需要参数。"
+  helpop: "&a您的求助请求已发送给管理员。"
+  invalid-operator: "&c无效运算符，请使用 +、-、* 或 /"
+  division-zero: "&c错误：除以零。"
+  calculator-result: "&f计算结果：&a%result%"
+  invalid-number: "&c无效数字，请使用有效数字。"
+  invalid-color: "&c无效颜色或格式：%color%"
+  color-reset: "&a颜色和格式已&f重置&a。"
+  other-ping: "&f%player% 的延迟：%color%%ping%"
+  no-staff: "&c当前没有在线管理员。"
+  muted: "&c您已被禁言！"
+  cooldown-channel: "&c请等待 %seconds% 秒后再在此频道发送消息。"
+  mention-other: "&a您提到了玩家 &e%mentioned%&a！"
+  no-item-in-hand: "&c您手中没有物品。"
+  invalid-item-meta: "&c该物品没有元数据。"
+  repeat-commands: "&c请勿重复发送相同命令。"
+  silent-join: "&a隐身加入状态：&e%status%&a。"
+  chat-help:
+    message:
+      - "&8--------- { &#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t &8} ---------"
+      - "&5/announcement &6- &b发布公告"
+      - "&5/broadcast &6- &b全服广播"
+      - "&5/chatcolor &6- &b更改聊天颜色"
+      - "&5/clearchat &6- &b清空聊天"
+      - "&5/chat [reload|mute|version] &6- &b显示帮助、重载配置、查看版本..."
+      - "&5/discord &6- &b查看服务器Discord"
+      - "&5/facebook &6- &b查看服务器Facebook"
+      - "&5/help &6- &b显示帮助"
+      - "&5/ignore &6- &b屏蔽其他玩家"
+      - "&5/instagram &6- &b查看服务器Instagram"
+      - "&5/mention &6- &b@提及玩家（播放音效）（即将推出）"
+      - "&5/msg &6- &b私聊其他玩家"
+      - "&5/ping &6- &b查看延迟"
+      - "&5/plugin &6- &b查看插件信息"
+      - "&5/print &6- &b显示纯净消息"
+      - "&5/reply &6- &b回复私聊消息"
+      - "&5/rules &6- &b查看服务器规则"
+      - "&5/seen &6- &b查看玩家信息"
+      - "&5/teamspeak &6- &b查看服务器TeamSpeak"
+      - "&5/tiktok &6- &b查看服务器TikTok"
+      - "&5/twitter &6- &b查看服务器Twitter"
+      - "&5/warning &6- &b发布警告公告"
+      - "&5/website &6- &b查看服务器网站"
+      - "&5/youtube &6- &b查看服务器YouTube频道"
+  poll:
+    finish: "&6[投票] &a投票已结束！"
+    message:
+      start:
+        title: "&6[新投票] "
+        text: "&a标题："
+        option-line: "&6• %option%: &c%votes% 票 (&a%.2f%%&c)"
+        progress-bar: "&7[&c%filled%&7]"
+      update:
+        title: "&6[投票] "
+        text: "&a标题："
+        option-line: "&6• %option%: &c%votes% 票 (&a%.2f%%&c)"
+        progress-bar: "&7[&c%filled%&7]"
+      end:
+        title: "&6[投票结果] "
+        text: "&a标题："
+        option-line: "&6• %option%: &c%votes% 票 (&a%.2f%%&c)"
+        progress-bar: "&7[&a%filled%&c%empty%&7]"
+    join:
+      message: "&6[投票] &f当前进行中的投票：&a%poll%"
+      message-options: "&6[投票选项] &f%options%"
+  ignore:
+    ignore-self: "&c您不能屏蔽自己。"
+    already-ignored: "&a您已取消屏蔽：%player%"
+    ignore: "&a您已屏蔽：&e%player%"
+    ignore-list-message: "&7您当前屏蔽的玩家：&a%players%"
+    ignore-list-empty: "&c您未屏蔽任何玩家。"
+    blacklist: "&c玩家 '&4%player%&c' 已被拉黑，无法屏蔽。"
+  cooldown:
+    chat: "&c请等待 %cooldown% 秒后再发送消息。"
+    command: "&c请等待 %cooldown% 秒后再执行命令。"
+  stafflist:
+    header: "&#9713FE======= [ 在线管理员 (%staff%) ] ======="
+    footer: "&#9713FE========================================"
+  chatgames:
+    no-enabled-games: "&c未启用任何聊天游戏。"
+    no-messages: "&c该游戏未配置消息。"
+    time-finished: "&c游戏时间已结束。"
+    win: "&a恭喜 %player%！您赢得了游戏！"
+    add: "&a游戏 '&e%name%&a' 已成功添加。"
+    remove: "&a游戏 '&e%name%&a' 已移除。"
+    start: "&a游戏已开始。"
+    stop: "&a游戏已停止。"
+    restart: "&e游戏已重新启动。"
+  antibot:
+    antibot-chat: "&c您需要移动后才能聊天。"
+    antibot-command: "&c您需要移动后才能执行命令。"
+    antibot-join: "&c您需要移动后才能聊天或执行命令。"
+    antibot-moved: "&c您现在可以聊天和执行命令了。"
+  mute:
+    permanent: "&a%player% 已被永久禁言。"
+    temp: "&a%player% 已被禁言 &e%time%&a。"
+    invalid-duration: "&c无效的持续时间格式。"
+    invalid-unit: "&c无效的时间单位。"
+  channel:
+    channel-not-exist: "&c频道 %channel% 不存在。"
+    channel-no-permission-join: "&c您没有加入 %channel% 频道的权限"
+    already-channel: "&c您已在 %channel% 频道中"
+    left-channel: "&c您已离开 %channel% 频道"
+    left-channel-announce: "&c%player% 离开了 %channel% 频道"
+    join-channel: "&a您已加入 %channel% 频道"
+    join-channel-announce: "&a%player% 加入了 %channel% 频道"
+    no-channel: "&c您不在 %channel% 频道中"
+    channel-no-permission-left: "&c您没有离开 %channel% 频道的权限"
+    full: "&c频道 '&e%channel%&c' 已满 (&a%players%&c/&e%limit%&c)。"
+  bannedcommands:
+    no-commands-blocked: "&c当前未屏蔽任何命令。"
+    blocked-list: "&e已屏蔽命令："
+    no-tab-blocked: "&c当前未屏蔽任何Tab补全。"
+    blocked-tab-list: "&e已屏蔽的Tab补全："
+    already: "&c该命令已被屏蔽。"
+    added: "&a命令已加入屏蔽列表。"
+    already-tab: "&c该命令已屏蔽Tab补全。"
+    added-tab: "&a命令已加入Tab补全屏蔽列表。"
+    not-blocked: "&c该命令未被屏蔽。"
+    removed: "&c命令已从屏蔽列表移除。"
+    not-blocked-tab: "&c该命令未屏蔽Tab补全。"
+    removed-tab: "&c命令已从Tab补全屏蔽列表移除。"
+  bannedwords:
+    none: "&c当前无禁用词。"
+    list: "&e禁用词列表：&f%words%"
+    add: "&a已将 '&e%word%&a' 加入禁用词列表。"
+    already: "&c'&e%word%&c' 已在禁用词列表中。"
+    removed: "&a已将 '&e%word%&a' 从禁用词列表移除。"
+    unknown: "&c'&e%word%&c' 不在禁用词列表中。"
+  nick:
+    set: "&a您的昵称已更改为 &e%nick%"
+    remove: "&a您的昵称已移除。"
+  socialspy:
+    invalid-mode: "&c无效模式，请使用：/socialspy mode <1-3>"
+    mode: "&a模式已设置为：&#109AFE%mode%"
+  realname:
+    no-player: "&c未找到昵称为 %nick% 的玩家"
+    offline: "&c该昵称的玩家当前不在线。"
+    realname: "&a玩家 &f%nick% &a的真实ID是 &f%player%"
+  logs:
+    invalid: "&c无效日志类型，使用 /logs <chat|bannedwords|...>"
+    no-register: "&c未找到符合条件的记录。"
+    header: "&a查询结果："
+  commandtimer:
+    added: "&a命令计时器 '%timer%' 创建成功。"
+    already-added: "&c同名计时器已存在。"
+    invalid-number: "&c时间必须为整数。"
+    removed: "&a命令计时器 '%timer%' 已移除。"
+    not-exist: "&c不存在该名称的计时器。"
+  tags:
+    list: "&a可用标签列表："
+    selected: "&a您已选择标签：&e%tag%"
+    unknown: "&c标签 '&e%tag%&c' 不存在。"
+  replacer:
+    no-replacements: "&c未配置任何替换规则。"
+    added: "&a已添加替换规则：&e%original% &a→ &e%replacement%"
+    removed: "&c已移除替换规则：%original%"
+    replacements:
+      header: "&a替换规则："
+      original: "&e原文：&f"
+      replace: "&e→ 替换为：&f"
+      permission: "&e[权限：§f"
+      permission-end: "&e]"
+  groups:
+    assigned: "&a用户组已成功分配。"
+    unknown: "&c无法分配用户组，请检查用户组是否存在。"
+  autobroadcast:
+    start: "&a自动广播已启动。"
+    stop: "&c自动广播已停止。"
+    restart: "&e自动广播已重启。"
+    usage-remove: "&c用法：/autobroadcast remove <广播名称>"
+    removed: "&a广播 &e%broadcast% &a已移除。"
+    usage-add: "&c用法：/autobroadcast add <广播名称>"
+    toggle-on: "&a广播消息已启用。"
+    toggle-off: "&c广播消息已禁用。"
+    create:
+      enabled: "&f是否启用该广播？(&a是&f/&c否&f)"
+      new-line: "&f请输入消息内容（输入 '&a完成&f' 结束）："
+      one-line: "&c至少需要一条消息内容。"
+      added: "&a广播 &e%broadcast% &a已添加。"
+      actions-prompt: |
+        &6请使用以下命令配置自动广播动作：
+        &e- 标题：输入 'title [标题]' 设置主标题
+        &e- 副标题：输入 'subtitle [副标题]' 设置副标题
+        &e- 音效：输入 'sound [音效名称]' 设置音效
+        &e- 粒子效果：输入 'particle [粒子类型]' 设置粒子
+        &e- 粒子数量：输入 'particles [数量]' 设置粒子数量
+        &e- 动作栏：输入 'actionbar [文本]' 设置动作栏文本
+        &e输入 'done' 完成配置
+  usage:
+    channel: "&c用法：/channel <join|leave> <频道>"
+    join-channel: "&c用法：/channel join <频道>"
+    leave-channel: "&c用法：/channel leave <频道>"
+    usage-msg: "&c用法：/msg <玩家> <消息>"
+    usage-broadcast: "&c用法：/broadcast <消息>"
+    usage-ignore: "&c用法：/ignore <玩家>"
+    usage-poll: "&c用法：/poll <create|vote> [参数]"
+    usage-poll-create: "&c用法：/poll create <时长> <标题 | '选项' | 最小人数 | 最大人数>"
+    usage-poll-vote: "&c用法：/poll vote <选项>"
+    usage-warning: "&c用法：/warning <消息>"
+    usage-announcement: "&c用法：/announcement <消息>"
+    usage-autobroadcast: "&c用法：/autobroadcast <start|stop|restart|remove|add>"
+    usage-plugin: "&c用法：/plugin <插件名称>"
+    usage-bannedcommands: "&c用法：/bannedcommands <list|add|remove>"
+    usage-list-bannedcommands: "&c用法：/bannedcommands list <command|tab>"
+    usage-reply: "&c用法：/reply <消息>"
+    usage-send-channel: "&c用法：/channel send <频道> <消息>"
+    usage-add-bc: "&c用法：/bannedcommands add <command|tab> <命令>"
+    usage-remove-bc: "&c用法：/bannedcommands remove <command|tab> <命令>"
+    usage-helpop: "&c用法：/helpop <消息>"
+    usage-calculator: "&c用法：/calculator <数字1> <运算符> <数字2>"
+    usage-player: "&c用法：/player <玩家>"
+    usage-socialspy: "&c用法：/socialspy <模式>"
+    usage-commandtimer: "&c用法：/commandtimer <create|remove> <名称> [时间] | [命令1] | [命令2] | ..."
+    usage-commandtimer-add: "&c用法：/commandtimer create <名称> <时间> | <命令1> | <命令2> | ..."
+    usage-commandtimer-remove: "&c用法：/commandtimer remove <名称>"
+    usage-nick: "&c用法：/nick <set/remove> <昵称>"
+    usage-nick-set: "&c用法：/nick set <昵称>"
+    usage-seen: "&c用法：/seen <玩家>"
+    usage-realname: "&c用法：/realname <昵称>"
+    bannedwords: "&c用法：/bannedwords <list|add|remove> [词语]"
+    bannedwords-add: "&c用法：/bannedwords add <词语>"
+    bannedwords-remove: "&c用法：/bannedwords remove <词语>"
+    mute: "&c用法：/mute <玩家> [时长]"
+    logs: "&c用法：/logs <chat|bannedwords|...> [玩家] [过滤器]"
+    invsee: "&c用法：/invsee <玩家>"
+    mention: "&c用法：/mention <玩家>"
+    cg: "&c用法：/chatgames <start|stop|restart|add|remove>"
+    cg-add: "&c用法：/chatgames add <名称> <消息1,消息2,...> <关键词1,关键词2,...> <奖励1,奖励2,...>"
+    cg-remove: "&c用法：/chatgames remove <名称>"
+    tags: "&c用法：/tags list 或 /tags select <标签>"
+    tags-selected: "&c用法：/tags select <标签>"
+    replacer: "&c用法：/replacer <list/add/remove/enable/disable>"
+    replacer-add: "&c用法：/replacer add <原文> <替换文> <权限>"
+    replacer-remove: "&c用法：/replacer remove <原文>"
+    group: "&c用法：/chat group (用户) (组)"
+
+  debug:
+    no-format-group: "&cgroups.yml配置错误 - 未找到组格式：%group%"
+    no-player: "&c该命令只能由玩家执行。"
+    material-not-found: "&c未找到材质：%material%"
+    chat-cooldown: "玩家 %player% 处于聊天冷却，剩余时间：%time% 秒。"
+    command-cooldown: "玩家 %player% 处于命令冷却，剩余时间：%time% 秒。"
+    anti-flood: "玩家 %player% 发送了包含刷屏的消息：%message%"
+
+plugin:
+  - "&c插件：&f%plugin%"
+  - "&c版本：&f%version%"
+  - "&c作者：&f%author%"
+
+player:
+  global:
+  - "&7---- { &#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t &7} ----"
+  - "&c玩家：&f%player_name%"
+  - "&c游戏时长：&f%statistic_hours_played% 小时"
+  admin:
+    - "&cIP地址：&f%player_ip%"
+    - "&cUUID：&f%player_uuid%"
+
+server:
+  - '&cJava版本：&f%java_version%'
+  - '&c服务器端口：&f%port%'
+  - '&c服务器版本：&f%version%'
+  - '&c操作系统：&f%os_name%'
+  - '&c系统版本：&f%os_version%'
+  - '&cTPS：&f%server_tps_1%'
+  - '&cCPU架构：&f%cpu_family%'
+  - '&cCPU核心数：&f%cpu_cores%'
+  - '&c最大内存：&f%server_ram_max% MB'
+  - '&c总内存：&f%server_ram_total% MB'
+  - '&c已用内存：&f%server_ram_used% MB'
+  - '&c空闲内存：&f%server_ram_free% MB'
+  - '&c插件列表：&f%plugins%'
+  - '&c世界列表：&f%worlds%'
+
+seen:
+  player:
+    - "&f在线状态：&#C03AFE%player_online%"
+    - "&f首次加入：&#C03AFE%player_first_join_date%"
+    - "&f最后登录：&#C03AFE%player_last_join_date%"
+  admin:
+    - "&fIP地址：&#C03AFE%player_ip%"
+    - "&fUUID：&#C03AFE%player_uuid%"

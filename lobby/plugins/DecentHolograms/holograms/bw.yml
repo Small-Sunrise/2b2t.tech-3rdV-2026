@@ -1,0 +1,12 @@
+location: world:-68.665:121.487:-45.542
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: '在线人数: %bungee_BW%'
+    height: 0.3
+  actions: {}

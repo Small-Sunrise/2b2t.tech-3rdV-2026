@@ -1,0 +1,66 @@
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                        Auto Broadcast                       │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+# Placeholders:
+# - %center% - Center line text
+
+# General options
+options:
+  # Time between broadcast and broadcast
+  time: 300
+
+broadcasts:
+  broadcast1:
+    # Enable/disable this broadcast
+    enabled: true
+    # Broadcast message (supports colors &, HEX colors &#, and PlaceholderAPI)
+    message:
+      - "&b&l=================================="
+      - "            &l各位游玩愉快！        "
+      - "     &n&6不要忘记&e加入官方QQ群！   "
+      - "       &#57eae0Q&#63e7d1Q&#6fe4c2群&#7be1b3号&#87dea4：&#93db953&#9fd8863&#abd5775&#b7d2682&#c3cf594&#cfcc4a8&#dbc93b0&#e7c62c4&#f3c31d9       "
+      - "&b&l=================================="
+    # The channel to send the broadcast
+    channel: "none"
+    # Permission to view the broadcast
+    permission: "tchat.broadcast.view.broadcast1"
+    actions:
+      title:
+        enabled: false
+        title: "&#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t"
+        subtitle: "&7The server is using &#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t"
+      sound:
+        enabled: false
+        sound: "ENTITY_VILLAGER_NO"
+      particles:
+        enabled: false
+        particle: ANGRY_VILLAGER
+        particles: 4
+      actionbar:
+        enabled: true
+        bar: "&#008f7e2&#189771b&#309f642&#48a757t&#60af4a.&#78b73dt&#90bf30e&#a8c723c&#c0cf16h"
+  broadcast2:
+    enabled: false
+    message:
+      - "%center%&#ec4141&lANNOUNCE"
+      - "%center%&7Try Tect.host, the best hosting!"
+    channel: "none"
+    permission: "none"
+    actions:
+      title:
+        enabled: false
+        title: "&#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t"
+        subtitle: "&7The server is using &#c03afeT&#a72cf8C&#8e1ff1h&#7411eba&#5b03e4t"
+      sound:
+        enabled: false
+        sound: "ENTITY_VILLAGER_NO"
+      particles:
+        enabled: false
+        particle: ANGRY_VILLAGER
+        particles: 4
+      actionbar:
+        enabled: false
+        bar: "&#c03afeT&#b333fbe&#a72cf8c&#9a25f4t&#8e1ff1.&#8118eeh&#7411ebo&#680ae7s&#5b03e4t"

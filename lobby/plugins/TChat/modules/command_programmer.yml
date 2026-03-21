@@ -1,0 +1,47 @@
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                      Command Programmer                     │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+# Programmed commands
+commands:
+  command0:
+    type: HOURLY
+    players: 0
+    minute: 60
+    commands:
+      - "say 小时红包！在线人数：%online%，每人获得25金币qwp"
+  command1:
+    type: DAILY
+    players: 0
+    hour: 18
+    minute: 0
+    commands:
+      - "say 每日红包！在线人数：%online%，每人获得50金币qwp"
+  command2:
+    type: WEEKLY
+    players: 0
+    # In weekly, days are 1-7 (monday = 1, sunday = 7)
+    day: 6
+    hour: 15
+    minute: 30
+    commands:
+      - "say 每周红包！在线人数：%online%，每人获得300金币qwp"
+  command3:
+    type: MONTHLY
+    players: 0
+    day: 14
+    hour: 12
+    minute: 1
+    commands:
+      - "say 每月红包！在线人数：%online%，每人获得2000金币qwp"
+  command4:
+    type: YEARLY
+    players: 0
+    month: JANUARY
+    day: 1
+    hour: 0
+    minute: 0
+    commands:
+      - "say 年度红包！在线人数：%online%，每人获得50000金币qwp"

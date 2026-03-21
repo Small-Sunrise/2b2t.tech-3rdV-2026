@@ -1,0 +1,12 @@
+location: world:-75.500:121.500:-41.500
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: '&b&l核心版本: &a&l1.21.8 &f&l- &e&l在线: &f&l%bungee_pure%'
+    height: 0.3
+  actions: {}

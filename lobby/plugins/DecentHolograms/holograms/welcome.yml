@@ -1,0 +1,14 @@
+location: world:-73.492:120.533:-48.527
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: '&e欢迎来到&a2b2.tech&b!!!'
+    height: 0.3
+  - content: '当前在线人数: %bungee_total%'
+    height: 0.3
+  actions: {}
