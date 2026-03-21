@@ -1,0 +1,43 @@
+location: world:-4.727:34.623:1.113
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: §6§l⚡ §e§l💰 金币风云榜 §6§l⚡ §r
+    height: 0.3
+  - content: '&c&n&o第一名🥇&b&l %essentials_baltop_player_1% &a--- &e&l&n&o%essentials_baltop_balance_fixed_1%&d金币'
+    height: 0.3
+  - content: '&6&n&o第二名🥈&b&l %essentials_baltop_player_2% &a--- &e&l&n&o%essentials_baltop_balance_fixed_2%&d金币'
+    height: 0.3
+  - content: '&e&n&o第三名🥉&b&l %essentials_baltop_player_3% &a--- &e&l&n&o%essentials_baltop_balance_fixed_3%&d金币'
+    height: 0.3
+  - content: '&c4, &a%essentials_baltop_player_4% &b---- &e%essentials_baltop_balance_fixed_4%
+      &d金币'
+    height: 0.3
+  - content: '&c5, &a%essentials_baltop_player_5% &b---- &e%essentials_baltop_balance_fixed_5%
+      &d金币'
+    height: 0.3
+  - content: '&c6, &a%essentials_baltop_player_6% &b---- &e%essentials_baltop_balance_fixed_6%
+      &d金币'
+    height: 0.3
+  - content: '&c7, &a%essentials_baltop_player_7% &b---- &e%essentials_baltop_balance_fixed_7%
+      &d金币'
+    height: 0.3
+  - content: '&c8, &a%essentials_baltop_player_8% &b---- &e%essentials_baltop_balance_fixed_8%
+      &d金币'
+    height: 0.3
+  - content: '&c9, &a%essentials_baltop_player_9% &b---- &e%essentials_baltop_balance_fixed_9%
+      &d金币'
+    height: 0.3
+  - content: '&c10, &a%essentials_baltop_player_10% &b---- &e%essentials_baltop_balance_fixed_10%
+      &d金币'
+    height: 0.3
+  actions: {}
+- lines:
+  - content: 金币排行榜第二页
+    height: 0.3
+  actions: {}

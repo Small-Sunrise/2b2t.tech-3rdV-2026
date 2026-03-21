@@ -1,0 +1,26 @@
+location: world:-3.791:34.623:7.222
+enabled: true
+display-range: 48
+update-range: 48
+update-interval: 20
+facing: 0.0
+down-origin: false
+pages:
+- lines:
+  - content: '&b&k&nss&r&n&l&e&n⚠重要⚠ &l&a&n===&c&n&l 公告 &l&a&n===&n&l&e&n⚠重要⚠&b&k&nss'
+    height: 0.3
+  - content: '&e本服完全无规则，你可以做你想做的任何事！'
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  - content: Blank Line
+    height: 0.3
+  actions: {}

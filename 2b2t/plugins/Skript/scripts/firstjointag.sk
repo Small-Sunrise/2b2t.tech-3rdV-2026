@@ -1,0 +1,3 @@
+on first join:
+	execute player command "tags select default"
+	execute player command "rtp"

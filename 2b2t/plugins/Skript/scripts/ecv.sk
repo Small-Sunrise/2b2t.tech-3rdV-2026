@@ -1,0 +1,3 @@
+on join:
+    if event-player does not have permission "weight.20":
+        execute console command "ecvpages %player% set 0"

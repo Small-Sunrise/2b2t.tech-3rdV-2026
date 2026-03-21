@@ -1,0 +1,127 @@
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                     General chat config                     │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+chat:
+  # Enable/disable chat format
+  format-enabled: true
+  # Use per group format (groups.yml)
+  use-group-format: true
+  # Global format (use only if the use-group-format option is false)
+  # Use the "¡" character to split the format in the player and message part
+  format: "%radius_mode%%vault_prefix%%tchat_tag_displayname%%tchat_nick%&r: ¡"
+  # Select lang file (inside the lang folder)
+  lang: "messages_en.yml"
+
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                           Modules                           │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+# Enable and disable all TChat modules (you can delete the corresponding files after disabling the module)
+modules:
+  # Enable/disable anti advertising module (anti_advertising.yml)
+  anti-advertising: true
+  # Enable/disable anti bot module (anti_bot.yml)
+  anti-bot: true
+  # Enable/disable anti cap module (anti_cap.yml)
+  anti-cap: true
+  # Enable/disable anti flood module (anti_flood.yml)
+  anti-flood: true
+  # Enable/disable anti unicode module (anti_unicode.yml)
+  anti-unicode: false
+  # Enable/disable auto broadcast module (autobroadcast.yml)
+  auto-broadcast: true
+  # Enable/disable banned commands module (banned_commands.yml)
+  banned-commands: true
+  # Enable/disable banned words module (banned_words.yml)
+  banned-words: false
+  # Enable/disable broadcast module (broadcast.yml)
+  broadcast: true
+  # Enable/disable calculator module (no config file)
+  calculator: true
+  # Enable/disable channels module (channels.yml)
+  channels: true
+  # Enable/disable chat bot module (chatbot.yml)
+  chatbot: true
+  # Enable/disable chat color module (chatcolor.yml and menus/chatcolor.yml)
+  chat-color: true
+  # Enable/disable chat games module (chatgames.yml)
+  chat-games: false
+  # Enable/disable colors in chat module (no config file)
+  colors: true
+  # Enable/disable command programmer module (command_programmer.yml)
+  command-programmer: true
+  # Enable/disable command timer module (command_timer.yml)
+  command-timer: true
+  # Enable/disable cooldowns module (cooldowns.yml)
+  cooldowns: true
+  # Enable/disable custom commands module (commands.yml)
+  custom-commands: true
+  # Enable/disable death module (death.yml)
+  death: true
+  # Enable/disable discord module (hooks/discord.yml)
+  discord: false
+  # Enable/disable grammar module (grammar.yml)
+  grammar: true
+  # Enable/disable help op module (helpop.yml)
+  help-op: true
+  # Enable/disable ignore module (ignore.yml)
+  ignore: true
+  # Enable/disable invsee module (menus/invsee.yml)
+  invsee: true
+  # Enable/disable join module (joins.yml)
+  joins: true
+  # Enable/disable levels module (levels.yml)
+  levels: true
+  # Enable/disable list module (list.yml)
+  list: true
+  # Enable/disable logger module (logger.yml and logs/*)
+  logger: true
+  # Enable/disable mentions module (mentions.yml)
+  mentions: true
+  # Enable/disable msg and reply module (msg.yml)
+  msg: false
+  # Enable/disable mute module (no config file, the /mute (player) command)
+  mute: true
+  # Enable/disable mute chat module (no config file)
+  mute-chat: true
+  # Enable/disable nick module (no config file)
+  nick: true
+  # Enable/disable ping module (ping.yml)
+  ping: true
+  # Enable/disable placeholders module (placeholders.yml)
+  placeholders: true
+  # Enable/disable player module (no config file, command /player <player>)
+  player: true
+  # Enable/disable plugin module (no config file, command /plugin <plugin>)
+  plugin: true
+  # Enable/disable polls module (polls.yml)
+  polls: true
+  # Enable/disable real name module (no config file)
+  real-name: true
+  # Enable/disable repeat commands module (no config file)
+  repeat-commands: false
+  # Enable/disable replacer module (replacer.yml)
+  replacer: true
+  # Enable/disable reply module (msg.yml)
+  reply: false
+  # Enable/disable show ender chest module (menus/show_ender_chest.yml)
+  sec: true
+  # Enable/disable seen module (no config file, /seen <player>)
+  seen: true
+  # Enable/disable server module (no config file, /server)
+  server: true
+  # Enable/disable show item module (show_item_command.yml)
+  sic: true
+  # Enable/disable social spy module (social_spy.yml)
+  social-spy: true
+  # Enable/disable staff list module (no config file)
+  staff-list: true
+  # Enable/disable tags module (tags.yml and menus/tags_menus.yml)
+  tags: true
+  # Enable/disable worlds module (worlds.yml)
+  worlds: true

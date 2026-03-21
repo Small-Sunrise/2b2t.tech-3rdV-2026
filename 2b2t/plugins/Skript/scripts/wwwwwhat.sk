@@ -1,0 +1,17 @@
+skript
+# 简化版魔法红帽
+command /wwwwwhat:
+    trigger:
+        set {_hat} to red leather helmet named "&c红血球的帽子" with lore "&7生命恢复II + 跳跃I", "&e耐久: 1024", "&c无法附魔"
+        set unbreakable of {_hat} to true
+        give {_hat} to player
+        send "&a戴上后自动获得效果" to player
+
+# 持续检查戴帽子的玩家
+every 10 seconds:
+    for all players:
+        if player's helmet is set:
+            if name of player's helmet is "&c魔法红帽":
+                apply regeneration 2 to player for 15 seconds
+                apply jump boost 1 to player for 15 seconds
+                # 可以在这里添加耐久度消耗逻辑

@@ -1,0 +1,209 @@
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                            Groups                           │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+# General options
+config:
+  # You can't disable it
+  default-group: "default"
+  # You can disable it by setting "none"
+  op-group: "op"
+
+# Groups
+groups:
+  op:
+    # You can use any permission
+    permission: tchat.group.op
+    # Group priority (the order is from lowest to highest, if you have two groups, one with priority 1 and the other with priority 2, the one with priority 1 will have higher priority.)
+    priority: 100
+    # Prefix of the group (%tchat_prefix%)
+    prefix: "&4&lOWNER"
+    # Suffix of the group (%tchat_suffix%)
+    suffix: ""
+    # Enable/disable format
+    format-enabled: true
+    # Format of the group (read config.yml)
+    # Use the "¡" character to split the format in the player and message part
+    format: "&vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&f"
+    # Per group hover text
+    hover:
+      player:
+        # Enable/disable player hover text part
+        enabled: true
+        # Hover text lines of the player part
+        # You can use %center% placeholder for center the line
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        # Clic actions
+        click:
+          # Enable/disable this option
+          enabled: true
+          # Tags: [SUGGEST], [EXECUTE], [OPEN]
+          action: "[SUGGEST] /msg %player% "
+      message:
+        # Enable/disable player hover text part
+        enabled: true
+        # Hover text lines of the player part
+        # You can use %center% placeholder for center the line
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        # Clic actions
+        click:
+          # Enable/disable this option
+          enabled: true
+          # Tags: [SUGGEST], [EXECUTE], [OPEN]
+          action: "[SUGGEST] /msg %player% "
+  admin:
+    permission: tchat.group.admin
+    priority: 1
+    prefix: "&c&lADMIN"
+    suffix: ""
+    format-enabled: true
+    format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&c"
+    hover:
+      player:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+      message:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+  svip:
+    permission: tchat.group.svip
+    priority: 2
+    prefix: "&a&lMOD"
+    suffix: ""
+    format-enabled: true
+    format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&b"
+    hover:
+      player:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+      message:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+  vip:
+    permission: tchat.group.vip
+    priority: 3
+    prefix: "&a&lMOD"
+    suffix: ""
+    format-enabled: true
+    format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&a"
+    hover:
+      player:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+      message:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+  default:
+    priority: 4
+    prefix: "&7User"
+    suffix: ""
+    format-enabled: true
+    format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&f"
+    hover:
+      player:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+      message:
+        enabled: true
+        hover:
+          - "%vault_prefix%%player_name%"
+          - "&f权限组: %luckperms_groups%"
+          - "&e首次登录: %player_first_played_formatted%"
+          - "&b游玩时长: &f%playertime_time_minutes% &a分钟"
+          - "&c死亡次数: %statistic_deaths%"
+          - "&d击杀玩家: %statistic_player_kills%"
+        click:
+          enabled: true
+          action: "[SUGGEST] /msg %player% "
+
+# #################################################################
+# ┌─────────────────────────────────────────────────────────────┐ #
+# │                            Users                            │ #
+# └─────────────────────────────────────────────────────────────┘ #
+# #################################################################
+
+# What is this section for?
+# This section is for op users or to assign specific groups to certain users, if the user is in this list,
+# his permissions will be ignored (but he will have to have permission to access the selected group)
+# and the group he has in this list will be assigned.
+users:
+  # (User name): (group)
+  TectHost: op
+  # You can add more users here

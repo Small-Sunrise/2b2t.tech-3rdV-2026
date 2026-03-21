@@ -1,0 +1,44 @@
+# JoinLeaveMessage - Made by: Grossen
+# config.yml
+
+# You can use ChatColor codes in the messages.
+# You can find all valid ChatColor codes here: http://bit.ly/1PVsOVu
+# Use {player} to refer to the joining player.
+# You can find all valid sounds here: http://bit.ly/2anuSXH
+
+# This is the global settings, all players that doesn't have
+# any coustom group under 'groups' assigned to them will
+# get the settings of this 'global' group.
+# The 'default' group with easier words.
+
+global:
+  join:
+    enabled: true
+    message: '&7[&2+&7] &6{player}'
+  sound:
+    enabled: false
+    type: ENTITY_PLAYER_LEVELUP
+  leave:
+    enabled: true
+    message: '&7[&c-&7] &6{player}'
+
+# Here can you define your own coustom groups, so different
+# donor groups can have different sounds/messages for example.
+# You assign a special group to a player by giving the player
+# the special permission for that group you want.
+# Permission format: 'jlm.group.<group>'
+# EXAMPLE: If you want to give Grossen the group 'vip' would
+# you give him the permission 'jlm.group.vip'
+# OBS: Each group must have a different ID (name)
+
+groups:
+  vip:
+    join:
+      enabled: true
+      message: '&7[&2+&7] &bLook! &6{player} &bjoined! :D'
+    sound:
+      enabled: false
+      type: ENTITY_PLAYER_LEVELUP
+    leave:
+      enabled: true
+      message: '&7[&c-&7] &6{player} &bleft us! D:'

@@ -1,0 +1,5 @@
+skript
+command /killdiaoling:
+  trigger:
+    execute console command "execute as @e[type=wither] run data merge entity @s {Health:0f}"
+    send "&a无敌凋零已完成肃杀！感谢您提供的坐标，再见~"

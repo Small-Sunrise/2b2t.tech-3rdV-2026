@@ -1,0 +1,26 @@
+
+# 基础红色皮革帽子
+# 文件名: simple_red_hat.sk
+
+command /redhat:
+    trigger:
+        # 创建红色皮革帽子
+        set {_hat} to leather helmet
+        set color of {_hat} to red
+        set name of {_hat} to "&c救助员"
+        set lore of {_hat} to "&7生命恢复 II", "&e跳跃提升 I"
+        
+        # 给予玩家
+        give {_hat} to player
+        send "&a你获得了红色皮革帽子！戴上后自动获得效果。" to player
+
+# 持续检查戴帽子的玩家并给予效果
+every 10 seconds:
+    loop all players:
+        set {_player} to loop-player
+        if helmet of {_player} is set:
+            if name of helmet of {_player} is "&c救助员":
+                # 应用生命恢复和跳跃提升效果
+                apply regeneration 2 to {_player} for 15 seconds
+                apply jump boost 1 to {_player} for 15 seconds
+               

@@ -1,0 +1,418 @@
+on right-click:
+	if player is holding a lantern named "Lunar Lantern":
+		cancel event
+		apply potion of night vision 5 to player for 20 minutes
+		if the nearest entity is within 3 blocks of the player:
+			apply potion of night vision 5 to the nearest entity for 20 minutes
+			set {moon} to nearest entity
+		execute console command "day"
+		loop 150 times:
+			wait 0.1 seconds
+			execute console command "time add 100"
+	
+on left-click:
+	if player is holding a lantern named "Lunar Lantern":
+		make all operators execute "effect clear %player% night_vision"
+		make all operators execute "effect clear %{moon}% night_vision"
+
+on walking on grass:
+	if {holye::*} contains the entity's uuid:
+		loop 3 times:
+			wait 0.1 seconds
+			apply bone meal to the block in front of the entity
+
+on shoot:
+	if shooter is holding a bow named "Gospel Bow":
+		add the shooter's uuid to {christ::*}
+		
+on damage:
+	if {christ::*} contains the attacker's uuid:
+		if damage cause is arrow:
+			wait 0.1 seconds
+			heal victim by 3
+			remove attacker's uuid from {christ::*}
+			add "&6Jesus came into the world to save you!" to {list::*} # Adding items to a list
+			add "&6God loved the world so much, he gave his only son, so if you believed you could be saved!" to {list::*} # Adding items to a list
+			add "&6Do not lose hope, for Jesus is born!" to {list::*}
+			add "&6Jesus Christ born in a manger, an example of humility" to {list::*}
+			add "&6Jesus is here to save us from sin!" to {list::*}
+			add "&6Isaiah 7:14[cutted] NIVUK: give birth to a son and will call him Immanuel" to {list::*}
+			add "&6John 1:14: The Word became flesh and made his dwelling among us" to {list::*}
+			send actionbar random element out of {list::*} to victim
+			if victim is a player:
+				increase {holy::%attacker's uuid%} by 1
+				if {holy::%attacker's uuid%} is 5:
+					set {holy::%attacker's uuid%} to 0
+					make attacker invulnerable
+					set glowing of attacker to true
+					send "&6With the power of the almighty Jesus, you are now invulnerable to any attack" to attacker
+					add attacker's uuid to {holye::*}
+					wait 20 seconds
+					make attacker vulnerable
+					set glowing of attacker to false
+					remove attacker's uuid from {holye::*}
+					send "&6You are no longer vulnerable" to attacker
+				
+on damage:
+	if {holye::*} contains attacker's uuid:
+		heal victim by 3
+		
+on left-click:
+	if player is holding an egg named "Companion":
+		cancel event
+		wait 0.1 seconds
+		spawn chicken
+		set {companione} to the nearest chicken
+		add the player's uuid to {companion::*}
+		
+on damage:
+	if {companion::*} contains the attacker's uuid:
+		loop 5 times:
+			make {companione} pathfind to the victim at speed 2
+			wait 0.5 second
+			make {companione} pathfind to the victim at speed 2
+			wait 0.5 second
+			if {companione} is within 2 blocks of the victim:
+				damage victim by 1
+	else if {companion::*} contains the victim's uuid:
+		loop 5 times:
+			make {companione} pathfind to the attacker at speed 2
+			wait 0.5 second
+			make {companione} pathfind to the attacker at speed 2
+			wait 0.5 second
+			if {companione} is within 2 blocks of the attacker:
+				damage attacker by 1
+		
+on damage:
+	if damage cause is drowning:
+		if victim is wearing a diamond helmet named "Aqua Helmet":
+			cancel event
+		
+on right-click: #When someone right-clicks
+	if player is holding a sculk catalyst named "Doubler": #&1 is a colorcode for dark blue, you can always change the name
+		set {doubler} to type of event-entity #Set the variable "doubler" to the type of the entity right-clicked on
+		summon {doubler} #Summon that variable
+
+on death:
+	if victim is wearing iron boots named "Feather Boots":
+		unequip boots from victim
+		wait 0.2 seconds
+		equip victim with iron boots named "Feather Boots"
+
+on death:
+	if {vip::*} contains the attacker's uuid:
+		wait 0.3 seconds
+		force attacker to fly
+
+on damage:
+	if damage cause is fall:
+		if victim is wearing iron boots named "Feather Boots":
+			cancel event
+
+on damage:
+	if attacker is holding a sword named "Lucky Sword":
+		damage victim by 0.5
+		set attacker's held item to a sword named "Lucky Sword"		
+
+on right-click:
+	if player is holding a leather horse armor named "Gun": #You need to be holding a leather horse 
+		wait 0.1 seconds
+		shoot an arrow
+		
+on left-click:
+	if player is holding a leather horse armor named "Gun":
+		loop 5 times:
+			shoot an arrow
+			wait 0.1 seconds
+	
+on shoot:
+	if shooter is holding a bow named "Teleportation Bow":
+		add shooter's uuid to {teleporter::*}
+		
+on left-click:
+	if player is holding a bow named "Teleportation Bow":
+		teleport player to the nearest entity
+		
+on projectile hit:
+	if {teleporter::*} contains the shooter's uuid:
+		teleport shooter to the projectile
+		remove shooter's uuid from {teleporter::*}
+
+on right-click:
+	if player is holding a bamboo named "Nature's Wand":
+		cancel event
+		loop 3 times:
+			wait 0.1 seconds
+			apply 3 bone meal to event-block
+			
+on damage:
+	if attacker is holding a bamboo named "Nature's Wand":
+		poison victim for 5 seconds
+		loop 5 times:
+			if the health of the victim is more than 1:
+				wait 1 second
+				damage victim by 1
+		
+on right-click:
+	if player is holding an iron horse armor named "Flamethrower":
+		wait 0.1 seconds
+		shoot a fireball
+
+on left-click:
+	if player is holding an iron horse armor named "Flamethrower":
+		loop 5 times:
+			shoot fireball
+			
+on right-click:
+	if player is holding a stick named "Magic Flute": 
+		make all the entities pathfind towards player
+	
+on right-click:
+	if player is holding a beacon named "Locater":
+		cancel event
+		loop 5 times:
+			set glowing of all players to true
+			play sonic boom on player
+			wait 0.5 seconds
+		wait 5 seconds
+		set glowing of all players to false
+		
+on left-click:
+	if player is holding a beacon named "Locater":
+		play sonic boom on player
+		send "&9Nearest player location: &f%location of nearest player%" to player
+				
+on damage:
+	if attacker is holding a stick named "Knockback Stick":
+		knock victim (vector from attacker to victim) with strength 2
+
+on right-click:
+	if player is wearing an elytra named "Jetpack":
+		if {iced::*} doesn't contain the player's uuid:
+			play spit on player
+			if player has potion effect levitation:
+				apply potion of levitation 30 to player for 0.2 seconds
+			else:
+				apply potion of levitation 20 to player for 0.5 seconds
+				
+
+on damage:
+	if attacker is holding gold sword named "Fire Blade":
+		loop 3 times:
+			wait 1 second
+			ignite victim
+	else if attacker is holding iron sword named "Ice Sword":
+		apply potion of slowness 255 to victim for 5 seconds
+		add victim's uuid to {iced::*}
+		wait 5 seconds
+		remove victim's uuid from {iced::*}
+	else if attacker is holding netherite hoe named "Void Scythe":
+		apply potion of darkness 255 to victim for 5 seconds
+		apply potion of slowness 3 to victim for 5 seconds
+		apply potion of blindness 255 to victim for 5 seconds
+		apply potion of nausea 255 to victim for 5 seconds
+		loop 10 times:
+			knock victim with strength 0.1
+			play large explosion on the head of the victim to victim
+			play large explosion on the head of the victim to victim
+			knock victim with strength 0.1
+			play large explosion on the head of the victim to victim
+			play large explosion on the head of the victim to victim
+			wait 0.1 seconds
+	else if attacker is holding end rod named "Lightning Rod":
+		strike lightning effect at victim
+		damage victim by 2 hearts
+	else if attacker is holding netherite sword named "Lifestealer":
+		heal attacker by damage
+		if victim isn't holding a shield named "Absorbingshield":
+			damage attacker by 1
+	else if victim is holding a shield named "Absorbing Shield":
+		cancel event
+		damage attacker by damage
+	else if attacker is holding a bone named "Zombie Sword":
+		apply potion of hunger 5 to victim for 10 seconds
+		damage victim by 0.5
+	else if attacker is holding an iron sword named "Levitation Sword":
+		if victim is in water:
+			loop 5 times:
+				wait 0.1 seconds
+				push the victim upwards at speed 0.2
+		else:
+			apply potion of levitation 7 to victim for 1.5 seconds
+	else if attacker is holding an iron sword named "Pierce Sword":
+		if victim is wearing armor:
+			damage victim by amount of armor of attacker
+			heal victim by 3
+
+on right-click:
+	if player is holding end rod named "Lightning Rod":
+		cancel event
+		remove the player's uuid from {rod::*}
+		wait 0.1 seconds
+		set {helmet} to the player's helmet
+		set {boots} to the player's boots
+		set {leggings} to the player's leggings
+		set {chestplate} to the player's chestplate
+		if player is wearing elytra:
+			set {chestplate} to elytra named "Jetpack"
+		wait 0.1 second
+		strike lightning effect at player
+		remove all armor from player
+		force player to fly
+		make player invisible
+		send "You entered the lightning form" to player
+			
+on left-click:
+	if player is invisible:
+		strike lightning effect at player
+		wait 0.1 seconds
+		make player visible
+		wait 0.1 seconds
+		equip player with {helmet}
+		equip player with {boots}
+		wait 0.1 seconds
+		equip player with {leggings}
+		equip player with {chestplate}
+		wait 0.1 seconds
+		if {vip::*} does not contain the player's uuid:
+			force player to stop flying
+		send "You left the lightning form" to player
+
+on damage:
+	if attacker is invisible:
+		strike lightning effect at attacker
+		wait 0.1 seconds
+		make attacker visible
+		wait 0.1 seconds
+		equip attacker with {helmet}
+		equip attacker with {boots}
+		wait 0.1 seconds
+		equip attacker with {leggings}
+		equip attacker with {chestplate}
+		wait 0.1 seconds
+		force attacker to stop flying
+		send "You left the lightning form" to attacker
+
+on jump:
+	if {iced::*} contains player's uuid:
+		cancel event
+		
+on right-click:
+	if player is holding a clock named "Timestop Clock":
+		if {timestop::*} contains {timestope}'s uuid:
+			wait 0.1 second
+			execute console command "tick unfreeze"
+			remove {timestope}'s uuid from {timestop::*}
+			broadcast "&7[&8Timestop Clock&7] &fTime has been unfrozen"
+		else:
+			wait 0.1 second
+			execute console command "tick freeze"
+			set {timestope} to player
+			add {timestope}'s uuid to {timestop::*}
+			broadcast "&7[&8Timestop Clock&7] &fTime has been frozen"
+
+on right-click:
+	if player is holding an iron ingot named "Magnet":
+		if the nearest entity's gamemode isn't spectator or creative:
+			if the distance between the nearest entity and player is smaller than 20:
+				knock nearest entity (vector from nearest entity to player) with strength 2
+			else if the distance between the nearest entity and player is smaller than 10:
+				knock nearest entity (vector from nearest entity to player) with strength 4
+	
+on death:
+	if victim contains an emerald named "Second Chance Gem":
+		wait 0.5 seconds
+		make victim execute "deathlocation"
+		show resurrection by totem on victim
+		wait 10 seconds
+		remove emerald named "Second Chance Gem" from victim's inventory
+		broadcast "%victim%'s revenge was fulfilled"
+		execute console command "damage %victim% 100 magic"
+		give victim an emerald named "Second Chance Gem"
+			
+on right-click:
+	if player is holding a paper named "Bandage":
+		heal player by 3 hearts
+		if player's gamemode isn't creative:
+			remove 1 paper named "Bandage" from player's inventory
+	
+on item damage:
+	if player is wearing an elytra named "Jetpack":
+		cancel event
+	else if player is holding gold sword named "Fire Blade":
+		cancel event
+	else if player is holding iron sword named "Ice Sword":
+		cancel event
+	else if player is holding netherite hoe named "Void Scythe":
+		cancel event
+	else if player is holding a shield named "Absorbing Shield":
+		cancel event
+	else if player is holding a golden sword named "Worthy Sword":
+		cancel event
+	else if player is holding a bow named "Teleportation Bow":
+		cancel event
+	else if player is holding netherite sword named "Lifestealer":
+		cancel event
+	else if player is wearing an iron chestplate named "Invisibility Cloak":
+		cancel event
+	else if player is holding a sword named "Lucky Sword":
+		cancel event
+	else if player is wearing iron boots named "Feather Boots":
+		cancel event
+	else if player is holding an iron sword named "Levitation Sword":
+		cancel event
+	else if player is holding an iron sword named "Pierce Sword":
+		cancel event
+	else if player is wearing a diamond helmet named "Aqua Helmet":
+		cancel event
+	else if player is holding a bow named "Gospel Bow":
+		cancel event
+		
+on right-click:
+	if player is holding a lead named "Golden Lead":
+		cancel event
+		wait 0.1 second
+		drop event-entity's held item
+			
+on right-click:
+	if player is holding an iron horse armour named "Nuker":
+		wait 0.2 second
+		shoot primed tnt
+
+on explode:
+	wait 0.1 second
+	execute console command "minecraft:kill @e[type=item]"
+		
+on left-click:
+	if player is holding an iron horse armour named "Nuker":
+		if nearest player is within 15 blocks of the player: 
+			if the nearest player's gamemode is spectator or creative:
+				send "&4You can't magnetize someone in spectator or creative" to player
+			else:
+				execute command "nuke %nearest player%"
+		else:
+			send "&4You must be atleast 15 blocks within a player" to player
+				
+on damage:
+	send actionbar "&4You took damage" to victim
+			
+on death:
+	add attacker's uuid to {kill::*}
+			
+on pick up:
+	if player is holding a golden sword named "Worthy Sword":
+		if {kill::*} doesn't contain player's uuid:
+			kill player
+		else:
+			add player's uuid to {worthy::*}
+		
+on damage:
+	if {worthy::*} contains the attacker's uuid:
+		damage the victim by 2 hearts
+		
+on armor change:
+	if player is wearing iron boots named "Feather Boots":
+		apply infinite potion of speed 5 without particles to player
+	else:
+		execute console command "effect clear %player% speed"
+		
