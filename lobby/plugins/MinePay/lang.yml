@@ -1,0 +1,67 @@
+# 语言配置
+# 语言变量: '语言显示（可自定义）'
+# 换行请用 \n
+
+# 命令提示前缀
+prefix: '&fMine&cPay&b>>>'
+bag-full: '&c背包已满无法生成地图'
+next-page: '&b&l下一页'
+
+# {RANK} 排名
+# {PLAYER} 玩家
+# {PRICE.保留位数} 价格
+# {PRICE.0} 如 3.1415926 -> 3
+# {PRICE.2} 依此类推为保留小数点后两位，如 3.1415926 -> 3.14
+player-rank: '&b{RANK}   &6{PLAYER} --> 金额: {PRICE.0} 元'
+# 分割线
+divide-line: '&b&l--------------------'
+
+rank-empty: 暂无充值排行
+player-rank-tip: 玩家充值排行:\n
+
+confirm-price: 请核对支付金额
+# 开始充值提示
+# 空白则使用默认的支付提示
+# {KIT_NAME} 礼包名称
+# {PRICE} 需要支付的金额
+# {PAYMENT_TYPE} 支付方式
+payment-tip: '&e订单创建成功\n&f购买 {KIT_NAME}\n&f支付金额 &c&l{PRICE} &f元\n&f请使用{PAYMENT_TYPE}&f扫码支付\n&f支付完成后将自动发货\n按&c&lＱ&f键关闭并取消订单\n&f支付其他金额无法到账!'
+gift-not-found: '&c礼包错误或不存在'
+previous-page: '&b&l上一页'
+waiting-order: '&c当前有人正在支付,请稍后再试'
+too-many-orders: '&c当前订单过多,请稍后再试'
+cannot-connect: '&c服务器哥哥发烧了'
+creating-order: '&e创建{PAYMENT_TYPE}&e订单中，请稍后...'
+order-purchased: '&e订单支付成功'
+network-timeout: '&c连接服务器超时'
+gift-price-error: '&c礼包价格错误'
+error-order-price: '&c下单失败,错误金额'
+server-switched: '&c已经切换备用服务器，请重新操作'
+purchase-records: '&b&l充值记录'
+click-here-to-query: '&e点击查询记录'
+unknown-payment-way: '&c未知支付方式'
+only-buy-the-gift-once: '&c该礼包限购一次'
+your-order-has-expired: '&c你的订单已失效'
+insufficient-not-founds: '&c麦币不足，请联系管理员'
+order-transaction-success: '&e成功购买了&c{KIT_NAME}'
+cannot-find-your-record: '&c没有找到你的的兑换记录'
+target-pay-way-not-available: '&c该支付方式已被管理员关闭'
+interact-interrupted-denied: '&c&c支付时已禁止交互!'
+execute-failed-of-network-error: '&c执行失败,网络故障'
+# {CODE} 为错误代码
+ordering-failed-of-code: '&c下单失败,错误代码[{CODE}]'
+check-web-order-failed-of-code: '&c查询网页失败,错误代码[{CODE}],原因[{MSG}]'
+# {KIT_NAME} 为礼包名称
+you-have-purchased-on-web-page: '&c该礼包限购一次\n你在网页重复购买了{KIT_NAME}\n请联系服务器管理员进行退款'
+# {COUNT} 为个数
+# {MONEY} 为累计充值金额
+we-have-found-your-record: '&a找到{COUNT}个记录,累计充值{MONEY}元'
+reward-not-found: '&c奖励错误或不存在'
+reward-has-been-take: '&c你已经领取过这个奖励'
+reward-not-reach: '&c你未达到领取条件'
+off-hand: '&e请取下副手物品以展示地图'
+consume-has-changed: 累计金额设置成功
+consume-set-action-error: 累计金额操作有误
+please-input-positive-num: 请输入大于0的整数
+consume-num-cannot-be-neg: 累计金额不能为负数
+price-changed: '&c&l注意价格出现变动，请按提示价格付款！'

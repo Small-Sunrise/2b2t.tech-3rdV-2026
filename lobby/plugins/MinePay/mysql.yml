@@ -1,0 +1,24 @@
+# 如果启用 MySQL 那么在此配置
+# 支持 MySQL 版本 5.7 ~ 8
+# 使用支持以外的版本会导致异常
+
+# 启用
+enabled: false
+# 地址
+host: 127.0.0.1
+# 端口
+port: 3306
+# 库名
+database: minepay
+# 账号
+user: root
+# 密码
+password: password
+# 加密连接
+use-ssl: false
+# 允许公钥认证
+allow-public-key-retrieval: true
+# URI
+# 更改 URI 将覆盖其他配置
+# 若你不清楚此配置请不要更改
+uri: # jdbc:mysql://...

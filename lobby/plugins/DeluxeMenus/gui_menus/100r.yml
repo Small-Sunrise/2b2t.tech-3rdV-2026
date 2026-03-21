@@ -1,0 +1,30 @@
+menu_title: '&a&l100点券&f&l-&e&l充值'
+open_command: 100r
+size: 9
+open_requirement:
+
+items:
+ 'wxpay':
+    slot: 2
+    display_name: '&a&l微信支付&f - &e&l100元'
+    material: EMERALD_BLOCK
+    lore:
+      - '&f1元 &d&l= 1点券'
+    left_click_commands:
+      - '[player] srepay 100 wxpay'
+      
+ 'alipay':
+    slot: 5
+    display_name: '&b&l支付宝支付&f - &e&l100元'
+    material: DIAMOND_BLOCK
+    lore:
+      - '&f1元 &d&l= 1点券'
+    left_click_commands:
+      - '[player] srepay 100 alipay'
+      
+ 'exit':
+    slot: 8
+    display_name: '&c退出按shift!'
+    material: barrier
+    left_click_commands:
+      - '[close]'

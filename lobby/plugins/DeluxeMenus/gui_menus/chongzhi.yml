@@ -1,0 +1,230 @@
+menu_title: '&a&l赞助充值系统 &f&l- &c&l1&bRMB &d= &c&l1&b点券'
+open_command: chongzhi
+size: 45
+
+items:
+  '5r':
+    display_name: '&e充值 &f- &l&d5&b点券'
+    material: COAL
+    slot: 10
+    left_click_commands:
+    - '[player] 5r'
+    - '[close]'
+    lore:
+    - '&a感谢赞助！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '10r':
+    display_name: '&e充值 &f- &l&d10&b点券'
+    material: IRON_INGOT
+    slot: 11
+    left_click_commands:
+    - '[player] 10r'
+    - '[close]'
+    lore:
+    - '&6相当于一个月 &a&l&oVIP！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '25r':
+    display_name: '&e充值 &f- &l&d25&b点券'
+    material: emerald
+    slot: 12
+    left_click_commands:
+    - '[player] 25r'
+    - '[close]'
+    lore:
+    - '&6相当于一个月 &b&l&oSVIP！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '50r':
+    display_name: '&e充值 &f- &l&d50&b点券'
+    material: Diamond
+    slot: 13
+    left_click_commands:
+    - '[player] 50r'
+    - '[close]'
+    lore:
+    - '&d&l相当于永久 &a&l&oVIP &e&l礼包！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '100r':
+    display_name: '&e充值 &f- &l&d100&b点券'
+    material: Netherite_INGOT
+    slot: 14
+    left_click_commands:
+    - '[player] 100r'
+    - '[close]'
+    lore:
+    - '&d&l相当于永久 &b&l&oSVIP &e&l礼包！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '200r':
+    display_name: '&e充值 &f- &l&d200&b点券'
+    material: AMETHYST_SHARD
+    slot: 15
+    left_click_commands:
+    - '[player]200r'
+    - '[close]'
+    lore:
+    - '&d&l非常非常非常感谢赞助！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+  '300r':
+    display_name: '&e充值 &f- &l&d300&b点券'
+    material: AMETHYST_BLOCK
+    slot: 16
+    left_click_commands:
+    - '[player] 300r'
+    - '[close]'
+    lore:
+    - '&e&l金主爸爸❤！'
+    - ''
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+    
+  'vip31-notbuy':
+    display_name: '&a&l充值&f - &e&l31天 &a&l&oVIP'
+    material: EMERALD_BLOCK
+    priority: 2
+    slot: 28
+    lore:
+    - '&d&l价格: &f&l10点券 &7(=10RMB)'
+    - '&7--------------------------------------------------------'
+    - '&f[1] &a/dupe 复制权限'
+    - '&f[2] &a/ecv 打开每页45格额外末影箱*1页'
+    - '&f[3] &b称号&f&l[&a&l&oVIP&f&l]'
+    - '&f[4] &e更多(7)更大(200*200)的圈地'
+    - '&f[5] &e💰立即获得-5百万金币'
+    - '&f[6] &c拥有/back返回上次死亡地点权限'
+    - '&f[7] &c无视其他人领地的move权限（可自由出入）'
+    - '&7--------------------------------------------------------'
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+    left_click_requirement:
+      requirements:
+        has_money:
+          type: has money
+          amount: 10
+      deny_commands:
+      - '[message] &c点券不足!三秒后自动充值'
+      - '[delay] 60'
+      - '[player] 10r'
+      - '[close]'
+    left_click_commands:
+      - '[console] eco take %player_name% 10'
+      - '[console] lp user %player_name% parent addtemp vip 31d'
+      - '[console] sync console 2b2t eco give %player_name% 5000000'
+      - '[console] sync console 2b2t ecvpages %player_name% set 1'
+      - '[message] &a--------------------------------'
+      - '[message] &a'
+      - '[message] &a     成功购买！'
+      - '[message] &a'
+      - '[message] &a--------------------------------'
+  'vip31-buy':
+    display_name: '&a&l充值&f - &e&l31天 &a&l&oVIP'
+    material: EMERALD_BLOCK
+    priority: 1
+    slot: 28
+    view_requirement:
+      requirements:
+        has_perm:
+          type: "has permission"
+          permission: group.vip
+    lore:
+    - '&f✔&a&l&o已拥有'
+    - '&d&l价格: &f&l10点券 &7(=10RMB)'
+    - '&7--------------------------------------------------------'
+    - '&f[1] &a/dupe 复制权限'
+    - '&f[2] &a/ecv 打开每页45格额外末影箱*1页'
+    - '&f[3] &b称号&f&l[&a&l&oVIP&f&l]'
+    - '&f[4] &e更多(7)更大(200*200)的圈地'
+    - '&f[5] &e💰立即获得-5百万金币'
+    - '&f[6] &c拥有/back返回上次死亡地点权限'
+    - '&f[7] &c无视其他人领地的move权限（可自由出入）'
+    - '&7--------------------------------------------------------'
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+    
+  'svip31-notbuy':
+    display_name: '&a&l充值&f - &e&l31天 &b&l&oSVIP'
+    material: DIAMOND_BLOCK
+    priority: 2
+    slot: 29
+    lore:
+    - '&d&l价格: &f&l25点券 &7(=25RMB)'
+    - '&7--------------------------------------------------------'
+    - '&f[1] &b&l&oSVIP &e&l全部权限'
+    - '&f[2] &a/ecv 打开每页45格额外末影箱* &c&l3 页'
+    - '&f[3] &b称号 &a&l[&e&l==&d&l&nS&f-&b&l&nVIP&e&l==&a&l]'
+    - '&f[4] &e更多(10)更大(400*400)的圈地'
+    - '&f[5] &e💰立即获得-2千万金币'
+    - '&f[6] &c拥有/home,/sethome设置家权限'
+    - '&f[7] &d&l无视其他人领地限制（可自由出入，破坏，使用）'
+    - '&7--------------------------------------------------------'
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+    left_click_requirement:
+      requirements:
+        has_money:
+          type: has money
+          amount: 25
+      deny_commands:
+      - '[message] &c点券不足!三秒后自动充值'
+      - '[delay] 60'
+      - '[player] 25r'
+      - '[close]'
+    left_click_commands:
+      - '[console] eco take %player_name% 25'
+      - '[console] lp user %player_name% parent addtemp svip 31d'
+      - '[console] sync console 2b2t eco give %player_name% 5000000'
+      - '[console] sync console 2b2t ecvpages %player_name% set 3'
+      - '[message] &a--------------------------------'
+      - '[message] &a'
+      - '[message] &a     成功购买！'
+      - '[message] &a'
+      - '[message] &a--------------------------------'
+  'svip31-buy':
+    display_name: '&a&l充值&f - &e&l31天 &b&l&oSVIP'
+    material: DIAMOND_BLOCK
+    priority: 1
+    slot: 29
+    view_requirement:
+      requirements:
+        has_perm:
+          type: "has permission"
+          permission: group.svip
+    lore:
+    - '&f✔&a&l&o已拥有'
+    - '&d&l价格: &f&l25点券 &7(=25RMB)'
+    - '&7--------------------------------------------------------'
+    - '&f[1] &b&l&oSVIP &e&l全部权限'
+    - '&f[2] &a/ecv 打开每页45格额外末影箱* &c&l3 页'
+    - '&f[3] &b称号 &a&l[&e&l==&d&l&nS&f-&b&l&nVIP&e&l==&a&l]'
+    - '&f[4] &e更多(10)更大(400*400)的圈地'
+    - '&f[5] &e💰立即获得-2千万金币'
+    - '&f[6] &c拥有/home,/sethome设置家权限'
+    - '&f[7] &d&l无视其他人领地限制（可自由出入，破坏，使用）'
+    - '&7--------------------------------------------------------'
+    - '&c&l选择: &a&l微信 &f或者 &b&l支付宝 &d&l支付'
+    
+  'filler_item':
+    material: GRAY_STAINED_GLASS_PANE
+    slots:
+     - 0
+     - 1
+     - 2
+     - 3
+     - 4
+     - 5
+     - 6
+     - 7
+     - 8
+     - 9
+     - 18
+     - 27
+     - 36
+     - 17
+     - 26
+     - 35
+     - 36
+     - 37
+     - 38
+     - 42
+     - 43
+     - 44

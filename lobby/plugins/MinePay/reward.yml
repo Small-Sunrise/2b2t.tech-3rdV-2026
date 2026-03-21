@@ -1,0 +1,34 @@
+# 累计充值奖励 (非必要)
+
+# 奖励名字
+测试奖励1:
+  # 玩家充值金额累计达到多少才能领取
+  price: 8888
+  # 菜单显示物品
+  material: APPLE
+  # 菜单排序(数值越小越靠前)
+  sort: 1
+  # 需要该权限才能领取
+  # 玩家默认拥有 minepay.user.reward
+  permission: 'minepay.user.reward'
+  # 菜单显示介绍
+  lore:
+    - '这是奖励介绍第一行'
+    - '这是奖励介绍第二行'
+  # 领取成功后执行指令
+  command:
+    - 'give %player% stone 64'
+    - 'say %player% 累计充值了8888元，获得奖励'
+
+测试奖励2:
+  price: 9999
+  material: APPLE
+  sort: 2
+  permission: 'minepay.user.reward'
+  lore:
+    - '这是奖励介绍第一行'
+    - '这是奖励介绍第二行'
+  command:
+    - 'give %player% diamond 64'
+    - 'say %player% 累计充值了9999元，获得奖励'
+

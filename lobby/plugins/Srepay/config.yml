@@ -1,0 +1,24 @@
+# Srepay插件配置文件
+
+# 商户信息
+merchant:
+  pid: "186349768"
+  key: "T1Z2ZNd50NpC01IfpcPNX54hDyd4PnIV"
+  apiurl: "https://mzf.rliyun.cn/"
+
+# URL配置
+urls:
+  notify: "http://103.40.14.228:33205/notify.php" #可换成自己的 这个选项无用
+  return: "http://103.40.14.228:33205/return.php?" #可换成自己的 支付跳转成功
+
+# 网站信息
+site:
+  name: "叉车支付"
+settings:
+  order_timeout: 120 # 订单超时时间（秒）
+
+usepaymap: true
+
+money: x1
+command:
+  - 'eco give %player_name% %money%'

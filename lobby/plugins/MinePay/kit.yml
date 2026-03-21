@@ -1,0 +1,40 @@
+# 礼包名字
+测试金币:
+  # 充值金额(整数)
+  price: 10
+  # 菜单显示物品
+  material: APPLE
+  # 菜单排序(数值越小越靠前)
+  sort: 1
+  # 是否允许玩家离线时发货
+  offline: false
+  # 每人是否只能充值一次
+  novice: false
+  # 需要该权限才能购买
+  # 玩家默认拥有 minepay.user.buy
+  permission: 'minepay.user.buy'
+  # 是否同步到网页购买
+  web: true
+  # 菜单显示介绍
+  lore:
+  - '这是商品介绍第一行'
+  - '这是商品介绍第二行'
+  # 充值成功后执行指令
+  command:
+  - eco give %player% 100
+  - say %player% 购买了金币
+
+首充礼包:
+  price: 1
+  material: ARROW
+  sort: 2
+  offline: false
+  novice: true
+  permission: 'minepay.user.buy'
+  web: true
+  lore:
+  - '这个是首充礼包'
+  - '每人仅能买一次'
+  command:
+  - eco give %player% 100
+  - say %player% 购买了首充礼包

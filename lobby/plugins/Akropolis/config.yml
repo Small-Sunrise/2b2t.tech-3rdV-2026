@@ -1,0 +1,486 @@
+#     _    _                          _ _
+#    / \  | | ___ __ ___  _ __   ___ | (_)___
+#   / _ \ | |/ / '__/ _ \| '_ \ / _ \| | / __|
+#  / ___ \|   <| | | (_) | |_) | (_) | | \__ \
+# /_/   \_\_|\_\_|  \___/| .__/ \___/|_|_|___/
+#                        |_|
+#--------
+# CUSTOM MENUS:
+#
+#   You can add more menus to the "Akropolis/menus" directory,
+#   copy and paste the default, server selector, menu and edit the file.
+#   Use the name of the file as the action ID.
+#--------
+# BUILT IN PLUGIN PLACEHOLDERS:
+#
+#   <player> - Returns player name
+#   <location> - Returns player location
+#   <online> - Returns number of players online
+#   <online_max> - Returns number of max player slots
+#   <world> - Returns player world name
+#   <ping> - Returns player ping
+#
+#   Use PlaceholderAPI to get more: https://www.spigotmc.org/resources/placeholderapi.6245/
+#   PlaceholderAPI's placeholders use the following format: <papi:placeholder>
+#   Example: <papi:luckperms_prefix>
+#
+#   If you prefer a more modern alternative to PlaceholderAPI, Akropolis is also compatible with MiniPlaceholders
+#   by 4drian3d, which uses a more easy to read format. Example: <luckperms_prefix>
+#   For more information see: https://github.com/MiniPlaceholders/MiniPlaceholders/wiki/User-Getting-Started
+#--------
+# ACTIONS:
+#
+#   [MESSAGE] <message> - Send a message to the player
+#   [BROADCAST] <message> - Broadcast a message to everyone
+#   [TITLE] <title;subtitle>[;fade-in][;stay][;fade-out] - Send the player a title message
+#   [ACTIONBAR] <message> - Send an action bar message
+#   [SOUND] <sound> - Send the player a sound
+#   [COMMAND] <command> - Execute a command as the player
+#   [CONSOLE] <command> - Execute a command as console
+#   [GAMEMODE] <gamemode> - Change a players' gamemode
+#   [SERVER] <server> - Send a player to a server
+#   [EFFECT] <effect;level>- Give a potion effect
+#   [MENU] <menu> - Open a menu from (plugins/Akropolis/menus)
+#   [CLOSE] - Close an open inventory
+#--------
+# MESSAGE FORMATTING:
+#
+#   The plugin uses MiniMessage to format the chat,
+#   so you can use tags to color messages, like this: <red> Red colored message!
+#   You can also use HEX colors in an easy way, just like this: <#00ff00>R G B!
+#
+#   More information about MiniMessage can be found here: https://docs.adventure.kyori.net/minimessage/format.html
+#   There's also an online MiniMessage Viewer available: https://webui.adventure.kyori.net/
+#
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | GENERAL SETTINGS                         |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# List your worlds you don't want Akropolis to manage.
+disabled-worlds:
+  # Should we invert the list making it a whitelist rather than a blacklist?
+  invert: false
+  # List your worlds here, set "worlds: []" to disable.
+  worlds:
+    - world_nether
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | ANTI-WORLD DOWNLOADER                    |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# Prevent users downloading your world via the world downloader mod.
+# There is no need to kick the player if he is running WDL as our system hooks into the mod to prevent a world download.
+anti_wdl:
+  # Should AntiWDL be enabled?
+  enabled: false
+
+  # Should players with 'akropolis.antiwdl.alert' will be notified?
+  notify_admins: true
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | NAMETAG                                  |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+nametag:
+  # Should the nametag feature be enabled?
+  enabled: false
+
+  # Should we refresh the nametag (update placeholders)?
+  refresh:
+    enabled: true
+    rate: 100 # In ticks (20 ticks = 1 second).
+
+  # Configure the nametag format.
+  # For more complex use cases it is encouraged to use
+  # another plugin that is merely dedicated to this kind of features.
+  format:
+    prefix: "<papi:luckperms_prefix> "
+    # Use the HEX color of your preference,
+    # the nearest Minecraft named color will be used.
+    name_color: "#FFFFFF"
+    suffix: " <yellow><ping>"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | SCOREBOARD                               |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+scoreboard:
+  # Should the scoreboard feature be enabled?
+  enabled: false
+
+  # Should we delay showing the scoreboard?
+  # Value in ticks (20 ticks = 1 second), 0 to disable.
+  display_delay:
+    server_enter: 60 # 3 seconds
+    world_change: 40 # 2 seconds
+
+  # Should we refresh the scoreboard (update placeholders)?
+  refresh:
+    enabled: true
+    rate: 200 # In ticks (20 ticks = 1 second).
+
+  title: "<gold><b>Akropolis <reset><dark_gray>(<yellow><online><dark_gray>/<yellow><online_max><dark_gray>)"
+  lines:
+    - ""
+    - "<dark_gray>» <gray>Player<dark_gray>: <yellow><player>"
+    - "<dark_gray>» <gray>Ping<dark_gray>: <yellow><ping>ms"
+    - ""
+    - "    <yellow>play.example.com"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# |TABLIST                                   |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+tablist:
+  # Should the tablist feature be enabled?
+  enabled: false
+
+  # Should we refresh the tablist (update placeholders)?
+  refresh:
+    enabled: true
+    rate: 400 # In ticks (20 ticks = 1 second).
+
+  # Modify the header of the tablist.
+  header:
+    - ""
+    - "<dark_gray>» <gold><b>Akropolis <reset><dark_gray>(<yellow><online><dark_gray>/<yellow><online_max><dark_gray>) <dark_gray>«"
+    - ""
+
+  # Modify the footer of the tablist.
+  footer:
+    - ""
+    - "    <gray>Website <dark_gray>| <yellow>www.example.com    "
+    - "    <gray>Store <dark_gray>| <yellow>store.example.com    "
+    - ""
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | AUTO BROADCAST                           |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+announcements:
+  # Should the announcements' system be enabled?
+  enabled: false
+
+  # Delay sending announcements (in seconds).
+  delay: 60
+
+  # How many players should be required to send announcements?
+  required_players: 1
+
+  sound:
+    enabled: true
+    value: BLOCK_NOTE_BLOCK_PLING
+    volume: 1.0
+    pitch: 1.0
+
+  # Announcement list.
+  announcements:
+    test1:
+      - "<reset>"
+      - "<blue><b>INFORMATION"
+      - "<click:open_url:'https://github.com/devblook/akropolis/'><hover:show_text:'<yellow>Click here to see the source code!'><dark_gray>» <gray>The source code of the plugin is available on <white>GitHub<gray>.</hover></click>"
+      - "<reset>"
+    test2:
+      - "<reset>"
+      - "<gold><b>ANNOUNCEMENT"
+      - "<click:open_url:'https://github.com/zetastormy/'><hover:show_text:'<yellow>Click here to navigate to my GitHub!'><dark_gray>» <gray>This plugin was forked by <yellow>ZetaStormy<gray>.</hover></click>"
+      - "<reset>"
+    test3:
+      - "<reset>"
+      - "<yellow><b>TIP"
+      - "<dark_gray>» <gray>Configure these messages in the <aqua>config.yml<gray>."
+      - "<reset>"
+    test4:
+      - "<reset>"
+      - "<blue><b>INFORMATION"
+      - "<click:open_url:'https://github.com/devblook/'><hover:show_text:'<yellow>Click here to navigate to our GitHub!'><dark_gray>» <gray>This plugin is maintained by <color:#1e2f45>Dev<white>Blook <gray>Team.</hover></click>"
+      - "<reset>"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | BOSS BAR AUTO BROADCAST                  |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+boss_bar_announcements:
+  # Should the boss bar announcements' system be enabled?
+  enabled: false
+
+  # Delay sending boss bar announcements (in seconds).
+  delay: 60
+
+  # Choose how the boss bar looks.
+  overlay:
+    # Decide if the boss bar is continuous or split into segments.
+    # Valid options: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+    type: "PROGRESS"
+    # The amount of boss bar that's filled up. A number in the interval [0, 1].
+    progress: 1.0
+
+  sound:
+    enabled: false
+    value: BLOCK_NOTE_BLOCK_PLING
+    volume: 1.0
+    pitch: 1.0
+
+  announcements:
+    - "<blue><b>THIS SERVER USES AKROPOLIS"
+    - "<gold><b>NOW WITH BOSS BAR ANNOUNCEMENTS!"
+    - "<gradient:green:blue><b>MINIMESSAGE SUPPORT!"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | LAUNCHPAD                                |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+launchpad:
+  # Should the launchpad feature be enabled ?
+  enabled: false
+
+  # Launch power for launchpad (max 4.0).
+  launch_power: 3.0
+  launch_power_y: 1.0
+
+  # Top and bottom block required to make a launchpad,
+  top_block: STONE_PRESSURE_PLATE
+  bottom_block: REDSTONE_BLOCK
+
+  # Actions executed upon use of a launchpad,
+  actions:
+    - "[SOUND] ENTITY_BAT_TAKEOFF"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | DOUBLE JUMP                              |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+double_jump:
+  # Should the double jump feature be enabled?
+  enabled: false
+
+  # Launch power for double jump (max 4.0).
+  launch_power: 1.0
+  launch_power_y: 0.9
+
+  # Cooldown time in seconds (0 to disable).
+  cooldown: 3
+
+  # Actions executed upon use of double jump.
+  actions:
+    - "[SOUND] ENTITY_BAT_TAKEOFF"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | FLY                                      |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+fly:
+  # Choose to save the fly state of every player in data.yml across reboots (might impact performance).
+  # This option conflicts with double jump so if you enable it, players who toggle their fly won't
+  # be able to use the double jump feature.
+  save_state: false
+
+  # This will force the fly to be enabled on join (if player has the permission to use the fly command).
+  # This option also respects the preference (if save_state is true) of the user if he disables the fly mode.
+  force_on_join: false
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | CHAT MANAGEMENT                          |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+groups:
+  # Create all the group formats you want following the same template.
+  # To use any of these formats, the player must have the permission
+  # akropolis.chat.group.<group name>
+
+  # If you want to disable this feature temporally, just deny the akropolis.chat.group.default
+  # permission in LuckPerms or whichever permission management plugin you use. Otherwise, use the option below.
+  enabled: false
+
+  default:
+    format: "<hover:show_text:'<rainbow>You can also use hover here!'><papi:luckperms_prefix></hover> <gray><player> <dark_gray>» <gray><message>"
+    # Just in case you want to slow down your players a little.
+    cooldown:
+      time: 3 # Time is in seconds.
+      message: "<gold><b>Akropolis <reset><dark_gray>|| <red>Please wait <yellow><time>s <red>before talking again!"
+  staff:
+    format: "<papi:luckperms_prefix> <red><player> <dark_gray>» <white><message>"
+  vip:
+    format: "<papi:luckperms_prefix> <green><player> <dark_gray>» <white><message>"
+    # You can use the cooldown feature everywhere you want!
+    cooldown:
+      time: 1 # Time is in seconds.
+      message: "<gold><b>Akropolis <reset><dark_gray>|| <red>Please wait <yellow><time>s <red>before talking again!"
+
+command_block:
+  # Should the command blocker feature be enabled?
+  enabled: true
+
+  # List of commands that will be blocked.
+  blocked_commands:
+    - /pl
+    - /plugins
+    - /?
+    - /bukkit:?
+    - /bukkit:plugins
+    - /bukkit:pl
+    - /bukkit:help
+    - /ver
+    - /version
+    - /bukkit:version
+    - /bukkit:ver
+
+anti_swear:
+  # Should the anti-swear feature be enabled?
+  enabled: true
+
+  # List of words that will be blocked.
+  blocked_words:
+    - fuck
+    - shit
+    - bitch
+    - .
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | WORLD EVENT SETTINGS                     |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+world_settings:
+  # Player
+  disable_hunger_loss: true
+  disable_fall_damage: true
+  disable_player_pvp: true
+  disable_void_death: true
+  disable_fire_damage: true
+  disable_drowning: true
+  disable_off_hand_swap: true # Requires 1.9+
+
+  # Misc
+  disable_weather_change: true
+  disable_death_message: true
+  disable_mob_spawning: true
+
+  # Item entities
+  disable_item_drop: true
+  disable_item_pickup: true
+
+  # Blocks
+  disable_block_break: true
+  disable_block_place: true
+  disable_block_interact: true # Chest, furnace, crop tample, etc
+  disable_block_burn: true
+  disable_block_fire_spread: true
+  disable_block_leaf_decay: true
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | PLAYER JOIN EVENT                        |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+join_leave_messages:
+  # Should Akropolis handle join/quit messages?
+  enabled: false
+
+  # Set to '' if you want silent join/quit messages.
+  join_message: "<dark_gray>[<dark_green>+<dark_gray>] <yellow><player> <gray>connected!"
+  quit_message: "<dark_gray>[<dark_red>-<dark_gray>] <yellow><player> <gray>disconnected!"
+
+# Actions executed upon join.
+join_events:
+  - "[MESSAGE] <st>+---------------2b2t.tech---------------+"
+  - "[MESSAGE] <reset>"
+  - "[MESSAGE] <dark_gray>| <gray>欢迎, <gold><b><player><reset> <rainbow>来到2b2t.tech!"
+  - "[MESSAGE] <reset>"
+  - "[MESSAGE] <dark_gray>» <gray>官网<dark_gray>: <yellow>2b2t.tech"
+  - "[MESSAGE] <dark_gray>» <gray>商店<dark_gray>: <yellow>菜单中左下角绿宝石赞助！"
+  - "[MESSAGE] <dark_gray>» <gray>QQ群<dark_gray>: <yellow>335248049"
+  - "[MESSAGE] <dark_gray>» <gray>Discord<dark_gray>: <yellow>8MbXVFHPzq"
+  - "[MESSAGE] <reset>"
+  - "[MESSAGE]             <rainbow><i>Powered by *team TECH"
+  - "[MESSAGE] <st>+---------------2b2t.tech---------------+"
+  - "[TITLE] <yellow><b>欢迎;<white><player>;1;2;1"
+  - "[SOUND] ENTITY_PLAYER_LEVELUP"
+  - "[GAMEMODE] adventure"
+  - "[EFFECT] SPEED;1"
+
+join_settings:
+  # Decide whether players will be hidden on join or not
+  players_hidden: false
+  # Should we teleport the player to the spawn point (if set) on join?
+  spawn_join: true
+  # Should we heal the player?
+  heal: true
+  # Should we extinguish the player?
+  extinguish: true
+  # Should we clear their inventory?
+  clear_inventory: false
+  # Spawn a firework on join.
+  firework:
+    # Should we send a firework on join?
+    enabled: true
+    # Should we only send the firework on their first join?
+    first_join_only: true
+
+    type: BALL_LARGE
+    power: 1
+    flicker: true
+    trail: true
+    colors:
+      - AQUA
+      - RED
+      - TEAL
+      - WHITE
+
+custom_join_items:
+  # Should custom join items be enabled?
+  enabled: true
+  # Should we prevent them from moving/dropping the items?
+  disable_inventory_movement: true
+
+  items:
+    server_selector:
+      material: NETHER_STAR
+      amount: 1
+      slot: 0
+      # Should we limit how fast a user can use this item?
+      cooldown: 1 # seconds
+      display_name: "<aqua>服务器菜单 <gray>(右键)"
+      lore:
+        - "<dark_gray>» <gray>右键打开菜单!"
+      actions:
+        - "[COMMAND] basicsmenu"
+    pay:
+      material: emerald
+      amount: 1
+      slot: 1
+      # Should we limit how fast a user can use this item?
+      cooldown: 1 # seconds
+      display_name: "<aqua>赞助菜单 <gray>(右键)"
+      lore:
+        - "<dark_gray>» <gray>右键打开赞助菜单!"
+      actions:
+        - "[COMMAND] chongzhi"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# | PLAYER HIDER                             |
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+player_hider:
+  # Should the player hider feature be enabled?
+  enabled: true
+  # Slot the item should be given to?
+  slot: 8
+  # Should we prevent them from moving/dropping the item?
+  disable_inventory_movement: true
+  # Cooldown in seconds
+  # Set to 0 to disable
+  cooldown: 3
+
+  not_hidden:
+    material: LIME_DYE
+    amount: 1
+    display_name: "<gray>Players<dark_gray>: <green>Shown <gray>(Right-Click)"
+    lore:
+      - "<dark_gray>» <gray>Click to hide all players!"
+
+  hidden:
+    material: GRAY_DYE
+    amount: 1
+    display_name: "<gray>Players<dark_gray>: <red>Hidden <gray>(Right-Click)"
+    lore:
+      - "<dark_gray>» <gray>Click to show all players!"
