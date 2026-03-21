@@ -1,0 +1,45 @@
+# PlayerTime 1.0.7-RELEASE
+
+# Do not change this
+config-version: 2
+
+plugin-prefix: "[&dPlayer&eTime&f]"
+
+# Supports YML or MySQL
+database:
+  type: YML
+# Uncomment when using MySQL
+#  host: "localhost"
+#  port: 3306
+#  username: "root"
+#  password: "password"
+#  database: "playertime"
+#  pool-size: 10
+
+format: "&a{name} has been playing for {days} days, {hours} hours, {minutes} minutes, {seconds} seconds"
+
+# This will either be gui or text, if it's neither, this won't work.
+leaderboard-type: "gui"
+
+# The "time-format" option also applies to the text based version of the leaderboard.
+gui:
+  title: "Top Ten PlayerTimes"
+  time-format: "{days} days, {hours} hours, {minutes} minutes, {seconds} seconds"
+  item:
+    name: "{player}'s time"
+    material: "PAPER"
+    lore:
+    - "Ranked #{slot}"
+    - "Time Played: {format}"
+
+text-top:
+  title: "&7------------------------"
+  footer: "&7------------------------"
+  content: "&7{place}, &a{name} &f{time}"
+
+
+messages:
+  incorrect-usage: "Too many arguments. Use /ptcheck or /ptcheck <name>"
+  never-played-before: "Data for this player was not found. Never played?"
+  no-playtime-data: "There was no saved playtime data for this player"
+  config-reload: "PlayerTime config has been reloaded!"

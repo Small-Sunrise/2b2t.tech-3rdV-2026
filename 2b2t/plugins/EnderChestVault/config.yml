@@ -1,0 +1,115 @@
+
+reloadConfig: '&aYou have reloaded the config'
+noPermission: '&4You do not have the permission to execute this command'
+
+cannotOpenChest: '&cYou do not have access to interact with the ender chest.'
+
+purgeMessage: '&aYou have purged {total} inactive accounts for time {hours} hours.'
+purgeConfirmMessage: '&cYou are using a very short time frame for purging data: {hours} hours. If you wish to proceed, add -confirm to the end of the command.'
+
+playerDoesNotExist: '&cThe player {player} does not exist'
+cannotOpen: '&cThis container is currently being backed up. Please retry shortly.'
+
+clearRequireConfirm: '&cYou are about to clear {player}`s ender chest vault. This action requires confirmation. Please add -confirm at the end of the command.'
+clearConfirm: '&cYou have successfully cleared {player}`s ender chest vault.'
+
+#New Messages 3.2
+infoPages: '&aPlayer {player} has {amount} page(s)'
+modifyPagesViewerMessage: '&cThe number of pages for this vault has been modified. This vault will be backed up and reloaded'
+cmdUsage: '&cPlease use /ecvpages <player> <add/remove/set/info> [amount]'
+cannotChangePagesNow: '&cThe user`s pages are curently being saved to an external file. Please try again in a bit'
+#Both messages can use {amount} {oldAmount} {player}
+modifiedPages: '&aYour ender chest vault pages have been modified. Total amount: {amount}'
+modifiedPagesTarget: '&a{player} now has {amount} page(s). Old value: {oldAmount}'
+#End new messages 3.2
+
+#New Messages 3.3
+cannotPay: '&cYou don`t have enough funds. Your balance: {balance}, cost: {cost}'
+cannotPayTarget: '&cThe target player does not have enough funds. Your balance: {balance}, cost: {cost}'
+payedSuccess: '&aYou have payed {cost}. Your balance: {balance}'
+payedSuccessTarget: '&aYou have payed {cost} using the target`s money. Their balance: {balance}'
+
+#Allows to define which items can be smelted and the result
+#Gives the posibility of hiding secrets, or other items that are not easily obtainable
+smeltTable:
+#- 'COAL_ORE:COAL'
+#- 'IRON_ORE:IRON_INGOT'
+#- 'GOLD_ORE:GOLD_INGOT'
+
+#End Messages 3.3
+
+# Right-clicking an ender chest will open the ender chest vault, disabling the vanilla ender chest.
+rightClickEnderOpen: false
+
+# You can use {player} to display the player's name, and {page} to display the current open page.
+inventoryTitle: '&a2b2t.teche专属空间 - {page}'
+
+# In minutes. Stores inventories not interacted with in this amount of time.
+saveInventoryBackupTime: 30
+
+# How many times in minutes the plugin checks for inactive chests.
+timerCheck: 30
+
+# Players who haven't logged in for this specific amount of time will have their ender chest vault data purged. Checked once per server start.
+# In hours. Ex: 730 hours = 1 month. 0 or less will deactivate this setting.
+inactiveTimePurge: 0
+
+# One row can have a maximum of 9 items. Anything over 9 on a row will be ignored.
+# You can have a maximum of 6 rows. Anything over 6 will be ignored.
+# You can use ids from the buttons config section below.
+# Remove the # from the example if you want to use it.
+# 'slot' is a default value. If you don't use a valid item from the list below, it'll become a normal slot instead.
+enderChestGUIFormat: 
+- 'slot slot slot slot slot slot slot slot slot'
+- 'slot slot slot slot slot slot slot slot slot'
+- 'slot slot slot slot slot slot slot slot slot'
+- 'slot slot slot slot slot slot slot slot slot'
+- 'slot slot slot slot slot slot slot slot slot'
+- 'filler filler filler backArrow filler forwardArrow filler filler filler'
+
+
+# You can add any items you need.
+# Items from this list cannot be taken from the inventory.
+# You can run any command under commands - {player} can be used for the name of the player.
+# Actions that can be used: %PAGE_NEXT%, %PAGE_BACK%, %INVENTORY_CLOSE%, %PAGE_FORWARD_{amount}%, %PAGE_BACKWARD_{amount}%, %PAGE_FIRST%, %PAGE_LAST%, %SMELT_{multiplier}
+# See funnyButton example on how to setup textured player heads buttons
+# Go to this site to find heads: https://minecraft-heads.com/
+# Select the head that you like, go down to 'For Developers:' sections and copy the value
+buttons:
+  filler:
+     display: ' '
+     material: purple_stained_glass_pane
+     materialdata: 0
+     hasglow: true
+     lore: ''
+     commands: ''
+  forwardArrow:
+     display: '&a下一页'
+     material: ARROW
+     materialData: 0
+     hasGlow: false
+     lore: ''
+     commands:
+     - '%PAGE_NEXT%'
+  backArrow:
+     display: '&a上一页'
+     material: ARROW
+     materialData: 0
+     hasGlow: false
+     lore: ''
+     commands:
+     - '%PAGE_BACK%'
+#   funnyButton:
+#      display: '&cDo not click'
+#      material: PLAYER_HEAD or SKULL_ITEM(for older versions)
+#      base64: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFiNGFmNzUxMTI0MzczNjM4MTVmNDkyNGMyMjJlMDg4NThkODNhZjMzN2M3ZDFhZDUyNDk2Yjc5YWY4ZWNhZCJ9fX0='
+#      materialData: 0
+#      hasGlow: false
+#      cost: 100
+#      lore: ''
+#      permission: super.awesome
+#      commands:
+#      - 'ban {player} Told you'
+
+#Do not modify or you risk player data loss
+config-version: 3.3

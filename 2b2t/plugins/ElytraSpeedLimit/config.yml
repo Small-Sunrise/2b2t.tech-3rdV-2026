@@ -1,0 +1,4 @@
+# Maximum Elytra speed in blocks per tick (1.5 = 30 blocks/second at 20 ticks/second)
+horizontal-max-speed: 1.5     # 30 blocks/sec
+downward-max-speed: 3.0       # 60 blocks/sec
+vertical-max-speed: 3.0       # 60 blocks/sec vertical cap
