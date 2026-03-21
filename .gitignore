@@ -46,6 +46,10 @@ replay_pid*.log
 **/plugins/**/Saves/
 **/plugins/**/data/
 **/plugins/**/data/**
+**/plugins/**/players/
+**/plugins/**/players/**
+**/plugins/**/cooldowns/
+**/plugins/**/cooldowns/**
 **/plugins/**/skins/
 **/plugins/**/skins/**
 **/plugins/**/lastupdate
