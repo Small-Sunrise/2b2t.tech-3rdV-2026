@@ -1,0 +1,9 @@
+oq:console@#@single@#@eco+give+testtestabab+1@#@lobby
+oq:console@#@single@#@eco+give+testtestabab+1@#@lobby
+oq:console@#@single@#@eco+give+%player%+5000000@#@2b2t
+oq:console@#@single@#@eco+give+testtestabab+5000000@#@2b2t
+oq:console@#@single@#@eco+give+48TP334R+5000000@#@2b2t
+oq:console@#@single@#@ecvpages+48TP334R+set+3@#@2b2t
+oq:console@#@single@#@eco+give+48TP334R+5000000@#@2b2t
+oq:console@#@single@#@ecvpages+48TP334R+set+3@#@2b2t
+qc:8
