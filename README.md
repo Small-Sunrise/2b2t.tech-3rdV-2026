@@ -1,45 +1,53 @@
 # 2b2t.tech Minecraft
 
-该仓库包含 2b2t 主服、VC（Velocity 代理）与 lobby 的配置与运行脚本，以及可选的 docker 配置。
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-## 目录结构
+This repository contains the configuration, plugins, and run scripts for the
+2b2t main server, Velocity proxy, and lobby, plus optional Docker assets.
 
-- `2b2t/`：主服配置与插件
-- `VC/`：Velocity 代理配置与插件
-- `lobby/`：大厅配置与插件
-- `minecraft-docker/`：容器化相关配置
+## Structure
 
-## 环境变量（不提交密钥）
+- `2b2t/`: main server configuration and plugins
+- `VC/`: Velocity proxy configuration and plugins
+- `lobby/`: lobby configuration and plugins
+- `minecraft-docker/`: container-related configuration
 
-复制模板并填写密钥：
+## Environment Variables (do not commit secrets)
+
+Copy the template and fill in the secrets:
 
 ```bash
 cp .env.example .env
 ```
 
-可用变量：
+Available variables:
 
-- `FORWARDING_SECRET`：Velocity forwarding secret
-- `FLOODGATE_KEY_PEM`：Floodgate key（PEM 内容，使用 `\n` 表示换行）
+- `FORWARDING_SECRET`: Velocity forwarding secret
+- `FLOODGATE_KEY_PEM`: Floodgate key (PEM content; use `\n` for newlines)
 
-启动脚本会在运行时写入 `VC/forwarding.secret` 与 `VC/plugins/floodgate/key.pem`。
+Startup scripts write `VC/forwarding.secret` and `VC/plugins/floodgate/key.pem`
+at runtime.
 
-## 运行示例
+## Run Example
 
-进入对应目录执行脚本：
+Run the scripts in the target directory:
 
 ```bash
 cd VC
 ./run.sh
 ```
 
-Windows 使用 `.bat` 脚本：
+On Windows, use the `.bat` scripts:
 
 ```bat
 run.bat
 ```
 
-## 注意事项
+## Notes
 
-- `.env`、运行时数据与密钥均被 `.gitignore` 排除。
-- 首次运行前请确认 `eula.txt` 已接受协议。
+- `.env`, runtime data, and secrets are excluded by `.gitignore`.
+- Accept the EULA in `eula.txt` before the first run.
+
+## License
+
+Licensed under the Apache License, Version 2.0. See `LICENSE`.
