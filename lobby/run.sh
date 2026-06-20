@@ -17,7 +17,7 @@ do
     -XX:ZCollectionIntervalMinor=0.98 \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
-    -jar purpur-1.21.3-2358.jar --nogui
+    -jar paper.jar --nogui
   echo "大厅关闭，5分钟后自动重启..."
   sleep 300
 done
