@@ -9,7 +9,7 @@ services:
     container_name: vc
     restart: unless-stopped
     ports:
-      - "50111:50111" # 对外端口（您确认的）
+      - "50016:50016" # Velocity bind port
     volumes:
       # 挂载配置目录。请确保您的velocity.toml已配置为监听 0.0.0.0:50111
       - /home/user/VC:/config
