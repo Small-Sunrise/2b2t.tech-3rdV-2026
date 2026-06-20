@@ -11,8 +11,8 @@ services:
     ports:
       - "50016:50016" # Velocity bind port
     volumes:
-      # 挂载配置目录。请确保您的velocity.toml已配置为监听 0.0.0.0:50111
-      - /home/user/VC:/config
+      # 挂载配置目录。请确保您的velocity.toml已配置为监听 0.0.0.0:50016
+      - ../../VC:/config
     # 移除了 environment 和 command，镜像内已定义
     networks:
       - mc-network
@@ -27,7 +27,7 @@ services:
     expose:
       - "60001"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
-      - /home/user/lobby:/data  # 挂载数据目录
+      - ../../lobby:/data
     # 移除了 environment 和 command，镜像内已定义
     networks:
       - mc-network
@@ -44,7 +44,7 @@ services:
     expose:
       - "60003"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
-      - /home/user/2b2t:/data  # 挂载数据目录
+      - ../../2b2t:/data
     # 移除了 environment 和 command，镜像内已定义
     networks:
       - mc-network
