@@ -17,7 +17,7 @@ settings:
   sample-count: 12
   timeout-time: 60
   restart-on-crash: true
-  restart-script: ./start.sh
+  restart-script: ./run.sh
   log-villager-deaths: true
   log-named-deaths: true
   moved-too-quickly-multiplier: 99999
