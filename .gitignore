@@ -74,3 +74,6 @@ replay_pid*.log
 **/forwarding.secret
 **/*.pem
 **/*.playerskin
+
+# Unified launcher runtime
+pids/
