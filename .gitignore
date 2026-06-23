@@ -13,6 +13,7 @@ replay_pid*.log
 **/cache/
 **/crash-reports/
 **/debug/
+**/debug.txt
 **/logs/
 **/*.log
 **/libraries/
@@ -74,3 +75,6 @@ replay_pid*.log
 **/forwarding.secret
 **/*.pem
 **/*.playerskin
+
+# Unified launcher runtime
+pids/

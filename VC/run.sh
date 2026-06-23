@@ -19,4 +19,4 @@ java \
     -XX:+PerfDisableSharedMem \
     -XX:+UseStringDeduplication \
     -XX:+UseDynamicNumberOfGCThreads \
-    -jar velocity-3.4.0-SNAPSHOT-495.jar
+    -jar velocity-3.4.0-555.jar
