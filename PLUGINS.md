@@ -35,3 +35,4 @@
 | AdvancedClear | 1.17 | Modrinth | https |
 | JoinLeaveMessage | 0.2 | SpigotMC | https |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https |
+| CommandSync | 2.8.3 | SpigotMC | https |
