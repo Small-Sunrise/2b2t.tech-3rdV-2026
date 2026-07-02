@@ -28,3 +28,4 @@
 | DeluxeTags | 1.8.3 | Modrinth | https |
 | Skript | 2.15.4 | Modrinth | https |
 | AntiRedstoneLag | 2.0.1 | Modrinth | https |
+| ElytraSpeed | 1.3.4 | Modrinth | https |
