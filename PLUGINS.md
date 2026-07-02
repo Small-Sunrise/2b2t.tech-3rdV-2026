@@ -16,3 +16,4 @@
 | ChunkEntityLimiter | 1.3.1 | Modrinth | https |
 | ChunkDeleter | 1.2 | Modrinth | https |
 | EssentialsX | 2.22.0 | Modrinth | https |
+| WorldEdit | 7.4.4-beta-01 | Modrinth | https |
