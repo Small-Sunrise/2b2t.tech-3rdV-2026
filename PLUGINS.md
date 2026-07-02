@@ -23,3 +23,4 @@
 | EnderChestVault | 1.0.0 | Modrinth | https |
 | ShulkerBoxDrop | 1.0.0 | Modrinth | https |
 | TAB | 6.1.0 | GitHub | https |
+| TChat | 5.0.0-DEV-6 | Modrinth | https |
