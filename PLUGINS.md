@@ -9,3 +9,4 @@
 | PlaceholderAPI | 2.12.2 | Modrinth | https |
 | Vault | 1.7.3 | GitHub | https |
 | CMILib | 1.5.9.6 | GitHub | https |
+| spark | 1.10.173 | Modrinth | https |
