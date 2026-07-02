@@ -33,3 +33,4 @@
 | Anti-Motd-Scanner | 0.1-ALPHA | Modrinth | https |
 | DupePlus | 1.4.3 | Modrinth | https |
 | AdvancedClear | 1.17 | Modrinth | https |
+| JoinLeaveMessage | 0.2 | SpigotMC | https |
