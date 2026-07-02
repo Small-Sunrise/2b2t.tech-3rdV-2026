@@ -13,3 +13,4 @@
 | Plan | 5.7 build 3558 | Modrinth | https |
 | Chunky | 1.5.3 | Modrinth | https |
 | LagFixer | 1.6.5 | Modrinth | https |
+| ChunkEntityLimiter | 1.3.1 | Modrinth | https |
