@@ -11,3 +11,4 @@
 | CMILib | 1.5.9.6 | GitHub | https |
 | spark | 1.10.173 | Modrinth | https |
 | Plan | 5.7 build 3558 | Modrinth | https |
+| Chunky | 1.5.3 | Modrinth | https |
