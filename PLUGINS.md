@@ -19,3 +19,4 @@
 | WorldEdit | 7.4.4-beta-01 | Modrinth | https |
 | Residence | 6.0.0.1 | GitHub | https |
 | QuickShop-Hikari | 6.2.0.11 | Modrinth | https |
+| AdvancedTeleport | 6.2.0 | Modrinth | https |
