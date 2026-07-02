@@ -31,3 +31,4 @@
 | ElytraSpeed | 1.3.4 | Modrinth | https |
 | CommandBlocker | 1.7.2 | Modrinth | https |
 | Anti-Motd-Scanner | 0.1-ALPHA | Modrinth | https |
+| DupePlus | 1.4.3 | Modrinth | https |
