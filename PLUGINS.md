@@ -22,3 +22,4 @@
 | AdvancedTeleport | 6.2.0 | Modrinth | https |
 | EnderChestVault | 1.0.0 | Modrinth | https |
 | ShulkerBoxDrop | 1.0.0 | Modrinth | https |
+| TAB | 6.1.0 | GitHub | https |
