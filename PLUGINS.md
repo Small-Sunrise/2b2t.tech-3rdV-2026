@@ -15,3 +15,4 @@
 | LagFixer | 1.6.5 | Modrinth | https |
 | ChunkEntityLimiter | 1.3.1 | Modrinth | https |
 | ChunkDeleter | 1.2 | Modrinth | https |
+| EssentialsX | 2.22.0 | Modrinth | https |
