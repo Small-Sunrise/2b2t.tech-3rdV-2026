@@ -29,3 +29,4 @@
 | Skript | 2.15.4 | Modrinth | https |
 | AntiRedstoneLag | 2.0.1 | Modrinth | https |
 | ElytraSpeed | 1.3.4 | Modrinth | https |
+| CommandBlocker | 1.7.2 | Modrinth | https |
