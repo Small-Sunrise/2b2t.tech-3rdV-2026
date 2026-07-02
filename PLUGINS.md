@@ -26,3 +26,4 @@
 | TChat | 5.0.0-DEV-6 | Modrinth | https |
 | DecentHolograms | 2.10.1 | Modrinth | https |
 | DeluxeTags | 1.8.3 | Modrinth | https |
+| Skript | 2.15.4 | Modrinth | https |
