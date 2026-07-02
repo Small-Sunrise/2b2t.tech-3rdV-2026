@@ -12,3 +12,4 @@
 | spark | 1.10.173 | Modrinth | https |
 | Plan | 5.7 build 3558 | Modrinth | https |
 | Chunky | 1.5.3 | Modrinth | https |
+| LagFixer | 1.6.5 | Modrinth | https |
