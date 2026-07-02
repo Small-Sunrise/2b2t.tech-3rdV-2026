@@ -7,3 +7,4 @@
 | ProtocolLib | 5.4.0 | GitHub | https |
 | LuckPerms | 5.5.53 | Modrinth | https |
 | PlaceholderAPI | 2.12.2 | Modrinth | https |
+| Vault | 1.7.3 | GitHub | https |
