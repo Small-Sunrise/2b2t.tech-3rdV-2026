@@ -10,4 +10,4 @@ if not "%FLOODGATE_KEY_PEM%"=="" (
   echo %FLOODGATE_KEY_PEM%> plugins\floodgate\key.pem
 )
 
-%cd%.\jdk-21\bin\java.exe -Xms3G -Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+PerfDisableSharedMem -XX:+UseStringDeduplication -XX:+UseDynamicNumberOfGCThreads -jar velocity-3.4.0-SNAPSHOT-555.jar
+%cd%.\jdk-21\bin\java.exe -Xms3G -Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+PerfDisableSharedMem -XX:+UseStringDeduplication -XX:+UseDynamicNumberOfGCThreads -jar velocity-3.4.0-555.jar
