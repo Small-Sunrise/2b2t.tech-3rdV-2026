@@ -25,3 +25,4 @@
 | TAB | 6.1.0 | GitHub | https |
 | TChat | 5.0.0-DEV-6 | Modrinth | https |
 | DecentHolograms | 2.10.1 | Modrinth | https |
+| DeluxeTags | 1.8.3 | Modrinth | https |
