@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Load environment variables from .env if present
+if [ -f "${BASH_SOURCE[0]%/*}/.env" ]; then
+  set -a
+  source "${BASH_SOURCE[0]%/*}/.env"
+  set +a
+fi
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_DIR="${ROOT_DIR}/logs"
 PID_DIR="${ROOT_DIR}/pids"
