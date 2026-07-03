@@ -37,6 +37,14 @@ write_vc_secrets() {
     mkdir -p "${VC_DIR}/plugins/floodgate"
     printf '%b' "${FLOODGATE_KEY_PEM}" > "${VC_DIR}/plugins/floodgate/key.pem"
   fi
+
+  # Write BungeeGuard token to backend servers for bungeeguard forwarding
+  if [ -n "${FORWARDING_SECRET:-}" ]; then
+    mkdir -p "${LOBBY_DIR}/plugins/BungeeGuard"
+    printf '%s' "${FORWARDING_SECRET}" > "${LOBBY_DIR}/plugins/BungeeGuard/token.txt"
+    mkdir -p "${SURVIVAL_DIR}/plugins/BungeeGuard"
+    printf '%s' "${FORWARDING_SECRET}" > "${SURVIVAL_DIR}/plugins/BungeeGuard/token.txt"
+  fi
 }
 
 start_service() {

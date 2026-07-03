@@ -6,6 +6,12 @@ if [ -f "${BASH_SOURCE[0]%/*}/../.env" ]; then
   source "${BASH_SOURCE[0]%/*}/../.env"
   set +a
 fi
+
+# Write BungeeGuard token from FORWARDING_SECRET for bungeeguard forwarding
+if [ -n "${FORWARDING_SECRET:-}" ]; then
+  mkdir -p plugins/BungeeGuard
+  printf "%s" "${FORWARDING_SECRET}" > plugins/BungeeGuard/token.txt
+fi
 while true
 do
   echo "启动大厅服务器..."
