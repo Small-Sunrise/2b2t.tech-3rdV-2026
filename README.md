@@ -28,6 +28,33 @@ Available variables:
 Startup scripts write `VC/forwarding.secret` and `VC/plugins/floodgate/key.pem`
 at runtime.
 
+## Database
+
+LuckPerms uses MySQL for cross-server permission syncing between lobby
+and 2b2t. A MariaDB service is included in the Docker compose stack.
+
+### Docker
+```bash
+cd minecraft-docker/compose
+docker compose up -d mariadb  # Start DB first
+docker compose up -d            # Start all services
+```
+The `init/01-luckperms.sql` script auto-creates the database and user.
+
+### Local (without Docker)
+Install MariaDB/MySQL, then:
+```sql
+CREATE DATABASE luckperms_2b2t;
+CREATE USER 'lpsql'@'localhost' IDENTIFIED BY '<password>';
+GRANT ALL PRIVILEGES ON luckperms_2b2t.* TO 'lpsql'@'localhost';
+FLUSH PRIVILEGES;
+```
+Set `LUCKPERMS_DB_HOST=127.0.0.1:3306` and `LUCKPERMS_DB_PASSWORD` in `.env`.
+
+### Switching to H2 (no external DB)
+Edit `plugins/LuckPerms/config.yml` and change `storage-method` from `MySQL`
+to `H2`. No external database needed.
+
 ## Run Example
 
 Run the scripts in the target directory:
