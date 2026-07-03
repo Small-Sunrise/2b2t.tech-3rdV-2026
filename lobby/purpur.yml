@@ -76,7 +76,7 @@ settings:
   server-mod-name: Purpur
   network:
     upnp-port-forwarding: false
-    max-joins-per-second: false
+    max-joins-per-second: 10
     kick-for-out-of-order-chat: true
   broadcasts:
     advancement:
