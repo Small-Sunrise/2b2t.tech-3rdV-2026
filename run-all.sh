@@ -22,6 +22,8 @@ VC_JAR="${VC_JAR:-velocity-3.5.0-SNAPSHOT-605.jar}"
 LOBBY_JAR="${LOBBY_JAR:-paper.jar}"
 SURVIVAL_JAR="${SURVIVAL_JAR:-leaf-26.2-14.jar}"
 
+# Default JVM options. Override via environment, e.g. SURVIVAL_JAVA_OPTS.
+# The individual run.sh scripts use additional tuned flags for production.
 VC_JAVA_OPTS="${VC_JAVA_OPTS:- -Xms1G -Xmx1G}"
 LOBBY_JAVA_OPTS="${LOBBY_JAVA_OPTS:- -Xms1G -Xmx2G}"
 SURVIVAL_JAVA_OPTS="${SURVIVAL_JAVA_OPTS:- -Xms4G -Xmx6G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+DisableExplicitGC}"
