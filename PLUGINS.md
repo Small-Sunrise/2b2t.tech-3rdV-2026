@@ -21,6 +21,7 @@
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
 | ProtocolLib | 5.4.0 | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
+| BungeeGuard | 1.4.0 | GitHub | https://github.com/lucko/BungeeGuard/releases |
 | LuckPerms | 5.5.53 | Modrinth | https://modrinth.com/plugin/luckperms |
 | PlaceholderAPI | 2.12.2 | Modrinth | https://modrinth.com/plugin/placeholderapi |
 | Vault | 1.7.3 | GitHub | https://github.com/MilkBowl/Vault/releases |
