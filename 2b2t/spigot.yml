@@ -20,7 +20,7 @@ settings:
   restart-script: ./run.sh
   log-villager-deaths: true
   log-named-deaths: true
-  moved-too-quickly-multiplier: 99999
+  moved-too-quickly-multiplier: 1000.0
   moved-wrongly-threshold: 1
   user-cache-size: 1000
   player-shuffle: 0
