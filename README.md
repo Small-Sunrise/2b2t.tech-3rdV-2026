@@ -48,6 +48,12 @@ run.bat
 - `.env`, runtime data, and secrets are excluded by `.gitignore`.
 - Accept the EULA in `eula.txt` before the first run.
 
+## Security
+
+- Command blocks are disabled on the lobby server to prevent unauthorized access.
+- Velocity proxy uses bungeeguard forwarding mode with shared-secret token validation.
+- Backend servers run in offline mode behind the proxy with IP forwarding enabled.
+
 ## License
 
 Licensed under the Apache License, Version 2.0. See `LICENSE`.
