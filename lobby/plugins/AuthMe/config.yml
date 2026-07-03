@@ -252,7 +252,7 @@ settings:
         # AuthMe will update the password to the new hash. Example:
         # legacyHashes:
         # - 'SHA1'
-        legacyHashes: []
+        legacyHashes: [SHA256]
         # Salt length for the SALTED2MD5 MD5(MD5(password)+salt)
         doubleMD5SaltLength: 8
         # Number of rounds to use if passwordHash is set to PBKDF2. Default is 10000

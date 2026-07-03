@@ -48,27 +48,9 @@ write_vc_secrets() {
 }
 
 write_db_secrets() {
-  # Inject LuckPerms database credentials into config files
-  if [ -n "${LUCKPERMS_DB_PASSWORD:-}" ]; then
-    for dir in "${LOBBY_DIR}" "${SURVIVAL_DIR}"; do
-      local lp_config="${dir}/plugins/LuckPerms/config.yml"
-      if [ -f "${lp_config}" ]; then
-        sed -i '' "s/^  password:.*/  password: '${LUCKPERMS_DB_PASSWORD}'/" "${lp_config}"
-        sed -i '' "s/^  username:.*/  username: ${LUCKPERMS_DB_USER:-lpsql}/" "${lp_config}"
-        sed -i '' "s|^  address:.*|  address: ${LUCKPERMS_DB_HOST:-127.0.0.1:3306}|" "${lp_config}"
-        sed -i '' "s/^  database:.*/  database: ${LUCKPERMS_DB_NAME:-luckperms_2b2t}/" "${lp_config}"
-      fi
-    done
-  fi
-
-  # Inject TAB database credentials
-  if [ -n "${TAB_DB_PASSWORD:-}" ]; then
-    local tab_config="${SURVIVAL_DIR}/plugins/TAB/config.yml"
-    if [ -f "${tab_config}" ]; then
-      sed -i '' "s/^  password:.*/  password: ${TAB_DB_PASSWORD}/" "${tab_config}"
-      sed -i '' "s/^  username:.*/  username: ${TAB_DB_USER:-user}/" "${tab_config}"
-      sed -i '' "s/^  database:.*/  database: ${TAB_DB_NAME:-tab}/" "${tab_config}"
-    fi
+  # Delegate to shared injection script for safe credential handling
+  if [ -f "${ROOT_DIR}/scripts/inject-db-secrets.sh" ]; then
+    LOBBY_DIR="${LOBBY_DIR}" SURVIVAL_DIR="${SURVIVAL_DIR}"       bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
   fi
 }
 
