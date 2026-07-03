@@ -12,6 +12,16 @@ if [ -n "${FORWARDING_SECRET:-}" ]; then
   mkdir -p plugins/BungeeGuard
   printf "%s" "${FORWARDING_SECRET}" > plugins/BungeeGuard/token.txt
 fi
+
+# Inject database credentials from .env into plugin configs
+if [ -n "${LUCKPERMS_DB_PASSWORD:-}" ] && [ -f "plugins/LuckPerms/config.yml" ]; then
+  sed -i '' "s/^  password:.*/  password: '${LUCKPERMS_DB_PASSWORD}'/" plugins/LuckPerms/config.yml
+  sed -i '' "s/^  username:.*/  username: ${LUCKPERMS_DB_USER:-lpsql}/" plugins/LuckPerms/config.yml
+  sed -i '' "s|^  address:.*|  address: ${LUCKPERMS_DB_HOST:-127.0.0.1:3306}|" plugins/LuckPerms/config.yml
+  sed -i '' "s/^  database:.*/  database: ${LUCKPERMS_DB_NAME:-luckperms_2b2t}/" plugins/LuckPerms/config.yml
+fi
+
+
 while true
 do
   echo "启动大厅服务器..."
