@@ -19,7 +19,7 @@ do
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-1.21.8-60.jar --nogui
+    -jar leaf-26.2-14.jar --nogui
   echo "服务器已关闭，5 分钟后重启..."
   sleep 300
 done
