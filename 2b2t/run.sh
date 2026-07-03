@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# Load environment variables from .env if present
+if [ -f "${BASH_SOURCE[0]%/*}/../.env" ]; then
+  set -a
+  source "${BASH_SOURCE[0]%/*}/../.env"
+  set +a
+fi
 while true
 do
   echo "启动 2b2t 服务器..."
