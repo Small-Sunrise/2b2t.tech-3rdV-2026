@@ -79,6 +79,7 @@ settings:
   server-mod-name: Purpur
   network:
     upnp-port-forwarding: false
+    # Rate-limit joins to prevent login-flood DoS attacks.
     max-joins-per-second: 20
     kick-for-out-of-order-chat: true
   broadcasts:
