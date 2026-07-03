@@ -12,6 +12,13 @@ if [ -n "${FORWARDING_SECRET:-}" ]; then
   mkdir -p plugins/BungeeGuard
   printf "%s" "${FORWARDING_SECRET}" > plugins/BungeeGuard/token.txt
 fi
+
+# Inject database credentials from .env via shared helper script
+if [ -f "../scripts/inject-db-secrets.sh" ]; then
+  LOBBY_DIR="." SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh"
+fi
+
+
 while true
 do
   echo "启动大厅服务器..."

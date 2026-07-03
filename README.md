@@ -50,9 +50,17 @@ run.bat
 
 ## Security
 
+### Network
 - Command blocks are disabled on the lobby server to prevent unauthorized access.
 - Velocity proxy uses bungeeguard forwarding mode with shared-secret token validation.
 - Backend servers run in offline mode behind the proxy with IP forwarding enabled.
+- Join rate limiting enabled at both proxy and backend levels.
+
+### User Data
+- Passwords hashed with BCRYPT2Y (upgraded from SHA256).
+- Database credentials stored in `.env`, never committed to git.
+- AuthMe ForceSingleSession enabled to prevent session hijacking.
+- Minimum password length: 8 characters.
 
 ## License
 

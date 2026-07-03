@@ -47,6 +47,14 @@ write_vc_secrets() {
   fi
 }
 
+write_db_secrets() {
+  # Delegate to shared injection script for safe credential handling
+  if [ -f "${ROOT_DIR}/scripts/inject-db-secrets.sh" ]; then
+    LOBBY_DIR="${LOBBY_DIR}" SURVIVAL_DIR="${SURVIVAL_DIR}"       bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
+  fi
+}
+
+
 start_service() {
   local name="$1"
   local dir="$2"
@@ -76,6 +84,7 @@ start_service() {
 }
 
 write_vc_secrets
+write_db_secrets
 
 start_service "vc" "${VC_DIR}" "${VC_JAR}" "${VC_JAVA_OPTS}" ""
 start_service "lobby" "${LOBBY_DIR}" "${LOBBY_JAR}" "${LOBBY_JAVA_OPTS}" "--nogui"
