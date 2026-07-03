@@ -24,7 +24,7 @@ SURVIVAL_JAR="${SURVIVAL_JAR:-leaf-26.2-14.jar}"
 
 VC_JAVA_OPTS="${VC_JAVA_OPTS:- -Xms1G -Xmx1G}"
 LOBBY_JAVA_OPTS="${LOBBY_JAVA_OPTS:- -Xms1G -Xmx2G}"
-SURVIVAL_JAVA_OPTS="${SURVIVAL_JAVA_OPTS:- -Xms4G -Xmx6G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational}"
+SURVIVAL_JAVA_OPTS="${SURVIVAL_JAVA_OPTS:- -Xms4G -Xmx6G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+DisableExplicitGC}"
 
 write_vc_secrets() {
   if [ -n "${FORWARDING_SECRET:-}" ]; then
