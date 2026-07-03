@@ -50,3 +50,29 @@ services:
       - mc-network
     depends_on:
       - velocity
+
+  # MariaDB for shared plugin data (LuckPerms, etc.)
+  mariadb:
+    image: mariadb:11.4
+    container_name: mc-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_CHARACTER_SET: utf8mb4
+      MARIADB_COLLATE: utf8mb4_unicode_ci
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+      - mariadb_data:/var/lib/mysql
+    expose:
+      - "3306"
+    networks:
+      - mc-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  mariadb_data:
