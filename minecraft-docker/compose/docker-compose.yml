@@ -1,4 +1,3 @@
-version: '3.8'
 networks:
   mc-network:
     driver: bridge
@@ -23,7 +22,7 @@ services:
     container_name: mc-lobby
     restart: unless-stopped
     environment:
-        EULA=true
+        EULA: "true"
     expose:
       - "60001"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
@@ -40,7 +39,7 @@ services:
     container_name: 2b2t
     restart: unless-stopped
     environment:
-        EULA=true
+        EULA: "true"
     expose:
       - "60003"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
@@ -57,7 +56,7 @@ services:
     container_name: mc-mariadb
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_CHARACTER_SET: utf8mb4
       MARIADB_COLLATE: utf8mb4_unicode_ci
     volumes:
