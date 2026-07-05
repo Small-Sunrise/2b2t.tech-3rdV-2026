@@ -19,6 +19,7 @@ fi
 java \
     -Xms1G -Xmx1G \
     -XX:+UnlockExperimentalVMOptions \
+    -XX:+IgnoreUnrecognizedVMOptions \
     -XX:+UseZGC \
     -XX:+ZGenerational \
     -XX:+AlwaysPreTouch \
