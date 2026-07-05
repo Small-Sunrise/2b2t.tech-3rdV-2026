@@ -56,7 +56,7 @@ services:
     container_name: mc-mariadb
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_CHARACTER_SET: utf8mb4
       MARIADB_COLLATE: utf8mb4_unicode_ci
     volumes:
