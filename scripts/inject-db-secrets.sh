@@ -40,11 +40,35 @@ with open(config_path, 'w') as f:
 " "${config}"
 }
 
+
+inject_authme() {
+  local config="$1"
+  [ -f "${config}" ] || return 0
+  [ -n "${AUTHME_DB_PASSWORD:-}" ] || return 0
+
+  python3 -c "
+import os, re, sys
+config_path = sys.argv[1]
+with open(config_path, 'r') as f:
+    c = f.read()
+c = re.sub(r'^    mySQLPassword:.*', "    mySQLPassword: '" + os.environ.get('AUTHME_DB_PASSWORD','') + "'", c, flags=re.M)
+c = re.sub(r'^    mySQLUsername:.*', '    mySQLUsername: ' + os.environ.get('AUTHME_DB_USER','authme'), c, flags=re.M)
+c = re.sub(r'^    mySQLHost:.*', '    mySQLHost: ' + os.environ.get('AUTHME_DB_HOST','127.0.0.1'), c, flags=re.M)
+c = re.sub(r'^    mySQLDatabase:.*', '    mySQLDatabase: ' + os.environ.get('AUTHME_DB_NAME','authme'), c, flags=re.M)
+with open(config_path, 'w') as f:
+    f.write(c)
+" "${config}"
+}
+
 # Inject into all applicable configs
 for dir in "${LOBBY_DIR:-}" "${SURVIVAL_DIR:-}" "."; do
   [ -d "${dir}" ] || continue
   inject_luckperms "${dir}/plugins/LuckPerms/config.yml"
 done
+
+if [ -n "${LOBBY_DIR:-}" ]; then
+  inject_authme "${LOBBY_DIR}/plugins/AuthMe/config.yml"
+fi
 
 if [ -n "${SURVIVAL_DIR:-}" ]; then
   inject_tab "${SURVIVAL_DIR}/plugins/TAB/config.yml"
