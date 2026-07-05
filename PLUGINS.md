@@ -20,7 +20,7 @@
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| ProtocolLib | 5.4.0 | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
+| ProtocolLib | latest | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
 | BungeeGuard | 1.4.0 | GitHub | https://github.com/lucko/BungeeGuard/releases |
 | LuckPerms | 5.5.53 | Modrinth | https://modrinth.com/plugin/luckperms |
 | PlaceholderAPI | latest | Modrinth | https://modrinth.com/plugin/placeholderapi |
@@ -77,7 +77,7 @@
 | AdvancedClear | latest | Modrinth | https://modrinth.com/plugin/advancedclear |
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
-| CommandSync | 2.8.3 | SpigotMC | https://www.spigotmc.org/resources/52093/ |
+| CommandSync | 2.8.4 | SpigotMC | disabled (no ServerSync) |
 | ServerNPC | 付费插件 | BuiltByBit | https://builtbybit.com/resources/servernpc-the-return.8255 |
 
 ## 内置统计
