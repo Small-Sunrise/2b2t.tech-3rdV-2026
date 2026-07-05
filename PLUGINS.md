@@ -23,7 +23,7 @@
 | ProtocolLib | 5.4.0 | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
 | BungeeGuard | 1.4.0 | GitHub | https://github.com/lucko/BungeeGuard/releases |
 | LuckPerms | 5.5.53 | Modrinth | https://modrinth.com/plugin/luckperms |
-| PlaceholderAPI | 2.12.2 | Modrinth | https://modrinth.com/plugin/placeholderapi |
+| PlaceholderAPI | latest | Modrinth | https://modrinth.com/plugin/placeholderapi |
 | Vault | 1.7.3 | GitHub | https://github.com/MilkBowl/Vault/releases |
 | CMILib | 1.5.9.6 | GitHub | https://github.com/Zrips/CMILib/releases |
 
@@ -31,7 +31,7 @@
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| spark | 1.10.173 | Modrinth | https://modrinth.com/plugin/spark |
+| spark | latest | Modrinth | https://modrinth.com/plugin/spark |
 | Plan | 5.7 build 3558 | Modrinth | https://modrinth.com/plugin/plan |
 | Chunky | 1.5.3 | Modrinth | https://modrinth.com/plugin/chunky |
 | LagFixer | 1.6.5 | Modrinth | https://modrinth.com/plugin/lagfixer |
@@ -74,7 +74,7 @@
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| AdvancedClear | 1.17 | Modrinth | https://modrinth.com/plugin/advancedclear |
+| AdvancedClear | latest | Modrinth | https://modrinth.com/plugin/advancedclear |
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
 | CommandSync | 2.8.3 | SpigotMC | https://www.spigotmc.org/resources/52093/ |
@@ -89,3 +89,14 @@
 | bStats | 插件统计 |
 | cStats | 插件统计 |
 | PluginMetrics | 插件统计 |
+
+## MC 1.26 兼容性注意
+
+以下插件需要手动更新到最新版（或尚未适配 1.26）：
+
+| 插件 | 问题 | 解决方案 |
+|------|------|----------|
+| Residence | CMILib 缺 v1_22_R1 字段 | 更新 CMILib + Residence |
+| AdvancedTeleport | 仅支持 1.17-1.19 | 等待作者更新 |
+| ProtocolLib | 未测试 1.26 | 已有新版本 |
+| CommandSync | 需额外 ServerSync 端 | 配置 ServerSync 或禁用 |
