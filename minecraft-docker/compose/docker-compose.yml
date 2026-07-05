@@ -22,7 +22,7 @@ services:
     container_name: mc-lobby
     restart: unless-stopped
     environment:
-        EULA=true
+        EULA: "true"
     expose:
       - "60001"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
@@ -39,7 +39,7 @@ services:
     container_name: 2b2t
     restart: unless-stopped
     environment:
-        EULA=true
+        EULA: "true"
     expose:
       - "60003"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
