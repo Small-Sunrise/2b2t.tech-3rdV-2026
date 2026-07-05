@@ -80,12 +80,7 @@ enable-player-address-logging = true
 # Configure your servers here. Each key represents the server's name, and the value
 # represents the IP address of the server to connect to.
 lobby = "127.0.0.1:50015"
-pure = "127.0.0.1:60002"
 2b2t = "127.0.0.1:50013"
-create = "127.0.0.1:60004"
-BW = "127.0.0.1:60005"
-cpvp = "127.0.0.1:60006"
-xiaojin = "127.0.0.1:50014"
 
 # In what order we should try servers when a player logs in or is kicked from a server.
 try = [
