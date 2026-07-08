@@ -1,7 +1,0 @@
-ip=localhost
-port=26654
-heartbeat=1000
-pass=your-password-here
-debug=false
-removedata=false
-lang=en_US
