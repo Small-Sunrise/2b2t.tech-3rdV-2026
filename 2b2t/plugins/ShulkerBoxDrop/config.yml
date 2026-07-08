@@ -1,0 +1,64 @@
+# ==============================
+# 全局配置
+# ==============================
+global:
+  # 禁用世界列表（这些世界中所有复制功能失效）
+  disabled-worlds:
+    - world_nether
+    - world_the_end
+    - creative_world
+
+  # 是否在事件被取消时显示消息（领地插件等）
+  show-cancelled-event-message: true
+
+# ==============================
+# 挖掘复制功能配置
+# ==============================
+block-dupe:
+  # 是否启用挖掘复制功能
+  enabled: true
+
+  # 复制周期长度 (10+1模式)
+  cycle-length: 10
+
+  # 切换世界时重置计数
+  reset-on-world-change: true
+
+  # 退出游戏时重置计数
+  reset-on-logout: true
+
+  # 是否在禁用世界显示消息
+  show-disabled-world-message: true
+
+  # 可复制方块列表（支持任何方块）
+  copyable-blocks:
+    - WHITE_SHULKER_BOX
+    - ORANGE_SHULKER_BOX
+    - MAGENTA_SHULKER_BOX
+    - LIGHT_BLUE_SHULKER_BOX
+    - YELLOW_SHULKER_BOX
+    - LIME_SHULKER_BOX
+    - PINK_SHULKER_BOX
+    - GRAY_SHULKER_BOX
+    - LIGHT_GRAY_SHULKER_BOX
+    - CYAN_SHULKER_BOX
+    - PURPLE_SHULKER_BOX
+    - BLUE_SHULKER_BOX
+    - BROWN_SHULKER_BOX
+    - GREEN_SHULKER_BOX
+    - RED_SHULKER_BOX
+    - BLACK_SHULKER_BOX
+    - SHULKER_BOX
+
+# ==============================
+# 命令复制功能配置
+# ==============================
+command-dupe:
+  # 是否启用命令复制功能
+  enabled: true
+
+  # 命令冷却时间（秒）
+  cooldown: 1000
+
+  # 是否在禁用世界显示消息
+  show-disabled-world-message: true

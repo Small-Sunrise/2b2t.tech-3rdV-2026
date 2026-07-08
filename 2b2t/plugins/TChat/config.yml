@@ -11,9 +11,9 @@ chat:
   use-group-format: true
   # Global format (use only if the use-group-format option is false)
   # Use the "¡" character to split the format in the player and message part
-  format: "%radius_mode%%vault_prefix%%tchat_tag_displayname%%tchat_nick%&r: ¡"
+  format: '%radius_mode%%vault_prefix%%tchat_tag_displayname%%tchat_nick%&r: ¡'
   # Select lang file (inside the lang folder)
-  lang: "messages_en.yml"
+  lang: messages_en.yml
 
 # #################################################################
 # ┌─────────────────────────────────────────────────────────────┐ #
@@ -24,17 +24,17 @@ chat:
 # Enable and disable all TChat modules (you can delete the corresponding files after disabling the module)
 modules:
   # Enable/disable anti advertising module (anti_advertising.yml)
-  anti-advertising: true
+  anti-advertising: false
   # Enable/disable anti bot module (anti_bot.yml)
   anti-bot: true
   # Enable/disable anti cap module (anti_cap.yml)
-  anti-cap: true
+  anti-cap: false
   # Enable/disable anti flood module (anti_flood.yml)
   anti-flood: true
   # Enable/disable anti unicode module (anti_unicode.yml)
   anti-unicode: false
   # Enable/disable auto broadcast module (autobroadcast.yml)
-  auto-broadcast: true
+  auto-broadcast: false
   # Enable/disable banned commands module (banned_commands.yml)
   banned-commands: true
   # Enable/disable banned words module (banned_words.yml)
@@ -44,7 +44,7 @@ modules:
   # Enable/disable calculator module (no config file)
   calculator: true
   # Enable/disable channels module (channels.yml)
-  channels: true
+  channels: false
   # Enable/disable chat bot module (chatbot.yml)
   chatbot: true
   # Enable/disable chat color module (chatcolor.yml and menus/chatcolor.yml)
@@ -72,7 +72,7 @@ modules:
   # Enable/disable ignore module (ignore.yml)
   ignore: true
   # Enable/disable invsee module (menus/invsee.yml)
-  invsee: true
+  invsee: false
   # Enable/disable join module (joins.yml)
   joins: true
   # Enable/disable levels module (levels.yml)
@@ -90,7 +90,7 @@ modules:
   # Enable/disable mute chat module (no config file)
   mute-chat: true
   # Enable/disable nick module (no config file)
-  nick: true
+  nick: false
   # Enable/disable ping module (ping.yml)
   ping: true
   # Enable/disable placeholders module (placeholders.yml)
@@ -124,4 +124,18 @@ modules:
   # Enable/disable tags module (tags.yml and menus/tags_menus.yml)
   tags: true
   # Enable/disable worlds module (worlds.yml)
-  worlds: true
+  worlds: false
+  blocked-words: false
+  blocked-commands: false
+  block-chat: false
+  chat-bridge: false
+  chat-placeholders: false
+config-version: 5
+storage:
+  method: SQLite
+  remote:
+    host: localhost
+    port: 3306
+    database: tchat
+    username: root
+    password: ''

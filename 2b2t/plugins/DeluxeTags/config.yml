@@ -1,4 +1,4 @@
-# DeluxeTags version: 1.8.2-Release Main Configuration
+# DeluxeTags version: 1.8.3-Release Main Configuration
 #
 # Create your tags using the following format:
 #
@@ -31,6 +31,17 @@ format_chat:
   format: '{deluxetags_tag} <%1$s> %2$s'
 load_tag_on_join: true
 gui:
+  size: 54
+  tag_slots:
+  - 0-35
+  tag_visible_item:
+    material: NAME_TAG
+    data: 0
+    displayname: '&6Tag&f: &6%deluxetags_identifier%'
+    lore:
+    - '%deluxetags_tag%'
+    - '%deluxetags_description%'
+    - '&7You can see this tag but you can''t select it!'
   name: '&6Available tags&f: &6%deluxetags_amount%'
   tag_select_item:
     material: NAME_TAG
@@ -40,11 +51,14 @@ gui:
     - '%deluxetags_tag%'
     - '%deluxetags_description%'
   divider_item:
+    slots:
+    - 36-44
     material: BLACK_STAINED_GLASS_PANE
     data: 0
     displayname: ''
     lore: []
   has_tag_item:
+    slot: 49
     material: PLAYER_HEAD
     data: 0
     displayname: '&eCurrent tag&f: &6%deluxetags_identifier%'
@@ -52,24 +66,30 @@ gui:
     - '%deluxetags_tag%'
     - Click to remove your current tag
   no_tag_item:
+    slot: 49
     material: PLAYER_HEAD
     data: 0
     displayname: '&cYou don''t have a tag set!'
     lore:
     - '&7Click a tag above to select one!'
   exit_item:
+    slots:
+    - 48
+    - 50
     material: IRON_DOOR
     data: 0
     displayname: '&cClick to exit'
     lore:
     - '&7Exit the tags menu'
   next_page:
+    slot: 53
     material: PAPER
     data: 0
     displayname: '&6Next page: %page%'
     lore:
     - '&7Move to the next page'
   previous_page:
+    slot: 45
     material: PAPER
     data: 0
     displayname: '&6Previous page: %page%'

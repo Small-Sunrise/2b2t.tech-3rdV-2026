@@ -79,6 +79,10 @@ cancel-warm-up-on-rotation: true
 # Whether or not teleportation should be cancelled upon movement only.
 cancel-warm-up-on-movement: true
 
+# Whether or not teleportation should be cancelled when the player receives damage.
+# Best option to accompany the invulnerability system if your server has it enabled, so that players can't cheese it. :thumbsup:
+cancel-warm-up-on-damage: true
+
 # Whether the plugin should check for change in exact X, Y and Z vs. block X, Y, Z.
 # By default, the player will have to cross into a new block (e.g. 60x 60y 60z -> 61x 60y 60z) to cancel the teleportation.
 check-exact-coordinates: false
@@ -164,7 +168,7 @@ per-command-cooldowns:
 #   vip-cooldown: 3
 # Giving a group, such as VIP, the permission at.member.cooldown.vip-cooldown will have a cooldown of 3.
 # The key (vip-cooldown) and group name (VIP) do not have to be different, this is just an example.
-# You can also add at.member.cooldown.3, but this is more efficient if you find permissions lag.To make it per-command, use at.member.cooldown.<command>.vip-cooldown. To make it per-world, use at.member.cooldown.<world>.vip-cooldown.
+# You can also add at.member.cooldown.3, but this is more efficient if you find permissions lag. To make it per-command, use at.member.cooldown.<command>.vip-cooldown. To make it per-world, use at.member.cooldown.<world>.vip-cooldown.
 # To combine the two, you can use at.member.cooldown.<command>.<world>.vip-cooldown.
 custom-cooldowns: {}
 
@@ -210,6 +214,42 @@ per-command-cost:
 # To make it per-command, add the permission at.member.cost.tpa.vip-cost (for tpa) instead.
 custom-costs: {}
 
+#####################
+#  Invulnerability  #
+#####################
+
+# How long the invulnerability period lasts in seconds.
+invulnerability-duration: 0
+
+# All damage causes that are not cancelled by invulnerability.
+# The full list is accessible here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+damage-blacklist: []
+
+# Command-specific invulnerability durations.
+per-command-invulnerability:
+  # Invulnerability duration for /tpa.
+  tpa: default
+  # Invulnerability duration for /tpahere.
+  tpahere: default
+  # Invulnerability duration for /tpr, or /rtp.
+  tpr: default
+  # Invulnerability duration for /warp
+  warp: default
+  # Invulnerability duration for /spawn
+  spawn: default
+  # Invulnerability duration for /home
+  home: default
+  # Invulnerability duration for /back
+  back: default
+
+# Use this section to create custom invulnerability periods per-group.
+# Use the following format:
+# custom-invulnerability-periods:
+#   vip: 5
+# Giving a group, such as VIP, the permission at.member.invulnerability.vip will have an invulnerable period of 5 seconds.
+# To make it per-command, add the permission at.member.invulnerability.tpa.vip (for tpa) instead.You can also add at.member.invulnerability.5, but this is more efficient if you find permissions lag.
+custom-invulnerability-periods: {}
+
 ###############
 #  Particles  #
 ###############
@@ -237,6 +277,20 @@ default-teleporting-particles: spark
 
 # Command-specific teleporting particles.
 teleporting-particles:
+  tpa: default
+  tpahere: default
+  tpr: default
+  warp: default
+  spawn: default
+  home: default
+  back: default
+
+# The default particles used immediately after the player teleports. 
+# At this time, only spark is supported. However, other recommendations are welcome with that.
+default-post-teleport-particles: spark
+
+# Command-specific post-teleport particles.
+post-teleport-particles:
   tpa: default
   tpahere: default
   tpr: default
@@ -626,6 +680,18 @@ teleport-to-spawn-on-first-join: true
 # The name of the spawnpoint players will be first teleported to if they joined for the first time.
 # If it is blank, then it will take the main spawnpoint.
 first-spawn-point: ''
+
+# Teleports all new players to a random location when they join the server for the first time.
+use-random-location-for-first-spawn-point: false
+
+# The world that the player will be randomly teleported into when they join for the first time.
+# If left blank, the player will either teleport within the world of the main spawnpoint, or the
+# world they first spawn in.
+first-random-teleportation-world-name: ''
+
+# If players are teleported to a random location when they first join the server, this sets the
+# location as a home for those players called "home".
+set-first-random-location-as-home: false
 
 # Whether the player should be teleported to the spawnpoint every time they join.
 teleport-to-spawn-on-every-join: false

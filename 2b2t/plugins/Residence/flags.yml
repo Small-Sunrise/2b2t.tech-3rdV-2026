@@ -258,7 +258,6 @@ Global:
     boarding: true
     # Applies to: Both
     goathorn: true
-    # Applies to: Residence
     golemopenchest: true
     # Applies to: Residence
     skulk: true

@@ -9,6 +9,20 @@ Common:
   # with each element after that being usable as <prefix:index> with index being the items index in the list.
   prefixes:
   - <aqua>↑</aqua> <dark_gray>»</dark_gray>
+  timeFormat:
+    full: <days><hours><minutes><seconds>
+    days:
+      singular: '<days> day, '
+      plural: '<days> days, '
+    hours:
+      singular: '<hours> hour, '
+      plural: '<hours> hours, '
+    minutes:
+      singular: '<minutes> minute, '
+      plural: '<minutes> minutes, '
+    seconds:
+      singular: <seconds> second
+      plural: <seconds> seconds
 Teleport:
   eventBeforeTP: <prefix> <gray>Teleporting in <aqua><countdown> seconds</aqua>, please
     do not move!
@@ -47,6 +61,7 @@ Teleport:
   teleportedToOfflinePlayer: <prefix> <gray>Teleported to offline player <aqua><player></aqua>!
   teleportedOfflinePlayerHere: <prefix> <gray>Teleported offline player <aqua><player></aqua>
     to your location!
+  eventDamage: <prefix> <gray>Teleport has been cancelled due to damage being taken.
 Error:
   noPermission: <prefix> <gray>You do not have permission to use this command!
   noPermissionSign: <prefix> <gray>You do not have permission to make this sign!
@@ -170,6 +185,8 @@ Error:
   teleportFailed: <prefix> <gray>Sorry, we couldn't teleport you :(
   randomLocFailed: <prefix> <gray>Sorry, we couldn't find a location to teleport you
     to :(
+  commandUse: '<aqua>Usage: <gray><usage>'
+  rtpManagerNotUsed: <prefix> <gray>The RTP-Cache is not being used on the server.
 Info:
   tpOff: <prefix> <gray>Successfully disabled teleport requests!
   tpOn: <prefix> <gray>Successfully enabled teleport requests!
@@ -288,6 +305,8 @@ Info:
     The map should update shortly.
   mirrorSpawnSame: <prefix> <gray>The spawns for <aqua><from></aqua> and <aqua><spawn></aqua>
     already to go the same place! Don't worry :)
+  clearEverything: <prefix> <gray>The RTP-Cache has been cleared.
+  clearWorld: <prefix> <gray>Cache for world <aqua><world></aqua> has been cleared.
 Tooltip:
   homes: '<prefix> <gray>Teleports you to your home: <aqua><home>'
   warps: '<prefix> <gray>Teleports you to warp: <aqua><warp>'

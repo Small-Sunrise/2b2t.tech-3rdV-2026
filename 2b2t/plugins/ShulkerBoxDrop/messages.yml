@@ -1,0 +1,22 @@
+messages:
+  # 通用消息
+  no-permission: "&c你没有权限执行此命令！"
+  player-only: "&c只有玩家可以执行此命令！"
+  config-reloaded: "&a配置已重新加载！"
+  command-toggled: "&a潜影盒复制功能已 %status%"
+  block-toggled: "&a潜影盒复制功能已 %status%"
+  toggle-usage: "&a请查看帮助列表！"
+  enabled: "&a启用"
+  disabled: "&c禁用"
+  disabled-world: "&c这个世界禁用了复制功能！"
+  cancelled-event: "&c你无法在此处复制方块！"
+
+  # 挖掘复制消息
+  special-drop: "&6恭喜！你获得了双倍物品！"
+
+  # 命令复制消息
+  dupe-success: "&a物品已成功复制！冷却时间: %cooldown%秒"
+  dupe-cooldown: "&c命令冷却中，请等待 %seconds% 秒！"
+  dupe-inventory-full: "&c背包已满，无法复制物品！"
+  dupe-no-item: "&c你手中没有物品！"
+  command-dupe-disabled: "&c命令复制功能已被管理员禁用！"

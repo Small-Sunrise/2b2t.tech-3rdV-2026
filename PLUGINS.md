@@ -78,7 +78,7 @@
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
 | CommandSync | 2.8.4 | SpigotMC | disabled (no ServerSync) |
-| ServerNPC | 付费插件 | BuiltByBit | https://builtbybit.com/resources/servernpc-the-return.8255 |
+| ZNPCsPlus | latest | GitHub | https://github.com/Pyrbu/ZNPCsPlus | 替代 ServerNPC |
 
 ## 内置统计
 

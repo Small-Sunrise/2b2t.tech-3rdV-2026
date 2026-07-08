@@ -1,0 +1,35 @@
+# The overall max speed of the player when using an elytra. The default elytra speed without mods is 1.7
+# This is a soft limit, hacked clients can bypass this. Use the hard limits below if you want stricter limits.
+max-speed: 1.7
+
+# How many ticks should rockets be nerfed for after using them. Multiply seconds by 20 to get ticks: 3 x 20 = 60
+rocket-cooldown-ticks: 40
+
+# Dynamic speed based on tps
+dynamic-speed:
+  # At 20 tps, don't change anything, -1.0 values will be ignored. This line can be deleted
+  no-lag:
+    tps: 20.0
+    speed-limit: 1.7
+    hard-speed-limit: 2.0 # Set this to 1.9 for Java & 2.0 if you have bedrock players, they go faster than Java players
+    trident-riptide-limit: 3.5
+    trident-riptide-hard-limit: 3.8
+    max-violations: 4
+  # At 18 tps, make the top speed 1.0
+  little-lag:
+    tps: 18.0
+    speed-limit: 1.0
+    hard-speed-limit: 1.8
+    max-violations: 5
+  # At 16 tps or lower make the top elytra speed 0.8
+  server-isnt-happy:
+    tps: 16.0
+    speed-limit: 0.8
+    hard-speed-limit: 1.6
+    max-violations: 6
+  # Server is still lagging hard, make elytras super slow
+  server-is-unplayable:
+    tps: 14.0
+    speed-limit: 0.5
+    hard-speed-limit: 1.4
+    max-violations: 8 # As the server lags, it is easier to accidentally fly faster than limits

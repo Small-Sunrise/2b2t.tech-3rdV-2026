@@ -180,7 +180,7 @@ messages:
   outdated-client: Outdated client! Please use {0}
   outdated-server: Outdated server! I'm still on {0}
   restart: Server is restarting
-config-version: 12
+config-version: 13
 stats:
   disable-saving: false
   forced-stats: {}

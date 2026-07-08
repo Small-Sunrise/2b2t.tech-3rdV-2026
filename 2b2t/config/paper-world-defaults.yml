@@ -188,6 +188,7 @@ entities:
     - SleepingY
     - SleepingZ
     iron-golems-can-spawn-in-air: false
+    max-arrow-despawn-invulnerability: 200
     monster-spawn-max-light-level: default
     non-player-arrow-despawn-rate: '20'
     per-player-mob-spawns: true
@@ -312,7 +313,6 @@ misc:
   legacy-ender-pearl-behavior: false
   max-leash-distance: default
   redstone-implementation: ALTERNATE_CURRENT
-  shield-blocking-delay: 5
   show-sign-click-command-failure-msgs-to-player: false
   update-pathfinding-on-block-update: false
 scoreboards:
@@ -335,3 +335,6 @@ tick-rates:
 unsupported-settings:
   disable-world-ticking-when-empty: false
   fix-invulnerable-end-crystal-exploit: true
+  ticking:
+    block-entities: true
+    chunks: true

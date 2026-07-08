@@ -166,15 +166,18 @@ Time:
             Time: 2
             Unit: DAYS
     Periodic_tasks:
-        Extension_data_refresh_every:
-            Time: 1
-            Unit: HOURS
         Check_DB_for_server_config_files_every:
             Time: 1
             Unit: MINUTES
         Clean_Database_every:
             Time: 1
             Unit: HOURS
+        Extension_server_data_refresh_every:
+            Time: 1
+            Unit: HOURS
+        Extension_player_data_refresh_every:
+            Time: 15
+            Unit: MINUTES
 # -----------------------------------------------------
 Display_options:
     # More information about Themes:
@@ -183,7 +186,6 @@ Display_options:
     # Can use ${playerName} or ${playerUUID} or ${playerUUIDNoDash}
     Player_head_image_url: "https://crafatar.com/avatars/${playerUUID}?size=120&default=MHF_Steve&overlay"
     Sessions:
-        Show_on_page: 50
         # By Default World playtime pie is ordered alphabetically.
         # Colors will be determined alphabetically in any case.
         Order_world_pies_by_percentage: false
@@ -203,6 +205,8 @@ Display_options:
         Main: '&2'
         Secondary: '&7'
         Highlight: '&f'
+    Night_mode: false
+    WorldPie: '"#0099C6", "#66AA00", "#316395", "#994499", "#22AA99", "#AAAA11", "#6633CC", "#E67300", "#329262", "#5574A6"'
 # -----------------------------------------------------
 Formatting:
     Decimal_points: '#.##'
@@ -299,5 +303,7 @@ Plugins:
     Towny:
         HideTowns:
           - ExampleTown
+    ViaVersion:
+        Enabled: true
 Customized_files:
     Path: "web"
