@@ -79,6 +79,7 @@
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
 | CommandSync | 2.8.4 | SpigotMC | disabled (no ServerSync) |
 | ZNPCsPlus | latest | GitHub | https://github.com/Pyrbu/ZNPCsPlus | 替代 ServerNPC |
+| MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 替代 Srepay（微信/支付宝充值） |
 
 ## 内置统计
 
