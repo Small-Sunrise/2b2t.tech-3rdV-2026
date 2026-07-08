@@ -4,7 +4,7 @@
 # 服务器令牌
 # 前往官网注册后
 # 添加服务器获得
-token: '1f18a72a39f3ba3025d4f5e3da22dd9f'
+token: 'your-minepay-token-here'
 
 # 降级线路选择
 # 港澳台和海外需要更改降级线路

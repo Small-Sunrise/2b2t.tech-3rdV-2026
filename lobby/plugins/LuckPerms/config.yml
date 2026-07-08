@@ -103,7 +103,7 @@ data:
 
   # Credentials for the database.
   username: lpsql
-  password: '135a246z'
+  password: 'your-db-password'
 
   # These settings apply to the MySQL connection pool.
   # - The default values will be suitable for the majority of users.
