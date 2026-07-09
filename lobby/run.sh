@@ -37,7 +37,11 @@ do
     -XX:ZCollectionIntervalMinor=0.98 \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
-    -jar paper.jar --nogui
+    -jar paper.jar --nogui &
+  JAVA_PID=$!
+  mkdir -p ../pids
+  echo ${JAVA_PID} > ../pids/lobby.pid
+  wait ${JAVA_PID}
   echo "大厅关闭，5分钟后自动重启..."
   sleep 300
 done
