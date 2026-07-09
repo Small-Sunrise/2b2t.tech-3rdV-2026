@@ -1,5 +1,5 @@
-FROM local-java:21
+FROM eclipse-temurin:21-jre
+WORKDIR /data
 COPY paper.jar /app/server.jar
-EXPOSE 60001
-EULA true
-ENTRYPOINT ["java", "-Xms1G", "-Xmx2G", "-jar", "/app/server.jar", "--nogui"]
+EXPOSE 50015
+ENTRYPOINT ["java", "-Xms1G", "-Xmx1G", "-XX:SoftMaxHeapSize=700M", "-XX:+UseZGC", "-XX:+ZGenerational", "-XX:+AlwaysPreTouch", "-XX:+DisableExplicitGC", "-jar", "/app/server.jar", "--nogui"]

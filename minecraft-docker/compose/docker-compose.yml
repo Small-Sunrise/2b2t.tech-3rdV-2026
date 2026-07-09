@@ -4,7 +4,9 @@ networks:
 
 services:
   velocity:
-    image: mc-velocity:latest  # 使用已构建的镜像
+    build:
+      context: ../../VC
+      dockerfile: Dockerfile.velocity
     container_name: vc
     restart: unless-stopped
     ports:
@@ -18,13 +20,15 @@ services:
 
   # 2. 大厅服
   lobby:
-    image: mc-lobby:latest  # 使用已构建的镜像
+    build:
+      context: ../../lobby
+      dockerfile: Dockerfile.lobby
     container_name: mc-lobby
     restart: unless-stopped
     environment:
         EULA: "true"
     expose:
-      - "60001"  # 在Docker网络内暴露此端口，供Velocity连接
+      - "50015"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
       - ../../lobby:/data
     # 移除了 environment 和 command，镜像内已定义
@@ -35,13 +39,15 @@ services:
 
   # 3. 生存游戏服
   survival:
-    image: mc-survival:latest  # 使用已构建的镜像
+    build:
+      context: ../../2b2t
+      dockerfile: Dockerfile.2b2t
     container_name: 2b2t
     restart: unless-stopped
     environment:
         EULA: "true"
     expose:
-      - "60003"  # 在Docker网络内暴露此端口，供Velocity连接
+      - "50013"  # 在Docker网络内暴露此端口，供Velocity连接
     volumes:
       - ../../2b2t:/data
     # 移除了 environment 和 command，镜像内已定义
@@ -67,7 +73,7 @@ services:
     networks:
       - mc-network
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ["CMD", "mariadb", "--protocol=tcp", "-u", "root", "-p${MARIADB_ROOT_PASSWORD}", "-e", "SELECT 1;"]
       interval: 10s
       timeout: 5s
       retries: 5
