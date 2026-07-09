@@ -1,4 +1,5 @@
-FROM local-java:21
-COPY velocity-3.4.0-555.jar /app/velocity.jar
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY velocity-3.5.0-SNAPSHOT-605.jar /app/velocity.jar
 EXPOSE 50016
-ENTRYPOINT ["java", "-Xms512M", "-Xmx1G", "-jar", "/app/velocity.jar"]
+ENTRYPOINT ["java", "-Xms1G", "-Xmx1G", "-XX:+UseZGC", "-XX:+ZGenerational", "-XX:+AlwaysPreTouch", "-XX:+DisableExplicitGC", "-jar", "/app/velocity.jar"]
