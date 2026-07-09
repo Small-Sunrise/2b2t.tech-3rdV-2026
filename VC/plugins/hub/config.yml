@@ -22,29 +22,6 @@ auto-select:
   on-join: true
   on-server-kick: true
 lobbies:
-- name: teamlobby
-  filter: (?i)^teamlobby.*
-  permission: hub.team
-  priority: 2
-  commands:
-    teamlobby:
-      standalone: false
-      subcommand: true
-      hide-on: ^(?!.*).$
-  autojoin: false
-  overwrite-messages: {}
-- name: premiumlobby
-  filter: (?i)^premiumlobby.*
-  permission: hub.premium
-  priority: 1
-  commands:
-    premiumlobby:
-      standalone: true
-      subcommand: false
-      hide-on: ^(?!.*).$
-  autojoin: true
-  overwrite-messages:
-    success-message: <#69d9ff>You are now in the <b>Premium Hub</b>.
 - name: lobby
   filter: (?i)^lobby.*
   permission: ''
