@@ -18,15 +18,8 @@ VC_DIR="${ROOT_DIR}/VC"
 LOBBY_DIR="${ROOT_DIR}/lobby"
 SURVIVAL_DIR="${ROOT_DIR}/2b2t"
 
-VC_JAR="${VC_JAR:-velocity-3.5.0-SNAPSHOT-605.jar}"
-LOBBY_JAR="${LOBBY_JAR:-paper.jar}"
-SURVIVAL_JAR="${SURVIVAL_JAR:-leaf-26.2-14.jar}"
-
-# Default JVM options. Override via environment, e.g. SURVIVAL_JAVA_OPTS.
-# The individual run.sh scripts use additional tuned flags for production.
-VC_JAVA_OPTS="${VC_JAVA_OPTS:- -Xms1G -Xmx1G}"
-LOBBY_JAVA_OPTS="${LOBBY_JAVA_OPTS:- -Xms1G -Xmx2G}"
-SURVIVAL_JAVA_OPTS="${SURVIVAL_JAVA_OPTS:- -Xms4G -Xmx6G -XX:+IgnoreUnrecognizedVMOptions -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+DisableExplicitGC}"
+# JVM options are defined in each server's own run.sh for consistency.
+# Each run.sh also writes its PID to ../pids/<name>.pid for healthcheck.
 
 write_vc_secrets() {
   if [ -n "${FORWARDING_SECRET:-}" ]; then
@@ -58,9 +51,7 @@ write_db_secrets() {
 start_service() {
   local name="$1"
   local dir="$2"
-  local jar="$3"
-  local opts="$4"
-  local extra_args="$5"
+  local script="$3"
   local pid_file="${PID_DIR}/${name}.pid"
   local log_file="${LOG_DIR}/${name}.log"
 
@@ -69,23 +60,23 @@ start_service() {
     return 0
   fi
 
-  if [ ! -f "${dir}/${jar}" ]; then
-    echo "${name} jar missing: ${dir}/${jar}"
+  if [ ! -x "${script}" ]; then
+    echo "${name} run script missing or not executable: ${script}"
     return 1
   fi
 
   (
     cd "${dir}"
-    nohup java ${opts} -jar "${jar}" ${extra_args} > "${log_file}" 2>&1 &
-    echo $! > "${pid_file}"
+    nohup bash "${script}" > "${log_file}" 2>&1 &
+    # PID is written by the child run.sh to ${PID_DIR}/${name}.pid
   )
 
-  echo "Started ${name} (pid $(cat "${pid_file}"))."
+  echo "Started ${name}."
 }
 
 write_vc_secrets
 write_db_secrets
 
-start_service "vc" "${VC_DIR}" "${VC_JAR}" "${VC_JAVA_OPTS}" ""
-start_service "lobby" "${LOBBY_DIR}" "${LOBBY_JAR}" "${LOBBY_JAVA_OPTS}" "--nogui"
-start_service "2b2t" "${SURVIVAL_DIR}" "${SURVIVAL_JAR}" "${SURVIVAL_JAVA_OPTS}" "--nogui"
+start_service "vc" "${VC_DIR}" "${VC_DIR}/run.sh"
+start_service "lobby" "${LOBBY_DIR}" "${LOBBY_DIR}/run.sh"
+start_service "2b2t" "${SURVIVAL_DIR}" "${SURVIVAL_DIR}/run.sh"
