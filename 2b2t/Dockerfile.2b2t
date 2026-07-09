@@ -1,4 +1,5 @@
-FROM local-java:21
+FROM eclipse-temurin:21-jre
+WORKDIR /data
 COPY leaf-26.2-14.jar /app/server.jar
-EXPOSE 60003
-ENTRYPOINT ["java", "-Xms4G", "-Xmx6G", "-XX:+UseZGC", "-XX:+ZGenerational", "-jar", "/app/server.jar", "--nogui"]
+EXPOSE 50013
+ENTRYPOINT ["java", "-Xms8G", "-Xmx8G", "-XX:SoftMaxHeapSize=6G", "-XX:+UseZGC", "-XX:+ZGenerational", "-XX:+AlwaysPreTouch", "-XX:+DisableExplicitGC", "-jar", "/app/server.jar", "--nogui"]
