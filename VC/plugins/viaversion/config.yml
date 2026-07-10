@@ -207,9 +207,5 @@ velocity-servers:
   default: 4
   lobby: 772
   2b2t: 772
-  create: 772
-  BW: 47
-  pure: 772
-  xiaojin: 772
 # Vines that are not connected to blocks will be mapped to air, else 1.13+ would still be able to climb up on them.
 vine-climb-fix: false
