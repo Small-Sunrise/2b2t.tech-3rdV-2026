@@ -8,18 +8,49 @@ inject_luckperms() {
   [ -f "${config}" ] || return 0
   [ -n "${LUCKPERMS_DB_PASSWORD:-}" ] || return 0
 
-  python3 -c "
-import os, re, sys
+  python3 - "${config}" <<'PY'
+import os
+import sys
+import tempfile
+
 config_path = sys.argv[1]
-with open(config_path, 'r') as f:
-    c = f.read()
-c = re.sub(r'^  password:.*', \"  password: '\" + os.environ.get('LUCKPERMS_DB_PASSWORD','') + \"'\", c, flags=re.M)
-c = re.sub(r'^  username:.*', '  username: ' + os.environ.get('LUCKPERMS_DB_USER','lpsql'), c, flags=re.M)
-c = re.sub(r'^  address:.*', '  address: ' + os.environ.get('LUCKPERMS_DB_HOST','127.0.0.1:3306'), c, flags=re.M)
-c = re.sub(r'^  database:.*', '  database: ' + os.environ.get('LUCKPERMS_DB_NAME','luckperms_2b2t'), c, flags=re.M)
-with open(config_path, 'w') as f:
-    f.write(c)
-" "${config}"
+values = {
+    "address": os.environ.get("LUCKPERMS_DB_HOST", "127.0.0.1:3306"),
+    "database": os.environ.get("LUCKPERMS_DB_NAME", "luckperms_2b2t"),
+    "username": os.environ.get("LUCKPERMS_DB_USER", "lpsql"),
+    "password": os.environ.get("LUCKPERMS_DB_PASSWORD", ""),
+}
+
+
+def yaml_string(value):
+    return "'" + value.replace("'", "''") + "'"
+
+
+with open(config_path, encoding="utf-8") as config_file:
+    lines = config_file.readlines()
+
+in_data = False
+for index, line in enumerate(lines):
+    if line.rstrip("\r\n") == "data:":
+        in_data = True
+        continue
+    if in_data and line.strip() and not line.startswith((" ", "\t", "#")):
+        break
+    if not in_data:
+        continue
+    for key, value in values.items():
+        if line.startswith(f"  {key}:"):
+            newline = "\r\n" if line.endswith("\r\n") else "\n"
+            lines[index] = f"  {key}: {yaml_string(value)}{newline}"
+            break
+
+directory = os.path.dirname(os.path.abspath(config_path))
+with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=directory, delete=False) as output:
+    output.writelines(lines)
+    temp_path = output.name
+os.chmod(temp_path, os.stat(config_path).st_mode)
+os.replace(temp_path, config_path)
+PY
 }
 
 inject_tab() {
