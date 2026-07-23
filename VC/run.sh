@@ -16,9 +16,9 @@ if [ -n "${FLOODGATE_KEY_PEM}" ]; then
     printf '%b' "${FLOODGATE_KEY_PEM}" > plugins/floodgate/key.pem
 fi
 
-while true
-do
-  echo "启动 Velocity 代理..."
+source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
+
+run_with_restart "Velocity proxy" "${RESTART_DELAY_SECONDS:-300}" \
   java \
       -Xms1G -Xmx1G \
       -XX:+UnlockExperimentalVMOptions \
@@ -30,11 +30,4 @@ do
       -XX:+PerfDisableSharedMem \
       -XX:+UseStringDeduplication \
       -XX:+UseDynamicNumberOfGCThreads \
-      -jar velocity-3.5.0-SNAPSHOT-605.jar &
-  JAVA_PID=$!
-  mkdir -p ../pids
-  echo ${JAVA_PID} > ../pids/vc.pid
-  wait ${JAVA_PID}
-  echo "Velocity 已关闭，5 分钟后重启..."
-  sleep 300
-done
+      -jar velocity-3.5.0-SNAPSHOT-605.jar

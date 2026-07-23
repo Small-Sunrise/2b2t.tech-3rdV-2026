@@ -18,10 +18,9 @@ if [ -f "../scripts/inject-db-secrets.sh" ]; then
   LOBBY_DIR="." SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh"
 fi
 
+source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
-while true
-do
-  echo "启动 2b2t 服务器..."
+run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" \
   java \
     -Xms8G -Xmx8G \
     -XX:SoftMaxHeapSize=6G \
@@ -39,11 +38,4 @@ do
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-26.2-14.jar --nogui &
-  JAVA_PID=$!
-  mkdir -p ../pids
-  echo ${JAVA_PID} > ../pids/2b2t.pid
-  wait ${JAVA_PID}
-  echo "服务器已关闭，5 分钟后重启..."
-  sleep 300
-done
+    -jar leaf-26.2-14.jar --nogui

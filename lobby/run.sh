@@ -18,10 +18,9 @@ if [ -f "../scripts/inject-db-secrets.sh" ]; then
   LOBBY_DIR="." SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh"
 fi
 
+source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
-while true
-do
-  echo "启动大厅服务器..."
+run_with_restart "Lobby server" "${RESTART_DELAY_SECONDS:-300}" \
   java \
     -Xms1G -Xmx1G \
     -XX:SoftMaxHeapSize=700M \
@@ -37,11 +36,4 @@ do
     -XX:ZCollectionIntervalMinor=0.98 \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
-    -jar paper.jar --nogui &
-  JAVA_PID=$!
-  mkdir -p ../pids
-  echo ${JAVA_PID} > ../pids/lobby.pid
-  wait ${JAVA_PID}
-  echo "大厅关闭，5分钟后自动重启..."
-  sleep 300
-done
+    -jar paper.jar --nogui
