@@ -67,11 +67,15 @@ start_service() {
 
   (
     cd "${dir}"
-    nohup bash "${script}" > "${log_file}" 2>&1 &
-    # PID is written by the child run.sh to ${PID_DIR}/${name}.pid
-  )
+    exec nohup bash "${script}"
+  ) > "${log_file}" 2>&1 &
 
-  echo "Started ${name}."
+  local supervisor_pid=$!
+  local pid_tmp="${pid_file}.tmp"
+  printf '%s\n' "${supervisor_pid}" > "${pid_tmp}"
+  mv "${pid_tmp}" "${pid_file}"
+
+  echo "Started ${name} supervisor (pid ${supervisor_pid})."
 }
 
 write_vc_secrets
