@@ -11,9 +11,9 @@
 - `lobby/`：大厅服配置和插件
 - `minecraft-docker/`：容器相关配置
 
-> **Docker 技术栈暂不支持：** `minecraft-docker/` 目前无法正常构建或运行
-> （具体问题见 `minecraft-docker/README.md`）。本网络受支持的运行方式是
-> `run-all.sh`（或各服务器自己的 `run.sh`）。
+> Docker Compose 现可作为可选部署方式，前置条件和命令见
+> `minecraft-docker/README.md`。裸机方式仍可使用 `run-all.sh` 或各服务器自己的
+> `run.sh`。
 
 ## 环境变量（不要提交密钥）
 
@@ -36,17 +36,16 @@ LuckPerms 使用 MySQL 在大厅服与 2b2t 之间同步跨服权限。Docker co
 已包含 MariaDB 服务。
 
 ### Docker
+
+Compose 会根据 `.env` 自动初始化 LuckPerms 与 AuthMe 数据库：
+
 ```bash
 cd minecraft-docker/compose
-docker compose up -d mariadb  # 先启动数据库
-docker compose up -d            # 启动全部服务
+docker compose --env-file ../../.env build
+docker compose --env-file ../../.env up -d --wait
 ```
-`init/01-luckperms.sql` 脚本会自动创建数据库和用户。
 
-> 注意：上面单独启动的 `mariadb` 服务不受 `minecraft-docker/README.md` 中
-> 所列问题的影响，可以正常使用；但启动完整技术栈（`docker compose up -d`）
-> 目前不受支持——`velocity`/`lobby`/`survival` 容器均无法正常构建或运行。
-> 游戏服务器请使用 `run-all.sh`。
+所需 jar、内存覆盖、日志和停止命令见 `minecraft-docker/README.md`。
 
 ### 本地部署（不使用 Docker）
 安装 MariaDB/MySQL，然后执行：

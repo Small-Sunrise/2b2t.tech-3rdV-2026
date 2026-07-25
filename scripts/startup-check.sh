@@ -62,7 +62,7 @@ check "2b2t run.sh executable" '[ -x "${ROOT_DIR}/2b2t/run.sh" ]'
 echo ""
 echo "[Java Runtime]"
 JAVA_VER=$(java -version 2>&1 | head -1 | grep -oE '\d+\.\d+\.\d+' || echo "unknown")
-check "Java 21+ installed (found: ${JAVA_VER})" 'java -version 2>&1 | grep -qE "version \"2[1-9]\."'
+check "Java 25+ installed (found: ${JAVA_VER})" 'java -version 2>&1 | grep -qE "version \"(2[5-9]|[3-9][0-9])\."'
 
 # ---- Plugin dirs exist ----
 echo ""

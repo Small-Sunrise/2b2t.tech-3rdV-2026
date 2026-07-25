@@ -135,7 +135,10 @@ websocket_server:
 YAML
 QUEQIAO_CONFIG="${TEST_DIR}/queqiao-proxy/plugins/QueQiao/config.yml"
 BEFORE_EMPTY_MD5="$(md5sum "${QUEQIAO_CONFIG}" | awk '{print $1}')"
-VC_DIR="${TEST_DIR}/queqiao-proxy" bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
+if VC_DIR="${TEST_DIR}/queqiao-proxy" bash "${ROOT_DIR}/scripts/inject-db-secrets.sh" >/dev/null 2>&1; then
+  echo "unset QueQiao token did not fail" >&2
+  exit 1
+fi
 AFTER_EMPTY_MD5="$(md5sum "${QUEQIAO_CONFIG}" | awk '{print $1}')"
 [ "${BEFORE_EMPTY_MD5}" = "${AFTER_EMPTY_MD5}" ] || { echo "unset QueQiao token changed config" >&2; exit 1; }
 
@@ -158,3 +161,46 @@ with open(sys.argv[1], encoding="utf-8") as source:
 PY
 
 echo "inject-db-secrets QueQiao test: OK"
+
+
+# TAB: SQL values are YAML-quoted, scoped to the first mysql keys and idempotent.
+mkdir -p "${TEST_DIR}/tab-server/plugins/TAB"
+cat > "${TEST_DIR}/tab-server/plugins/TAB/config.yml" <<'YAML'
+mysql:
+  enabled: true
+  database: tab
+  username: user
+  password: password
+other:
+  database: untouched
+  username: untouched
+  password: untouched
+YAML
+TAB_CONFIG="${TEST_DIR}/tab-server/plugins/TAB/config.yml"
+SURVIVAL_DIR="${TEST_DIR}/tab-server" \
+TAB_DB_NAME="tab:test" \
+TAB_DB_USER="user#name" \
+TAB_DB_PASSWORD="secret'with#chars" \
+  bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
+grep -Fqx "  database: 'tab:test'" "${TAB_CONFIG}"
+grep -Fqx "  username: 'user#name'" "${TAB_CONFIG}"
+grep -Fqx "  password: 'secret''with#chars'" "${TAB_CONFIG}"
+grep -Fqx "  password: untouched" "${TAB_CONFIG}"
+BEFORE_MD5="$(md5sum "${TAB_CONFIG}" | awk '{print $1}')"
+SURVIVAL_DIR="${TEST_DIR}/tab-server" \
+TAB_DB_NAME="tab:test" \
+TAB_DB_USER="user#name" \
+TAB_DB_PASSWORD="secret'with#chars" \
+  bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
+AFTER_MD5="$(md5sum "${TAB_CONFIG}" | awk '{print $1}')"
+[ "${BEFORE_MD5}" = "${AFTER_MD5}" ] || { echo "TAB injection not idempotent" >&2; exit 1; }
+python3 - "${TAB_CONFIG}" <<'PY'
+import sys
+import yaml
+with open(sys.argv[1], encoding="utf-8") as source:
+    config = yaml.safe_load(source)
+assert config["mysql"]["password"] == "secret'with#chars"
+assert config["other"]["password"] == "untouched"
+PY
+
+echo "inject-db-secrets TAB test: OK"

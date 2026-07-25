@@ -72,9 +72,13 @@ import tempfile
 config_path = sys.argv[1]
 with open(config_path, encoding="utf-8") as config_file:
     content = config_file.read()
-content = re.sub(r"^  password:.*", "  password: " + os.environ.get("TAB_DB_PASSWORD", ""), content, flags=re.M)
-content = re.sub(r"^  username:.*", "  username: " + os.environ.get("TAB_DB_USER", "user"), content, flags=re.M)
-content = re.sub(r"^  database:.*", "  database: " + os.environ.get("TAB_DB_NAME", "tab"), content, flags=re.M)
+def yaml_string(value):
+    return "'" + value.replace("'", "''") + "'"
+
+
+content = re.sub(r"^  password:.*", "  password: " + yaml_string(os.environ.get("TAB_DB_PASSWORD", "")), content, count=1, flags=re.M)
+content = re.sub(r"^  username:.*", "  username: " + yaml_string(os.environ.get("TAB_DB_USER", "user")), content, count=1, flags=re.M)
+content = re.sub(r"^  database:.*", "  database: " + yaml_string(os.environ.get("TAB_DB_NAME", "tab")), content, count=1, flags=re.M)
 
 directory = os.path.dirname(os.path.abspath(config_path))
 with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=directory, delete=False) as output:
@@ -128,7 +132,10 @@ PY
 inject_queqiao() {
   local config="$1"
   [ -f "${config}" ] || return 0
-  [ -n "${QUEQIAO_ACCESS_TOKEN:-}" ] || return 0
+  if [ -z "${QUEQIAO_ACCESS_TOKEN:-}" ]; then
+    echo "QUEQIAO_ACCESS_TOKEN is required while QueQiao is installed" >&2
+    return 1
+  fi
 
   python3 - "${config}" <<'PY'
 import os

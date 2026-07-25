@@ -12,10 +12,9 @@ This repository contains the configuration, plugins, and run scripts for the
 - `lobby/`: lobby configuration and plugins
 - `minecraft-docker/`: container-related configuration
 
-> **Docker stack unsupported:** `minecraft-docker/` does not currently build or
-> run correctly (see `minecraft-docker/README.md` for the specific blockers).
-> The supported way to run this network is `run-all.sh` (or each server's own
-> `run.sh`).
+> Docker Compose is supported as an optional deployment path. See
+> `minecraft-docker/README.md` for prerequisites and commands. Bare-metal
+> startup remains available through `run-all.sh` or each server's `run.sh`.
 
 ## Environment Variables (do not commit secrets)
 
@@ -39,18 +38,17 @@ LuckPerms uses MySQL for cross-server permission syncing between lobby
 and 2b2t. A MariaDB service is included in the Docker compose stack.
 
 ### Docker
+
+The Compose stack initializes both LuckPerms and AuthMe databases from `.env`:
+
 ```bash
 cd minecraft-docker/compose
-docker compose up -d mariadb  # Start DB first
-docker compose up -d            # Start all services
+docker compose --env-file ../../.env build
+docker compose --env-file ../../.env up -d --wait
 ```
-The `init/01-luckperms.sql` script auto-creates the database and user.
 
-> Note: only the standalone `mariadb` service above is unaffected by the
-> issues in `minecraft-docker/README.md`. Starting the full stack
-> (`docker compose up -d`) is currently unsupported — the `velocity`/`lobby`/
-> `survival` containers do not build or run correctly. Use `run-all.sh` for
-> the actual game servers.
+See `minecraft-docker/README.md` for required jars, memory overrides, logs, and
+shutdown commands.
 
 ### Local (without Docker)
 Install MariaDB/MySQL, then:

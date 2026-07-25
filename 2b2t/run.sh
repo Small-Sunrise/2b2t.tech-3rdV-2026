@@ -13,9 +13,13 @@ if [ -n "${FORWARDING_SECRET:-}" ]; then
   export PAPER_VELOCITY_SECRET="${FORWARDING_SECRET}"
 fi
 
+PAPER_RUNTIME_CONFIG="$(mktemp -d "${TMPDIR:-/tmp}/2b2t-paper-config.XXXXXX")"
+trap 'rm -rf "${PAPER_RUNTIME_CONFIG}"' EXIT
+cp -a config/. "${PAPER_RUNTIME_CONFIG}/"
+
 # Inject runtime credentials from .env via the shared helper script
 if [ -f "../scripts/inject-db-secrets.sh" ]; then
-  LOBBY_DIR="" SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh"
+  LOBBY_DIR="" SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh" || exit 1
 fi
 
 
@@ -39,7 +43,7 @@ do
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-26.2-14.jar --nogui &
+    -jar leaf-26.2-14.jar --paper-dir "${PAPER_RUNTIME_CONFIG}" --nogui &
   JAVA_PID=$!
   mkdir -p ../pids
   echo ${JAVA_PID} > ../pids/2b2t.pid

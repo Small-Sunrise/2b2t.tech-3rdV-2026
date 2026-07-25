@@ -18,7 +18,7 @@ fi
 
 # Inject runtime credentials from .env via the shared helper script
 if [ -f "../scripts/inject-db-secrets.sh" ]; then
-  VC_DIR="." bash "../scripts/inject-db-secrets.sh"
+  VC_DIR="." bash "../scripts/inject-db-secrets.sh" || exit 1
 fi
 
 while true

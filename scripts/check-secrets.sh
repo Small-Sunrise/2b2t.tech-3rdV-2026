@@ -7,7 +7,8 @@ if [ -n "${mode}" ] && [ "${mode}" != "--staged" ]; then
   exit 2
 fi
 
-git rev-parse --show-toplevel >/dev/null
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+cd "${ROOT_DIR}"
 python3 - "${mode}" <<'PY'
 import os
 import re

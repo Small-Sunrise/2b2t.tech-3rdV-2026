@@ -1,72 +1,78 @@
-# minecraft-docker/
+# Docker deployment
 
-**Status: unsupported / not currently functional.**
+The Compose stack runs MariaDB, the lobby, the survival server, and Velocity on
+one private bridge network. Only Velocity's Java TCP port (`50016`) and
+Geyser's Bedrock UDP port (`19132`) are published to the host.
 
-This directory is not the supported way to run the network. It has
-independent, unaddressed problems described below and shows no evidence of
-ever having run successfully end-to-end. The supported path is `run-all.sh`
-(or each server's own `run.sh`) from the repository root — see the top-level
-`README.md`.
+## Prerequisites
 
-## Known blockers
+- Docker with Compose v2
+- The three gitignored server jars at their exact paths:
+  - `VC/velocity-3.5.0-SNAPSHOT-605.jar`
+  - `lobby/paper.jar`
+  - `2b2t/leaf-26.2-14.jar`
+- Required plugin jars in each server's `plugins/` directory
+- A root `.env` created from `.env.example`, with all required secrets filled
+  in
 
-1. **No secret / DB-credential injection.** `VC/Dockerfile.velocity`,
-   `lobby/Dockerfile.lobby` and `2b2t/Dockerfile.2b2t` each set
-   `ENTRYPOINT ["java", ...]` directly against the server jar. They never
-   invoke the corresponding `run.sh`, so none of the startup-time steps that
-   `run.sh` normally performs — writing `VC/forwarding.secret` from
-   `FORWARDING_SECRET`, or injecting `LUCKPERMS_DB_*` / `AUTHME_DB_*` /
-   `TAB_DB_*` credentials via `scripts/inject-db-secrets.sh` — ever run.
+The images use Java 25 because the included Minecraft 26.x servers require it.
 
-2. **Velocity never sees its real config.** `VC/Dockerfile.velocity` sets
-   `WORKDIR /app` and `COPY`s the jar to `/app/velocity.jar`, but
-   `compose/docker-compose.yml` mounts this repo's actual `VC/` directory at
-   `/config` (`../../VC:/config`). Since the container's working directory
-   is `/app`, not `/config`, and the `ENTRYPOINT` never references `/config`,
-   Velocity starts against its own built-in defaults, not this repo's
-   `velocity.toml`, `plugins/`, or `forwarding.secret`.
+## Start
 
-3. **Backend addresses can't resolve across containers.** `VC/velocity.toml`'s
-   `[servers]` block points at `127.0.0.1:50015` (lobby) and
-   `127.0.0.1:50013` (2b2t). In `compose/docker-compose.yml`, `velocity`,
-   `lobby` and `survival` are three separate containers joined by the
-   `mc-network` bridge network; `127.0.0.1` inside the `velocity` container
-   refers to the `velocity` container itself, never to `lobby` or `survival`.
-   (Moot in practice anyway, per point 2 — the proxy container isn't reading
-   this `velocity.toml` in the first place.)
+```bash
+cp .env.example .env
+# Fill in all required values in .env.
+cd minecraft-docker/compose
+docker compose --env-file ../../.env config
+docker compose --env-file ../../.env build
+docker compose --env-file ../../.env up -d --wait
+```
 
-4. **No jars are tracked by git, so every build fails on a fresh clone.**
-   `VC/Dockerfile.velocity` COPYs `velocity-3.5.0-SNAPSHOT-605.jar`,
-   `lobby/Dockerfile.lobby` COPYs `paper.jar`, and `2b2t/Dockerfile.2b2t`
-   COPYs `leaf-26.2-14.jar`. `git ls-files | grep -c '\.jar$'` returns `0` —
-   none of these files exist until an operator adds them manually, so
-   `docker compose build` fails immediately after cloning.
+Check status and logs:
 
-5. **The LuckPerms DB init script hardcodes a password that won't match
-   `.env`.** `compose/init/01-luckperms.sql` creates the `lpsql` MySQL user
-   with `IDENTIFIED BY 'change-me-in-production'` — a literal placeholder,
-   not a real secret. Its own comment claims
-   "`docker-compose.yml` injects `LUCKPERMS_DB_PASSWORD` env var at runtime,"
-   but `compose/docker-compose.yml` never references `LUCKPERMS_DB_PASSWORD`
-   anywhere, and MariaDB's `docker-entrypoint-initdb.d` scripts get no env-var
-   substitution — they run as plain SQL. The password actually set in the
-   database will not match `LUCKPERMS_DB_PASSWORD` in `.env`, so plugins
-   configured with the `.env` value cannot authenticate.
+```bash
+docker compose --env-file ../../.env ps
+docker compose --env-file ../../.env logs -f
+```
 
-6. **Two Dockerfiles are orphaned.** `minecraft-docker/Dockerfile` and
-   `minecraft-docker/Dockerfile.vsa` are not referenced by
-   `compose/docker-compose.yml` (which only builds `Dockerfile.velocity`,
-   `Dockerfile.lobby` and `Dockerfile.2b2t`, from `../../VC`, `../../lobby`
-   and `../../2b2t` respectively) or by any other compose/build file in this
-   repository. It's unclear what, if anything, they're meant to produce.
+Stop the network while retaining the MariaDB volume:
 
-## If you're reviving this
+```bash
+docker compose --env-file ../../.env down
+```
 
-Fixing the stack requires at least: having each Dockerfile's entrypoint call
-the real `run.sh` (or replicate its secret/credential injection), pointing
-Velocity's container at the mounted config directory, replacing the
-`127.0.0.1` backend addresses with the compose service names (`lobby`,
-`survival`), committing the required jars into a build context (or
-downloading them in the Dockerfile / mounting them as volumes), and either
-templating `01-luckperms.sql` or creating the LuckPerms DB user after the
-container starts using the real `LUCKPERMS_DB_PASSWORD`.
+Add `-v` only when you intentionally want to delete the MariaDB data volume.
+
+## Runtime behavior
+
+- Container entrypoints copy the LuckPerms, AuthMe, TAB, and QueQiao config
+  directories into container-local runtime storage, then inject credentials
+  from environment variables using `scripts/inject-db-secrets.sh`. Real
+  credentials never enter the bind-mounted checkout.
+- MariaDB's initialization script creates the LuckPerms and AuthMe databases,
+  users, and grants from `.env`; no password is hardcoded in the repository.
+- Velocity runs from a container-local copy of `velocity.toml` where bare-metal
+  loopback backend addresses are changed to Compose service names (`lobby` and
+  `survival`). The tracked config is not modified.
+- Backends receive the modern-forwarding secret through
+  `PAPER_VELOCITY_SECRET`. Paper runs with a container-local copy of its
+  `config/` directory so it cannot serialize the secret back into the
+  bind-mounted repository.
+- Worlds, plugin data, and ordinary server configuration remain bind-mounted
+  under `VC/`, `lobby/`, and `2b2t/`.
+
+## Memory overrides
+
+The survival defaults match the bare-metal 8 GiB setup. On a smaller Docker
+Desktop VM, set these optional values in `.env` before starting:
+
+```dotenv
+VELOCITY_JAVA_XMS=256M
+VELOCITY_JAVA_XMX=512M
+LOBBY_JAVA_XMS=512M
+LOBBY_JAVA_XMX=1G
+LOBBY_JAVA_SOFT_MAX=700M
+SURVIVAL_JAVA_XMS=1G
+SURVIVAL_JAVA_XMX=3G
+SURVIVAL_JAVA_SOFT_MAX=2G
+```
