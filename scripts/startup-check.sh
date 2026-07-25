@@ -35,6 +35,8 @@ echo "[.env Configuration]"
 check ".env file exists" '[ -f "${ROOT_DIR}/.env" ]'
 check "FORWARDING_SECRET is set" '[ -n "${FORWARDING_SECRET:-}" ]'
 check "LUCKPERMS_DB_PASSWORD is set" '[ -n "${LUCKPERMS_DB_PASSWORD:-}" ]'
+check "AUTHME_DB_PASSWORD is set" '[ -n "${AUTHME_DB_PASSWORD:-}" ]'
+check "QUEQIAO_ACCESS_TOKEN is set" '[ -n "${QUEQIAO_ACCESS_TOKEN:-}" ]'
 
 # ---- Server JARs ----
 echo ""
@@ -92,9 +94,8 @@ echo "[Key Plugins]"
 check "lobby: AuthMe.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/AuthMe-6.0.0.jar" ]'
 check "lobby: ZNPCsPlus-2.0.0.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/ZNPCsPlus-2.0.0.jar" ]'
 check "lobby: MinePay.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/MinePay.jar" ]'
-check "lobby: BungeeGuard.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/BungeeGuard.jar" ]'
-check "2b2t: BungeeGuard.jar exists" '[ -f "${ROOT_DIR}/2b2t/plugins/BungeeGuard.jar" ]'
 check "2b2t: spark plugin exists" 'ls "${ROOT_DIR}/2b2t/plugins/spark-"*.jar >/dev/null 2>&1'
+check "VC: Floodgate plugin exists for Geyser floodgate auth" 'find "${ROOT_DIR}/VC/plugins" -maxdepth 1 -iname "floodgate*.jar" -print -quit | grep -q .'
 
 # ---- No stale disabled plugins ----
 echo ""
@@ -106,6 +107,19 @@ check "No CommandSync config dir (VC)" '[ ! -d "${ROOT_DIR}/VC/plugins/commandsy
 check "No ServersNPC dir (lobby)" '[ ! -d "${ROOT_DIR}/lobby/plugins/ServersNPC" ]'
 check "No ServersNPC dir (2b2t)" '[ ! -d "${ROOT_DIR}/2b2t/plugins/ServersNPC" ]'
 check "No Srepay dir (lobby)" '[ ! -d "${ROOT_DIR}/lobby/plugins/Srepay" ]'
+check "No BungeeGuard config dir (lobby)" '[ ! -d "${ROOT_DIR}/lobby/plugins/BungeeGuard" ]'
+check "No BungeeGuard config dir (2b2t)" '[ ! -d "${ROOT_DIR}/2b2t/plugins/BungeeGuard" ]'
+check "No BungeeGuard.jar (lobby, manual removal required if present)" '[ ! -f "${ROOT_DIR}/lobby/plugins/BungeeGuard.jar" ]'
+check "No BungeeGuard.jar (2b2t, manual removal required if present)" '[ ! -f "${ROOT_DIR}/2b2t/plugins/BungeeGuard.jar" ]'
+
+# ---- Velocity forwarding ----
+echo ""
+echo "[Velocity Forwarding]"
+check "VC: player-info-forwarding-mode is modern" 'grep -qE "^player-info-forwarding-mode = \"modern\"" "${ROOT_DIR}/VC/velocity.toml"'
+check "lobby: proxies.velocity.online-mode is false" 'grep -A2 "  velocity:" "${ROOT_DIR}/lobby/config/paper-global.yml" | grep -q "online-mode: false"'
+check "2b2t: proxies.velocity.online-mode is false" 'grep -A2 "  velocity:" "${ROOT_DIR}/2b2t/config/paper-global.yml" | grep -q "online-mode: false"'
+check "lobby: spigot.yml bungeecord is false" 'grep -q "^  bungeecord: false" "${ROOT_DIR}/lobby/spigot.yml"'
+check "2b2t: spigot.yml bungeecord is false" 'grep -q "^  bungeecord: false" "${ROOT_DIR}/2b2t/spigot.yml"'
 
 # ---- Summary ----
 echo ""

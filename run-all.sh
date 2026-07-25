@@ -30,23 +30,14 @@ write_vc_secrets() {
     mkdir -p "${VC_DIR}/plugins/floodgate"
     printf '%b' "${FLOODGATE_KEY_PEM}" > "${VC_DIR}/plugins/floodgate/key.pem"
   fi
-
-  # Write BungeeGuard token to backend servers for bungeeguard forwarding
-  if [ -n "${FORWARDING_SECRET:-}" ]; then
-    mkdir -p "${LOBBY_DIR}/plugins/BungeeGuard"
-    printf '%s' "${FORWARDING_SECRET}" > "${LOBBY_DIR}/plugins/BungeeGuard/token.txt"
-    mkdir -p "${SURVIVAL_DIR}/plugins/BungeeGuard"
-    printf '%s' "${FORWARDING_SECRET}" > "${SURVIVAL_DIR}/plugins/BungeeGuard/token.txt"
-  fi
 }
 
-write_db_secrets() {
-  # Delegate to shared injection script for safe credential handling
+write_runtime_credentials() {
   if [ -f "${ROOT_DIR}/scripts/inject-db-secrets.sh" ]; then
-    LOBBY_DIR="${LOBBY_DIR}" SURVIVAL_DIR="${SURVIVAL_DIR}"       bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
+    VC_DIR="${VC_DIR}" LOBBY_DIR="${LOBBY_DIR}" SURVIVAL_DIR="${SURVIVAL_DIR}" \
+      bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
   fi
 }
-
 
 start_service() {
   local name="$1"
@@ -75,7 +66,7 @@ start_service() {
 }
 
 write_vc_secrets
-write_db_secrets
+write_runtime_credentials
 
 start_service "vc" "${VC_DIR}" "${VC_DIR}/run.sh"
 start_service "lobby" "${LOBBY_DIR}" "${LOBBY_DIR}/run.sh"
