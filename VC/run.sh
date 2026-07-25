@@ -16,6 +16,11 @@ if [ -n "${FLOODGATE_KEY_PEM}" ]; then
     printf '%b' "${FLOODGATE_KEY_PEM}" > plugins/floodgate/key.pem
 fi
 
+# Inject runtime credentials from .env via the shared helper script
+if [ -f "../scripts/inject-db-secrets.sh" ]; then
+  VC_DIR="." bash "../scripts/inject-db-secrets.sh" || exit 1
+fi
+
 source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
 run_with_restart "Velocity proxy" "${RESTART_DELAY_SECONDS:-300}" \

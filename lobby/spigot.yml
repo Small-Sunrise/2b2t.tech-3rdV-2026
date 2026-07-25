@@ -12,7 +12,7 @@
 
 settings:
   debug: false
-  bungeecord: true
+  bungeecord: false
   moved-too-quickly-multiplier: 10.0
   moved-wrongly-threshold: 0.0625
   log-villager-deaths: true

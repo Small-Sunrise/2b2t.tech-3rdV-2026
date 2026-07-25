@@ -7,15 +7,19 @@ if [ -f "${BASH_SOURCE[0]%/*}/../.env" ]; then
   set +a
 fi
 
-# Write BungeeGuard token from FORWARDING_SECRET for bungeeguard forwarding
+# Paper reads the modern-forwarding secret from the environment, keeping it
+# out of the git-tracked paper-global.yml.
 if [ -n "${FORWARDING_SECRET:-}" ]; then
-  mkdir -p plugins/BungeeGuard
-  printf "%s" "${FORWARDING_SECRET}" > plugins/BungeeGuard/token.txt
+  export PAPER_VELOCITY_SECRET="${FORWARDING_SECRET}"
 fi
 
-# Inject database credentials from .env via shared helper script
+PAPER_RUNTIME_CONFIG="$(mktemp -d "${TMPDIR:-/tmp}/2b2t-paper-config.XXXXXX")"
+trap 'rm -rf "${PAPER_RUNTIME_CONFIG}"' EXIT
+cp -a config/. "${PAPER_RUNTIME_CONFIG}/"
+
+# Inject runtime credentials from .env via the shared helper script
 if [ -f "../scripts/inject-db-secrets.sh" ]; then
-  LOBBY_DIR="." SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh"
+  LOBBY_DIR="" SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh" || exit 1
 fi
 
 source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
@@ -38,4 +42,4 @@ run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-26.2-14.jar --nogui
+    -jar leaf-26.2-14.jar --paper-dir "${PAPER_RUNTIME_CONFIG}" --nogui

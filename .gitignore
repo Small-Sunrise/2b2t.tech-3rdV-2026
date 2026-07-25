@@ -75,6 +75,9 @@ replay_pid*.log
 **/forwarding.secret
 **/*.pem
 **/*.playerskin
+# BungeeGuard is decommissioned (migrated to Velocity modern forwarding); never track its config/token
+**/BungeeGuard/
+**/token.txt
 
 # Unified launcher runtime
 pids/

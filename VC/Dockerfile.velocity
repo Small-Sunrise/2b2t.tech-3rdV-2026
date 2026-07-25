@@ -1,5 +1,11 @@
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY velocity-3.5.0-SNAPSHOT-605.jar /app/velocity.jar
-EXPOSE 50016
-ENTRYPOINT ["java", "-Xms1G", "-Xmx1G", "-XX:+UseZGC", "-XX:+ZGenerational", "-XX:+AlwaysPreTouch", "-XX:+DisableExplicitGC", "-jar", "/app/velocity.jar"]
+FROM eclipse-temurin:25-jre
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /runtime
+COPY VC/velocity-3.5.0-SNAPSHOT-605.jar /app/velocity.jar
+COPY scripts/inject-db-secrets.sh /usr/local/bin/inject-runtime-credentials
+COPY minecraft-docker/scripts/velocity-entrypoint.sh /usr/local/bin/velocity-entrypoint
+RUN chmod +x /usr/local/bin/inject-runtime-credentials /usr/local/bin/velocity-entrypoint
+EXPOSE 50016 19132/udp
+ENTRYPOINT ["/usr/local/bin/velocity-entrypoint"]

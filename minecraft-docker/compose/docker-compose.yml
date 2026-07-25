@@ -1,70 +1,23 @@
+name: 2b2t-network
+
 networks:
   mc-network:
     driver: bridge
 
 services:
-  velocity:
-    build:
-      context: ../../VC
-      dockerfile: Dockerfile.velocity
-    container_name: vc
-    restart: unless-stopped
-    ports:
-      - "50016:50016" # Velocity bind port
-    volumes:
-      # 挂载配置目录。请确保您的velocity.toml已配置为监听 0.0.0.0:50016
-      - ../../VC:/config
-    # 移除了 environment 和 command，镜像内已定义
-    networks:
-      - mc-network
-
-  # 2. 大厅服
-  lobby:
-    build:
-      context: ../../lobby
-      dockerfile: Dockerfile.lobby
-    container_name: mc-lobby
-    restart: unless-stopped
-    environment:
-        EULA: "true"
-    expose:
-      - "50015"  # 在Docker网络内暴露此端口，供Velocity连接
-    volumes:
-      - ../../lobby:/data
-    # 移除了 environment 和 command，镜像内已定义
-    networks:
-      - mc-network
-    depends_on:
-      - velocity
-
-  # 3. 生存游戏服
-  survival:
-    build:
-      context: ../../2b2t
-      dockerfile: Dockerfile.2b2t
-    container_name: 2b2t
-    restart: unless-stopped
-    environment:
-        EULA: "true"
-    expose:
-      - "50013"  # 在Docker网络内暴露此端口，供Velocity连接
-    volumes:
-      - ../../2b2t:/data
-    # 移除了 environment 和 command，镜像内已定义
-    networks:
-      - mc-network
-    depends_on:
-      - velocity
-
-  # MariaDB for shared plugin data (LuckPerms, etc.)
   mariadb:
     image: mariadb:11.4
-    container_name: mc-mariadb
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?set MARIADB_ROOT_PASSWORD in the root .env}
       MARIADB_CHARACTER_SET: utf8mb4
       MARIADB_COLLATE: utf8mb4_unicode_ci
+      LUCKPERMS_DB_NAME: ${LUCKPERMS_DB_NAME:?set LUCKPERMS_DB_NAME}
+      LUCKPERMS_DB_USER: ${LUCKPERMS_DB_USER:?set LUCKPERMS_DB_USER}
+      LUCKPERMS_DB_PASSWORD: ${LUCKPERMS_DB_PASSWORD:?set LUCKPERMS_DB_PASSWORD}
+      AUTHME_DB_NAME: ${AUTHME_DB_NAME:?set AUTHME_DB_NAME}
+      AUTHME_DB_USER: ${AUTHME_DB_USER:?set AUTHME_DB_USER}
+      AUTHME_DB_PASSWORD: ${AUTHME_DB_PASSWORD:?set AUTHME_DB_PASSWORD}
     volumes:
       - ./init:/docker-entrypoint-initdb.d:ro
       - mariadb_data:/var/lib/mysql
@@ -73,11 +26,116 @@ services:
     networks:
       - mc-network
     healthcheck:
-      test: ["CMD", "mariadb", "--protocol=tcp", "-u", "root", "-p${MARIADB_ROOT_PASSWORD}", "-e", "SELECT 1;"]
+      test: ["CMD-SHELL", "mariadb-admin --protocol=tcp -h 127.0.0.1 -uroot -p$$MARIADB_ROOT_PASSWORD ping --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  lobby:
+    build:
+      context: ../..
+      dockerfile: lobby/Dockerfile.lobby
+    restart: unless-stopped
+    environment:
+      SERVER_ROLE: lobby
+      FORWARDING_SECRET: ${FORWARDING_SECRET:?set FORWARDING_SECRET in the root .env}
+      LUCKPERMS_DB_HOST: mariadb:3306
+      LUCKPERMS_DB_NAME: ${LUCKPERMS_DB_NAME:?set LUCKPERMS_DB_NAME}
+      LUCKPERMS_DB_USER: ${LUCKPERMS_DB_USER:?set LUCKPERMS_DB_USER}
+      LUCKPERMS_DB_PASSWORD: ${LUCKPERMS_DB_PASSWORD:?set LUCKPERMS_DB_PASSWORD}
+      AUTHME_DB_HOST: mariadb
+      AUTHME_DB_NAME: ${AUTHME_DB_NAME:?set AUTHME_DB_NAME}
+      AUTHME_DB_USER: ${AUTHME_DB_USER:?set AUTHME_DB_USER}
+      AUTHME_DB_PASSWORD: ${AUTHME_DB_PASSWORD:?set AUTHME_DB_PASSWORD}
+      JAVA_XMS: ${LOBBY_JAVA_XMS:-1G}
+      JAVA_XMX: ${LOBBY_JAVA_XMX:-1G}
+      JAVA_SOFT_MAX: ${LOBBY_JAVA_SOFT_MAX:-700M}
+    expose:
+      - "50015"
+    volumes:
+      - ../../lobby:/data
+    networks:
+      - mc-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/50015'"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 30
+      start_period: 90s
 
+  survival:
+    build:
+      context: ../..
+      dockerfile: 2b2t/Dockerfile.2b2t
+    restart: unless-stopped
+    environment:
+      SERVER_ROLE: survival
+      FORWARDING_SECRET: ${FORWARDING_SECRET:?set FORWARDING_SECRET in the root .env}
+      LUCKPERMS_DB_HOST: mariadb:3306
+      LUCKPERMS_DB_NAME: ${LUCKPERMS_DB_NAME:?set LUCKPERMS_DB_NAME}
+      LUCKPERMS_DB_USER: ${LUCKPERMS_DB_USER:?set LUCKPERMS_DB_USER}
+      LUCKPERMS_DB_PASSWORD: ${LUCKPERMS_DB_PASSWORD:?set LUCKPERMS_DB_PASSWORD}
+      TAB_DB_NAME: ${TAB_DB_NAME:-tab}
+      TAB_DB_USER: ${TAB_DB_USER:-user}
+      TAB_DB_PASSWORD: ${TAB_DB_PASSWORD:-}
+      JAVA_XMS: ${SURVIVAL_JAVA_XMS:-8G}
+      JAVA_XMX: ${SURVIVAL_JAVA_XMX:-8G}
+      JAVA_SOFT_MAX: ${SURVIVAL_JAVA_SOFT_MAX:-6G}
+    expose:
+      - "50013"
+    volumes:
+      - ../../2b2t:/data
+    networks:
+      - mc-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/50013'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+
+  velocity:
+    build:
+      context: ../..
+      dockerfile: VC/Dockerfile.velocity
+    restart: unless-stopped
+    environment:
+      FORWARDING_SECRET: ${FORWARDING_SECRET:?set FORWARDING_SECRET in the root .env}
+      LUCKPERMS_DB_HOST: mariadb:3306
+      LUCKPERMS_DB_NAME: ${LUCKPERMS_DB_NAME:?set LUCKPERMS_DB_NAME}
+      LUCKPERMS_DB_USER: ${LUCKPERMS_DB_USER:?set LUCKPERMS_DB_USER}
+      LUCKPERMS_DB_PASSWORD: ${LUCKPERMS_DB_PASSWORD:?set LUCKPERMS_DB_PASSWORD}
+      QUEQIAO_ACCESS_TOKEN: ${QUEQIAO_ACCESS_TOKEN:?set QUEQIAO_ACCESS_TOKEN}
+      FLOODGATE_KEY_PEM: ${FLOODGATE_KEY_PEM:-}
+      JAVA_XMS: ${VELOCITY_JAVA_XMS:-512M}
+      JAVA_XMX: ${VELOCITY_JAVA_XMX:-1G}
+    ports:
+      - "50016:50016/tcp"
+      - "19132:19132/udp"
+    volumes:
+      - ../../VC:/config
+    networks:
+      - mc-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      lobby:
+        condition: service_healthy
+      survival:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -ec 'exec 3<>/dev/tcp/127.0.0.1/50016'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
 
 volumes:
   mariadb_data:

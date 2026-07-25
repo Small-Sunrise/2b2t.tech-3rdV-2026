@@ -21,11 +21,10 @@
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
 | ProtocolLib | latest | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
-| BungeeGuard | 1.4.0 | GitHub | https://github.com/lucko/BungeeGuard/releases |
 | LuckPerms | 5.5.53 | Modrinth | https://modrinth.com/plugin/luckperms |
 | PlaceholderAPI | latest | Modrinth | https://modrinth.com/plugin/placeholderapi |
 | Vault | 1.7.3 | GitHub | https://github.com/MilkBowl/Vault/releases |
-| CMILib | 1.5.9.6 | GitHub | https://github.com/Zrips/CMILib/releases |
+| CMILib | 1.5.9.9 | GitHub | https://github.com/Zrips/CMILib/releases |
 
 ## 性能与分析
 
@@ -67,18 +66,18 @@
 | AntiRedstoneLag | 2.0.1 | Modrinth | https://modrinth.com/plugin/antiredstonelag |
 | ElytraSpeed | 1.3.4 | Modrinth | https://modrinth.com/plugin/elytraspeed |
 | CommandBlocker | 1.7.2 | Modrinth | https://modrinth.com/plugin/commandblocker |
-| Anti-Motd-Scanner | 0.1-ALPHA | Modrinth | https://modrinth.com/plugin/anti-motd-scanner |
+| Anti-Motd-Scanner | 0.5-BETA | Modrinth | https://modrinth.com/plugin/anti-motd-scanner |
 | DupePlus | 1.4.3 | Modrinth | https://modrinth.com/plugin/dupeplus |
+| SimplePolice | 6.1.4 | GitHub | https://github.com/fierceeo/SimplePolice/releases |
 
 ## 其他
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| AdvancedClear | latest | Modrinth | https://modrinth.com/plugin/advancedclear |
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
-| ZNPCsPlus | 2.0.0 | GitHub | https://github.com/Pyrbu/ZNPCsPlus | 替代 ServersNPC（v1.1.0 迁移） |
-| MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 替代 Srepay（微信/支付宝，v1.1.0 迁移） |
+| ZNPCsPlus | 2.0.0 | GitHub | https://github.com/Pyrbu/ZNPCsPlus | 仅安装于 lobby（大厅服），替代 ServersNPC（v1.1.0 迁移） |
+| MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 仅安装于 lobby（大厅服），替代 Srepay（微信/支付宝，v1.1.0 迁移） |
 
 ## 内置统计
 
