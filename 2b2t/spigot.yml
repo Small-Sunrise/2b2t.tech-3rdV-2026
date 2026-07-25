@@ -12,7 +12,7 @@
 
 settings:
   debug: false
-  bungeecord: true
+  bungeecord: false
   save-user-cache-on-stop-only: false
   sample-count: 12
   timeout-time: 60

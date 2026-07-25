@@ -32,8 +32,8 @@ check_process() {
 # ---- Services to check ----
 SERVICES=(
   "vc:Velocity:127.0.0.1:50016"
-  "lobby:Lobby:127.0.0.1:60001"
-  "2b2t:Survival:127.0.0.1:60003"
+  "lobby:Lobby:127.0.0.1:50015"
+  "2b2t:Survival:127.0.0.1:50013"
 )
 
 FAIL=0

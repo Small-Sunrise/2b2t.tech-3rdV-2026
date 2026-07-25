@@ -4,9 +4,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BACKUP_DIR="${BACKUP_DIR:-${ROOT_DIR}/backups}"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-KEEP_DAYS="${KEEP_DAYS:-7}"
 
 # Load .env if present
 if [ -f "${ROOT_DIR}/.env" ]; then
@@ -15,6 +13,8 @@ if [ -f "${ROOT_DIR}/.env" ]; then
   set +a
 fi
 
+BACKUP_DIR="${BACKUP_DIR:-${ROOT_DIR}/backups}"
+KEEP_DAYS="${KEEP_DAYS:-7}"
 mkdir -p "${BACKUP_DIR}"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
@@ -62,8 +62,10 @@ backup_db() {
     log "SKIP: mysqldump not installed"
     return 0
   fi
-  local db_host=$(echo "${LUCKPERMS_DB_HOST:-127.0.0.1:3306}" | cut -d: -f1)
-  local db_port=$(echo "${LUCKPERMS_DB_HOST:-127.0.0.1:3306}" | cut -d: -f2)
+  local db_host
+  local db_port
+  db_host=$(echo "${LUCKPERMS_DB_HOST:-127.0.0.1:3306}" | cut -d: -f1)
+  db_port=$(echo "${LUCKPERMS_DB_HOST:-127.0.0.1:3306}" | cut -d: -f2)
   local out="${BACKUP_DIR}/db_luckperms_${TIMESTAMP}.sql.gz"
 
   mysqldump -h "${db_host}" -P "${db_port}" \
@@ -103,4 +105,4 @@ case "${MODE}" in
 esac
 
 log "Backup complete. Files in ${BACKUP_DIR}:"
-ls -lh "${BACKUP_DIR}"/*${TIMESTAMP}* 2>/dev/null || true
+ls -lh "${BACKUP_DIR}"/*"${TIMESTAMP}"* 2>/dev/null || true
