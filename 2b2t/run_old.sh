@@ -1,1 +1,0 @@
-java -Xmx8g -Xms8g -jar purpur-1.21.3-2358.jar --nogui

@@ -14,7 +14,9 @@ message_prefix: "[2b2t.tech]"
 # WebSocket Server配置项
 websocket_server:
   enable: true          # 是否启用
-  host: "0.0.0.0"     # WebSocket Server 地址
+  # 仅监听回环地址：该总线只用 access_token 做鉴权且可下发服务器命令，
+  # 暴露在所有网卡上风险过高；本机的 websocket_client 也是连接 127.0.0.1，不受影响
+  host: "127.0.0.1"     # WebSocket Server 地址
   port: 52000            # WebSocket Server 端口
 
 # WebSocket Client配置项

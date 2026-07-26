@@ -38,6 +38,10 @@ replay_pid*.log
 **/plugins/**/playerdata/
 **/plugins/**/userdata/
 **/plugins/**/usercache/
+# player name cache at server root, regenerated on start (not the plugins/**/usercache/ dir above)
+**/usercache.json
+# server-written version record, regenerated on start
+**/version_history.json
 **/plugins/**/backup/
 **/plugins/**/backups/
 **/config/backup*/
@@ -59,6 +63,10 @@ replay_pid*.log
 **/plugins/**/qs.log
 **/plugins/**/temp/
 **/plugins/**/cache/
+# EssentialsX item id data bundled with the plugin jar, regenerated on load
+**/plugins/Essentials/items.json
+# Plan auto-downloads the GeoIP database on first run
+**/plugins/Plan/GeoLite2-Country.mmdb
 **/*.tmp
 **/*.db
 **/*.mv.db
