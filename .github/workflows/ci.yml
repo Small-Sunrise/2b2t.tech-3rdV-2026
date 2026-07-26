@@ -1,0 +1,212 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 说明：本仓库没有真实 .env 与任何 *.jar（均已 gitignore），CI 完全不依赖它们。
+# 任何检查如果需要真实密钥或真实 jar 才能跑，就不应该出现在这个 workflow 里。
+
+jobs:
+  shell-lint:
+    name: Shell 脚本语法与 shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: bash -n 语法检查
+        run: |
+          set -euo pipefail
+          # 清单只在此处维护一份，导出给同 job 的 shellcheck step 复用，
+          # 避免两处清单不同步导致某个脚本静默漏检。
+          files=(
+            run-all.sh
+            stop-all.sh
+            VC/run.sh
+            lobby/run.sh
+            2b2t/run.sh
+            scripts/*.sh
+            scripts/tests/*.sh
+            .githooks/pre-commit
+            minecraft-docker/scripts/*.sh
+            minecraft-docker/compose/init/*.sh
+          )
+          printf '%s\n' "${files[@]}" > "${RUNNER_TEMP}/shell-files.txt"
+          status=0
+          for f in "${files[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "::error::文件不存在: $f"
+              status=1
+              continue
+            fi
+            if bash -n "$f"; then
+              echo "OK   $f"
+            else
+              echo "::error file=$f::bash -n 语法检查失败"
+              status=1
+            fi
+          done
+          exit "$status"
+
+      - name: shellcheck
+        run: |
+          set -euo pipefail
+          # ubuntu-latest runner 镜像自带 shellcheck；找不到时才用 apt 兜底安装。
+          if ! command -v shellcheck >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y shellcheck
+          fi
+          shellcheck --version
+
+          # 仓库里现存的 info 级告警（经本地核实，均为已知且无害，不属于我们要动的业务脚本范畴）：
+          #   - SC1091: `source .env` / `source ../scripts/service-loop.sh` —— 这些文件在运行时
+          #     才存在（.env 被 gitignore，service-loop.sh 是运行期相对路径 source），shellcheck
+          #     静态分析天然无法跟随，属预期噪音。
+          #   - SC2016: heredoc（<<'SH' 等）里写的是要生成到子进程/测试 fixture 里的字面量脚本，
+          #     单引号不展开变量正是想要的效果。
+          #   - SC2329: 函数只在被间接调用（trap / 子 shell dispatch）时使用，非死代码。
+          # 这些都是长期存在的 info 级信息，与"密钥/正确性"无关；按仓库约定不为了让 CI 通过
+          # 而去改动我们无权修改的业务脚本，因此用 --severity=warning 提高阈值，
+          # 只让 warning 及以上（真正的潜在 bug）导致 CI 失败。
+          # 复用 bash -n step 导出的同一份清单（单一维护点）。
+          # 用 while read 而非 mapfile，保证在任意 bash 版本下都可用。
+          files=()
+          while IFS= read -r line; do
+            [ -n "$line" ] && files+=("$line")
+          done < "${RUNNER_TEMP}/shell-files.txt"
+          shellcheck --severity=warning "${files[@]}"
+
+  tests:
+    name: 测试套件
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 运行 scripts/tests 下的全部自建 fixture 测试
+        run: |
+          set -euo pipefail
+          # 以下 4 个测试均自建临时 fixture（mktemp -d），不依赖真实 jar 或 .env。
+          for t in \
+            scripts/tests/inject-db-secrets-test.sh \
+            scripts/tests/check-secrets-test.sh \
+            scripts/tests/service-loop-test.sh \
+            scripts/tests/launcher-lifecycle-test.sh \
+          ; do
+            echo "==> $t"
+            bash "$t"
+          done
+
+  secret-scan:
+    name: 密钥扫描（防止第四次泄露）
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: scripts/check-secrets.sh 扫描 tracked 文件
+        run: bash scripts/check-secrets.sh
+
+  config-validation:
+    name: 配置文件解析校验
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 设置 Python（避开系统 pip 的 externally-managed-environment 限制）
+        uses: actions/setup-python@v5
+        with:
+          # 固定 3.12：标准库自带 tomllib，避免 3.x 解析到无 tomllib 的旧版本
+          python-version: "3.12"
+
+      - name: 安装 Python 依赖 (PyYAML)
+        run: python3 -m pip install --quiet --disable-pip-version-check pyyaml
+
+      - name: 校验所有 YAML 文件可被解析
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          import sys
+
+          import yaml
+
+          # 以下文件是插件 jar 自带、未经我们编辑的默认/本地化文件，使用了非标准的
+          # YAML 写法（例如未加引号的 %占位符%、非法的引号转义），并非本轮加固改动
+          # 涉及的内容，也不属于我们有权修改的业务配置，因此明确排除并注明原因，
+          # 而不是去改这些插件自带文件来迁就 CI。
+          SKIP = {
+              "2b2t/plugins/Plan/config.yml":
+                  "Plan 插件自带默认配置，未加引号的 %placeholder% 不是合法 YAML",
+              "lobby/plugins/CMILib/Translations/Locale_PL.yml":
+                  "CMILib 插件自带本地化文件，使用了非法的 YAML 引号转义",
+              "lobby/plugins/CMILib/Translations/Locale_SL.yml":
+                  "CMILib 插件自带本地化文件，使用了非法的 YAML 引号转义",
+          }
+
+          files = subprocess.check_output(["git", "ls-files"]).decode().splitlines()
+          yaml_files = [f for f in files if f.endswith((".yml", ".yaml")) and f not in SKIP]
+
+          failed = []
+          for path in yaml_files:
+              try:
+                  with open(path, encoding="utf-8") as fh:
+                      list(yaml.safe_load_all(fh))
+              except Exception as exc:  # noqa: BLE001 - report and continue
+                  failed.append((path, exc))
+
+          print(f"校验 {len(yaml_files)} 个 YAML 文件（{len(SKIP)} 个插件自带文件已排除，见脚本注释）")
+          if failed:
+              for path, exc in failed:
+                  print(f"::error file={path}::YAML 解析失败: {exc}")
+              sys.exit(1)
+          print("YAML 语法校验通过")
+          PY
+
+      - name: 校验 VC/velocity.toml 可被解析
+        run: |
+          python3 - <<'PY'
+          import sys
+
+          import tomllib
+
+          try:
+              tomllib.load(open("VC/velocity.toml", "rb"))
+          except Exception as exc:  # noqa: BLE001 - report and continue
+              print(f"::error file=VC/velocity.toml::TOML 解析失败: {exc}")
+              sys.exit(1)
+          print("VC/velocity.toml 语法校验通过")
+          PY
+
+  compose-validation:
+    name: docker compose config 校验
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 生成仅供 CI 使用的假 .env（全部为明显假值，绝不写入仓库）
+        run: |
+          set -euo pipefail
+          ENV_FILE="${RUNNER_TEMP}/ci-fake.env"
+          cat > "${ENV_FILE}" <<'EOF'
+          FORWARDING_SECRET=ci-fake-forwarding-secret-not-real
+          MARIADB_ROOT_PASSWORD=ci-fake-root-password-not-real
+          LUCKPERMS_DB_NAME=ci_fake_luckperms_db
+          LUCKPERMS_DB_USER=ci_fake_luckperms_user
+          LUCKPERMS_DB_PASSWORD=ci-fake-luckperms-password-not-real
+          AUTHME_DB_NAME=ci_fake_authme_db
+          AUTHME_DB_USER=ci_fake_authme_user
+          AUTHME_DB_PASSWORD=ci-fake-authme-password-not-real
+          QUEQIAO_ACCESS_TOKEN=ci-fake-queqiao-token-not-real
+          EOF
+          echo "CI_ENV_FILE=${ENV_FILE}" >> "${GITHUB_ENV}"
+
+      - name: docker compose config
+        run: |
+          docker compose \
+            -f minecraft-docker/compose/docker-compose.yml \
+            --env-file "${CI_ENV_FILE}" \
+            config --quiet

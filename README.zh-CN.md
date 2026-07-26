@@ -26,9 +26,13 @@ cp .env.example .env
 可用变量：
 
 - `FORWARDING_SECRET`：Velocity 转发密钥
-- `FLOODGATE_KEY_PEM`：Floodgate 密钥（PEM 内容，换行请使用 `\n`）
+- `FLOODGATE_KEY_PEM`（可选）：Floodgate 密钥（PEM 内容，换行请使用 `\n`）。
+  留空即可——Floodgate 首次在代理上启动时会自动生成
+  `plugins/floodgate/key.pem`；只有当你需要在多台主机上复用同一把密钥时，
+  才需要显式填写这个变量。
 
-启动脚本会在运行时写入 `VC/forwarding.secret` 和 `VC/plugins/floodgate/key.pem`。
+启动脚本会在运行时写入 `VC/forwarding.secret`；若设置了 `FLOODGATE_KEY_PEM`，
+还会写入 `VC/plugins/floodgate/key.pem`。
 
 ## 数据库
 
@@ -75,8 +79,20 @@ FLUSH PRIVILEGES;
 - 执行 `cp .env.example .env`，然后填写 `FORWARDING_SECRET`、
   `LUCKPERMS_DB_PASSWORD` 等你需要用到的变量
 
+先执行 `bash scripts/fetch-jars.sh`，可以自动完成上面大部分工作：它会读取
+`scripts/jars.manifest`，从 PaperMC 官方 Fill API v3 下载 Velocity 与 Paper
+的 jar 包，并逐一核对官方公布的 SHA-256 校验和；该脚本是幂等的——重复
+运行只会跳过校验和已匹配的既有文件，任何下载失败或校验不通过都会清理掉
+临时文件，不会留下半成品。Leaf jar 是例外：Leaf 的 GitHub Releases 每个
+Minecraft 版本只保留最新一次构建，历史上的 `2b2t/leaf-26.2-14.jar` 这个
+build 已经没有官方直链可用，脚本会将其标记为 `MANUAL`——请按脚本打印的
+提示，从 [Leaf 官方 Releases 页面](https://github.com/Winds-Studio/Leaf/releases)
+手工获取对应文件并放到该路径（若改用更新的 build，需要同步更新清单、本
+README 与 Dockerfile 中的引用）。
+
 各 `*/plugins/` 目录下的插件 jar 包同样已被 `.gitignore` 排除——仓库中只
-跟踪插件的配置文件，插件 jar 需要另行补充。`VC/forwarding.secret` 是启动
+跟踪插件的配置文件，插件 jar 需要按 `PLUGINS.md` 另行补充，
+`scripts/fetch-jars.sh` 不处理这部分。`VC/forwarding.secret` 是启动
 时根据 `.env` 中的 `FORWARDING_SECRET` 自动生成的，不需要手动创建。
 
 启动服务器之前建议先执行 `bash scripts/startup-check.sh`：它会检查上述
@@ -121,6 +137,12 @@ run.bat
   配置（排除 jar、日志和世界数据），并在 `mysqldump` 可用时导出 LuckPerms
   数据库，全部存放到 `backups/` 目录，随后删除超过 `KEEP_DAYS` 天（默认
   7 天）的旧备份。不带参数时默认执行 `all`。
+- `fetch-jars.sh [清单文件路径]`：从官方 PaperMC Fill API v3 下载
+  `scripts/jars.manifest` 中列出的 Velocity 与 Paper jar 包，并逐一核对
+  官方公布的 SHA-256；可安全重复执行（已匹配的既有文件会被跳过，下载失败
+  或校验不通过时不会留下半成品文件）。Leaf 与插件 jar 不在其范围内——见
+  清单里标为 `MANUAL` 的条目和 `PLUGINS.md`。在全新克隆的仓库上，建议先跑
+  这个脚本，再跑 `startup-check.sh`。
 - `startup-check.sh`：在启动服务器前运行的预检脚本。校验 `.env` 中的关键
   变量、各服务器 jar 是否存在、EULA 是否已接受、`run.sh` 是否可执行、Java
   版本、插件目录、LuckPerms `config.yml` 是否存在、若干关键插件 jar，以及
@@ -139,6 +161,32 @@ run.bat
   将 `AUTHME_DB_*` / `TAB_DB_*` 的值写入 lobby 的 AuthMe 和 2b2t 的 TAB
   配置。
 
+## 持续集成（CI）
+
+`.github/workflows/ci.yml` 会在每次 push 和 pull request 时自动运行，且不
+依赖任何真实的 `.env` 或 `*.jar`（两者均已 `.gitignore`，CI 从不接触真实
+密钥或真实服务器 jar）。以下 5 个 job 必须全部通过：
+
+- **Shell 脚本语法与 shellcheck**：对受 Git 跟踪的 shell 脚本（`run-all.sh`、
+  `stop-all.sh`、各服务的 `run.sh`、`scripts/*.sh`、`scripts/tests/*.sh`、
+  `.githooks/pre-commit`，以及 `minecraft-docker/` 下的脚本）先做
+  `bash -n` 语法检查，再跑 `shellcheck --severity=warning`。
+- **测试套件**：运行 `scripts/tests/` 下的四个自建 fixture 测试脚本（每个
+  都用 `mktemp -d` 搭建自己的临时环境，不依赖真实 jar 或 `.env`）。
+- **密钥扫描**：对受 Git 跟踪的文件运行 `scripts/check-secrets.sh`——与本地
+  pre-commit hook 使用的是同一个扫描器。
+- **配置文件解析校验**：解析所有受 Git 跟踪的 `*.yml`/`*.yaml` 文件以及
+  `VC/velocity.toml`，确认语法合法（少数几个插件自带、写法非标准的本地化
+  /默认配置文件按注明的原因被明确排除）。
+- **docker compose config 校验**：在 CI runner 里生成一份仅供 CI 使用的
+  假 `.env`，对 `minecraft-docker/compose/docker-compose.yml` 运行
+  `docker compose config`。
+
+这是一道强制闸门：无论本地是否装了任何东西，CI 都会自动运行，任何一个
+job 失败都会阻塞 pull request。它与下文「安全」小节提到的
+`.githooks/pre-commit` hook 是两回事——那个 hook 是本地可选项，只在你自己
+的机器上提交前扫描暂存内容；真正对所有人生效、强制执行这些检查的是 CI。
+
 ## 说明
 
 - `.env`、运行时数据和密钥已被 `.gitignore` 排除。
@@ -152,6 +200,12 @@ run.bat
   身份校验（详见下文）。
 - 后端服务器在代理之后以离线模式运行，并启用了 IP 转发。
 - 代理与后端均启用了加入速率限制。
+- QueQiao 的 WebSocket 消息总线（`VC/plugins/QueQiao/config.yml` 中的
+  `websocket_server`）现在绑定在 `127.0.0.1:52000`（仅回环地址），而不是
+  `0.0.0.0`——它只靠一个共享的 `QUEQIAO_ACCESS_TOKEN` 做鉴权，且可以下发
+  服务器命令，因此绝不能暴露给主机之外的网络访问。
+- `FLOODGATE_KEY_PEM` 是可选变量（见前文「环境变量」）：不设置时，
+  Floodgate 会在首次启动时自行生成密钥，而不是复用 `.env` 里的值。
 
 ### 玩家信息转发（代理 ↔ 后端信任关系）
 

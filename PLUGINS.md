@@ -98,3 +98,13 @@
 | Residence | CMILib 缺 v1_22_R1 字段 | 更新 CMILib + Residence |
 | AdvancedTeleport | 仅支持 1.17-1.19 | 等待作者更新 |
 | ProtocolLib | 未测试 1.26 | 已有新版本 |
+
+## 已知兼容性问题
+
+以下问题已通过实机启动日志确认，插件 jar 均被 `.gitignore` 排除，无法在仓库内直接修复，供运维参考处理：
+
+| 插件 | 现象 | 建议动作 |
+|------|------|----------|
+| lobby/fakeplayer 0.3.13 | 启动日志：`Unsupported Minecraft version: 26.1.2`，插件完全无法启用 | 停用该插件，等待上游发布支持 26.x 的版本后再启用 |
+| 2b2t/PlaceholderAPI | 在 Leaf 26.2 上加载失败：`java.lang.NumberFormatException: For input string: "b"`（版本号解析崩溃） | 升级到支持 26.x 的版本 |
+| 2b2t/TAB 6.1.0 | 日志：`Your server version (Paper 26.1.2) is marked as compatible, but the implementation does not exist` | 升级到支持 26.x 的版本 |

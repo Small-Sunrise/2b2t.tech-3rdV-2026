@@ -27,10 +27,13 @@ cp .env.example .env
 Available variables:
 
 - `FORWARDING_SECRET`: Velocity forwarding secret
-- `FLOODGATE_KEY_PEM`: Floodgate key (PEM content; use `\n` for newlines)
+- `FLOODGATE_KEY_PEM` (optional): Floodgate key (PEM content; use `\n` for
+  newlines). Leave it empty and Floodgate will auto-generate
+  `plugins/floodgate/key.pem` on the proxy the first time it starts; only set
+  this if you need to reuse the same key across multiple hosts.
 
-Startup scripts write `VC/forwarding.secret` and `VC/plugins/floodgate/key.pem`
-at runtime.
+Startup scripts write `VC/forwarding.secret` and, if `FLOODGATE_KEY_PEM` is
+set, `VC/plugins/floodgate/key.pem` at runtime.
 
 ## Database
 
@@ -79,10 +82,24 @@ any service until you add these manually:
 - `cp .env.example .env`, then fill in `FORWARDING_SECRET`,
   `LUCKPERMS_DB_PASSWORD`, and any other variables your setup needs
 
+Run `bash scripts/fetch-jars.sh` to get most of the way there automatically.
+It reads `scripts/jars.manifest` and downloads the Velocity and Paper jars
+above from the official PaperMC Fill API v3 (the older v2 API has been
+sunset), verifying each download against its published SHA-256; it's
+idempotent, so re-running it just skips jars that already match, and any
+failed/mismatched download is cleaned up rather than left half-written. The
+Leaf jar is the exception: Leaf's GitHub Releases only keep the latest build
+per Minecraft version, so the historical `2b2t/leaf-26.2-14.jar` build has no
+stable official direct link and the script marks it `MANUAL` — grab it by
+hand from the [Leaf releases page](https://github.com/Winds-Studio/Leaf/releases)
+and place it at that exact path (or switch to a newer build and update the
+manifest, this README, and the Dockerfile reference together).
+
 Plugin jars under each `*/plugins/` directory are also gitignored — only
 their configuration files are tracked, so plugin `.jar`s must be supplied
-separately. `VC/forwarding.secret` is generated from `.env`'s
-`FORWARDING_SECRET` at startup; you don't create it by hand.
+separately, per `PLUGINS.md`; `scripts/fetch-jars.sh` does not touch them.
+`VC/forwarding.secret` is generated from `.env`'s `FORWARDING_SECRET` at
+startup; you don't create it by hand.
 
 Run `bash scripts/startup-check.sh` before starting the servers — it checks
 for the jars above, required `.env` values, EULA acceptance, executable run
@@ -130,6 +147,13 @@ run.bat
   LuckPerms database (if `mysqldump` is installed) into `backups/`, then
   deletes backups older than `KEEP_DAYS` days (default 7). Defaults to `all`
   when no argument is given.
+- `fetch-jars.sh [path-to-manifest]`: fetches the Velocity and Paper jars
+  listed in `scripts/jars.manifest` from the official PaperMC Fill API v3,
+  verifying each against its published SHA-256; safe to re-run (skips jars
+  that already match, and never leaves a partial file behind on a
+  failed/mismatched download). Leaf and plugin jars are out of scope — see
+  the manifest's `MANUAL` entries and `PLUGINS.md`. Run this before
+  `startup-check.sh` on a fresh clone.
 - `startup-check.sh`: pre-flight check to run before starting the servers.
   Verifies `.env` values, the presence of each server jar, EULA acceptance,
   that the `run.sh` scripts are executable, the Java version, the plugin
@@ -149,6 +173,36 @@ run.bat
   path on the proxy), and writes `AUTHME_DB_*` / `TAB_DB_*` values into
   lobby's AuthMe and 2b2t's TAB configs when those variables are set.
 
+## Continuous Integration
+
+`.github/workflows/ci.yml` runs on every push and pull request and does not
+depend on any real `.env` or `*.jar` (both are gitignored, so CI never sees
+real secrets or real server jars). Five jobs must pass:
+
+- **Shell 脚本语法与 shellcheck**: `bash -n` syntax-checks the tracked shell
+  scripts (`run-all.sh`, `stop-all.sh`, each `run.sh`, `scripts/*.sh`,
+  `scripts/tests/*.sh`, `.githooks/pre-commit`, and the
+  `minecraft-docker/` scripts), then runs `shellcheck --severity=warning`
+  over the same files.
+- **测试套件**: runs the four fixture-based test scripts under
+  `scripts/tests/` (each builds its own temporary fixtures with `mktemp -d`,
+  so no real jar or `.env` is required).
+- **密钥扫描**: runs `scripts/check-secrets.sh` over tracked files — the same
+  scanner the local pre-commit hook uses.
+- **配置文件解析校验**: parses every tracked `*.yml`/`*.yaml` file and
+  `VC/velocity.toml` to make sure they're syntactically valid (a small,
+  documented allowlist of vendored plugin files with non-standard YAML is
+  skipped).
+- **docker compose config 校验**: generates a throwaway, all-fake `.env` in
+  the CI runner and runs `docker compose config` against
+  `minecraft-docker/compose/docker-compose.yml`.
+
+This is a mandatory gate: it runs automatically in CI regardless of any
+local setup and a failing job blocks the pull request. It's separate from
+the `.githooks/pre-commit` hook described below — that hook is opt-in and
+only scans your own machine's staged changes before you commit; CI is what
+actually enforces the checks for everyone.
+
 ## Notes
 
 - `.env`, runtime data, and secrets are excluded by `.gitignore`.
@@ -162,6 +216,14 @@ run.bat
   authenticate the proxy to the backends (see below).
 - Backend servers run in offline mode behind the proxy with IP forwarding enabled.
 - Join rate limiting enabled at both proxy and backend levels.
+- QueQiao's WebSocket message bus (`VC/plugins/QueQiao/config.yml`,
+  `websocket_server`) is bound to `127.0.0.1:52000` (loopback-only), not
+  `0.0.0.0` — it only authenticates connections with a single shared
+  `QUEQIAO_ACCESS_TOKEN` and can execute commands, so it must not be reachable
+  from outside the host.
+- `FLOODGATE_KEY_PEM` is optional (see Environment Variables above): if it's
+  left unset, Floodgate generates its own key on first startup instead of
+  reusing a value from `.env`.
 
 ### Player-info forwarding (proxy ↔ backend trust)
 
