@@ -1,12 +1,12 @@
 # 2b2t.tech 插件清单
 
-> 核心: Leaf 26.2-14 | 更新日期: 2026-07-02
+> 核心: Leaf 26.2-37 | 更新日期: 2026-07-28
 
 ## Core
 
 | 插件 | 版本 | 下载地址 |
 |------|------|----------|
-| Leaf | 26.2-14 | https://github.com/Winds-Studio/Leaf/releases/tag/ver-26.2 |
+| Leaf | 26.2-37 | https://github.com/Winds-Studio/Leaf/releases/tag/ver-26.2 |
 
 ## ViaVersion Suite
 
