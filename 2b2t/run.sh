@@ -1,9 +1,17 @@
 #!/bin/bash
 
+# Resolve this script's own directory. Deliberately via `dirname` rather than
+# "${BASH_SOURCE[0]%/*}": that expansion returns the string unchanged when it
+# contains no slash, so invoking this as `bash run.sh` from inside the server
+# directory made every path below resolve against "run.sh/..", silently
+# skipping .env (an empty forwarding secret then only fails later, at login)
+# and failing to source service-loop.sh at all. `dirname` returns "." here.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Load environment variables from .env if present
-if [ -f "${BASH_SOURCE[0]%/*}/../.env" ]; then
+if [ -f "${SCRIPT_DIR}/../.env" ]; then
   set -a
-  source "${BASH_SOURCE[0]%/*}/../.env"
+  source "${SCRIPT_DIR}/../.env"
   set +a
 fi
 
@@ -22,7 +30,7 @@ if [ -f "../scripts/inject-db-secrets.sh" ]; then
   LOBBY_DIR="" SURVIVAL_DIR="." bash "../scripts/inject-db-secrets.sh" || exit 1
 fi
 
-source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
+source "${SCRIPT_DIR}/../scripts/service-loop.sh"
 
 # Heap sizing via .env; unset falls back to the historical hardcoded
 # 8G/8G/6G values (production defaults are unchanged).
@@ -30,19 +38,29 @@ SURVIVAL_JAVA_XMS="${SURVIVAL_JAVA_XMS:-8G}"
 SURVIVAL_JAVA_XMX="${SURVIVAL_JAVA_XMX:-8G}"
 SURVIVAL_JAVA_SOFT_MAX="${SURVIVAL_JAVA_SOFT_MAX:-6G}"
 
-run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" \
+# AlwaysPreTouch is unconditional in production. It is actively harmful when
+# Xmx exceeds physical RAM (forces every heap page to be committed up
+# front), so make it opt-out via .env: set JAVA_ALWAYS_PRE_TOUCH=0 to disable
+# it. Leaving it unset preserves today's production behavior. Mirrors the
+# .bat launchers' PRETOUCH_FLAG. Held in an array so a disabled flag needs
+# no unquoted expansion to vanish from the command line.
+PRETOUCH_FLAG=(-XX:+AlwaysPreTouch)
+if [ "${JAVA_ALWAYS_PRE_TOUCH:-}" = "0" ]; then
+  PRETOUCH_FLAG=()
+fi
+
+# Leaf (Paper-based)'s console stop command is "stop" (Velocity uses "end").
+run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" "stop" \
   java \
     -Xms"${SURVIVAL_JAVA_XMS}" -Xmx"${SURVIVAL_JAVA_XMX}" \
     -XX:SoftMaxHeapSize="${SURVIVAL_JAVA_SOFT_MAX}" \
     -XX:+IgnoreUnrecognizedVMOptions \
     -XX:+UnlockExperimentalVMOptions \
     -Dfile.encoding=UTF-8 \
-    -XX:+AlwaysPreTouch \
+    "${PRETOUCH_FLAG[@]}" \
     -XX:+DisableExplicitGC \
-    -XX:-UseCompressedClassPointers \
     -XX:-UseG1GC \
     -XX:+UseZGC \
-    -XX:+ZGenerational \
     -XX:-ZProactive \
     -XX:ZCollectionIntervalMinor=0.95 \
     -XX:ZUncommitDelay=5 \

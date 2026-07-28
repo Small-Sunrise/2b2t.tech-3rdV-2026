@@ -61,7 +61,11 @@ check "2b2t run.sh executable" '[ -x "${ROOT_DIR}/2b2t/run.sh" ]'
 # ---- Java ----
 echo ""
 echo "[Java Runtime]"
-JAVA_VER=$(java -version 2>&1 | head -1 | grep -oE '\d+\.\d+\.\d+' || echo "unknown")
+# GNU grep ERE has no \d; the previous pattern never matched anything and
+# always fell through to "unknown". This only affects the *displayed*
+# version string below -- the actual gate on the next line already used a
+# correct ERE ([0-9], not \d) and is left untouched.
+JAVA_VER=$(java -version 2>&1 | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "unknown")
 check "Java 25+ installed (found: ${JAVA_VER})" 'java -version 2>&1 | grep -qE "version \"(2[5-9]|[3-9][0-9])\."'
 
 # ---- Plugin dirs exist ----

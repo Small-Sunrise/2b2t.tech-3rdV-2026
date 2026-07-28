@@ -5,6 +5,56 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PID_DIR="${ROOT_DIR}/pids"
 STOP_TIMEOUT_SECONDS="${STOP_TIMEOUT_SECONDS:-120}"
 
+# Portable process introspection. procps (Linux) supports `-o command=` /
+# `-o ppid=` directly. MSYS/Git-Bash `ps` (Windows) has no `-o` at all --
+# `ps --help` there lists only `[-aefls] [-u UID] [-p PID]` -- and instead
+# always prints a column layout via `-f` with a header row naming each
+# column (observed on this host: "UID PID PPID TTY STIME COMMAND"; other
+# MSYS/Cygwin builds have been seen with "PID PPID PGID WINPID TTY UID
+# STIME COMMAND" -- the column set/order is not something to hardcode).
+# PID/PPID/COMMAND are all still available, just not selectable by name, so
+# the fallback parses the header row itself to find where "COMMAND" starts
+# and where "PPID" lives, rather than assuming a fixed field count/order.
+# Probed once so every call below is a plain conditional rather than a
+# per-call fallback-on-error dance. This only changes *how* we read process
+# info; the safety property (refuse to touch a pid that doesn't belong to
+# this service) is unchanged and still enforced below.
+PS_SUPPORTS_O=0
+if ps -p "$$" -o command= >/dev/null 2>&1; then
+  PS_SUPPORTS_O=1
+fi
+
+ps_command_for_pid() {
+  local pid="$1"
+  if [ "${PS_SUPPORTS_O}" -eq 1 ]; then
+    ps -p "${pid}" -o command= 2>/dev/null || true
+    return
+  fi
+  # `ps -p PID -f` prints a header row plus at most one data row (already
+  # filtered to this pid), so the second line -- with the columns the
+  # header said precede COMMAND blanked out -- is exactly the command.
+  ps -p "${pid}" -f 2>/dev/null | awk '
+    NR == 1 { n = NF - 1; next }
+    NR == 2 {
+      for (i = 1; i <= n; i++) $i = ""
+      sub(/^[[:space:]]+/, "")
+      print
+    }
+  ' || true
+}
+
+ps_ppid_for_pid() {
+  local pid="$1"
+  if [ "${PS_SUPPORTS_O}" -eq 1 ]; then
+    ps -p "${pid}" -o ppid= 2>/dev/null | tr -d '[:space:]' || true
+    return
+  fi
+  ps -p "${pid}" -f 2>/dev/null | awk '
+    NR == 1 { for (i = 1; i <= NF; i++) if ($i == "PPID") idx = i; next }
+    NR == 2 { print $idx }
+  ' || true
+}
+
 stop_service() {
   local name="$1"
   local pid_file="${PID_DIR}/${name}.pid"
@@ -52,7 +102,7 @@ stop_service() {
   local command
   local supervisor_pid="${pid}"
   local child_pid=""
-  command="$(ps -p "${pid}" -o command= 2>/dev/null || true)"
+  command="$(ps_command_for_pid "${pid}")"
 
   if [[ "${command}" != *"${run_script}"* ]]; then
     # Before supervisor PIDs were introduced, run.sh stored the Java child PID.
@@ -63,9 +113,9 @@ stop_service() {
     fi
 
     child_pid="${pid}"
-    supervisor_pid="$(ps -p "${child_pid}" -o ppid= 2>/dev/null | tr -d '[:space:]' || true)"
+    supervisor_pid="$(ps_ppid_for_pid "${child_pid}")"
     local supervisor_command
-    supervisor_command="$(ps -p "${supervisor_pid}" -o command= 2>/dev/null || true)"
+    supervisor_command="$(ps_command_for_pid "${supervisor_pid}")"
     if [ -z "${supervisor_pid}" ] || [[ "${supervisor_command}" != *"${run_script}"* ]]; then
       echo "Refusing to stop ${name}: cannot verify legacy supervisor ownership."
       return 1

@@ -18,7 +18,7 @@ for service in VC lobby 2b2t; do
   cat > "${TEST_DIR}/${service}/run.sh" <<'SH'
 #!/usr/bin/env bash
 source "../scripts/service-loop.sh"
-EVENT_FILE="${PWD}/events" run_with_restart "fake service" 1 bash -c '
+EVENT_FILE="${PWD}/events" run_with_restart "fake service" 1 "" bash -c '
   echo started >> "${EVENT_FILE}"
   trap "echo stopped >> \"${EVENT_FILE}\"; exit 0" TERM INT
   while true; do sleep 0.1; done
