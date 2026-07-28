@@ -153,12 +153,11 @@ QUEQIAO_ACCESS_TOKEN='fixture"token\with#chars' \
 AFTER_MD5="$(md5sum "${QUEQIAO_CONFIG}" | awk '{print $1}')"
 [ "${BEFORE_MD5}" = "${AFTER_MD5}" ] || { echo "QueQiao injection not idempotent" >&2; exit 1; }
 
-python3 - "${QUEQIAO_CONFIG}" <<'PY'
-import sys
-import yaml
-with open(sys.argv[1], encoding="utf-8") as source:
-    assert yaml.safe_load(source)["access_token"] == 'fixture"token\\with#chars'
-PY
+# The token was YAML double-quoted; a literal backslash before "with" must
+# survive as a single backslash and the embedded double quote must be
+# escaped. Verify byte-for-byte rather than round-tripping through a YAML
+# parser (none is available on this host).
+grep -Fqx 'access_token: "fixture\"token\\with#chars" # injected at runtime' "${QUEQIAO_CONFIG}"
 
 echo "inject-db-secrets QueQiao test: OK"
 
@@ -194,13 +193,10 @@ TAB_DB_PASSWORD="secret'with#chars" \
   bash "${ROOT_DIR}/scripts/inject-db-secrets.sh"
 AFTER_MD5="$(md5sum "${TAB_CONFIG}" | awk '{print $1}')"
 [ "${BEFORE_MD5}" = "${AFTER_MD5}" ] || { echo "TAB injection not idempotent" >&2; exit 1; }
-python3 - "${TAB_CONFIG}" <<'PY'
-import sys
-import yaml
-with open(sys.argv[1], encoding="utf-8") as source:
-    config = yaml.safe_load(source)
-assert config["mysql"]["password"] == "secret'with#chars"
-assert config["other"]["password"] == "untouched"
-PY
+# The mysql.password value was YAML single-quoted with the embedded quote
+# doubled; verify byte-for-byte, and confirm the untouched "other" section
+# was left alone.
+grep -Fqx "  password: 'secret''with#chars'" "${TAB_CONFIG}"
+grep -Fqx "  password: untouched" "${TAB_CONFIG}"
 
 echo "inject-db-secrets TAB test: OK"
