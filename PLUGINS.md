@@ -12,9 +12,13 @@
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| ViaVersion | 5.10.1-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viaversion |
-| ViaBackwards | 5.10.1-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viabackwards |
-| ViaRewind | 4.1.3-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viarewind |
+| ViaVersion | 5.11.0 | Modrinth | https://modrinth.com/plugin/viaversion |
+| ViaBackwards | 5.11.0 | Modrinth | https://modrinth.com/plugin/viabackwards |
+| ViaRewind | 4.1.3 | Modrinth | https://modrinth.com/plugin/viarewind |
+
+这三个由 `scripts/fetch-jars.sh` 自动拉取（见 `scripts/jars.manifest`），无需手工下载：
+lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客户端协议能同时连上
+两个后端。三个服务（VC / lobby / 2b2t）都要装，装的是同一份 universal jar。
 
 ## 基础依赖
 

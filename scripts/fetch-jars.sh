@@ -9,7 +9,12 @@
 #   a partial jar at the target path.
 # - MANUAL entries (no reliable official direct link) are never downloaded;
 #   the script prints a clear instruction instead.
-# - Plugin jars are out of scope; see PLUGINS.md.
+# - Plugin jars are out of scope with ONE exception: the ViaVersion suite
+#   (ViaVersion / ViaBackwards / ViaRewind). lobby runs protocol 775 and 2b2t
+#   runs protocol 776, so without Via no single client protocol can reach both
+#   backends and cross-server travel is impossible. It is a prerequisite for
+#   the network to work at all, not an optional gameplay plugin. Everything
+#   else: see PLUGINS.md.
 #
 # Usage:
 #   bash scripts/fetch-jars.sh [path-to-manifest]
@@ -116,8 +121,9 @@ done < <(grep -Ev '^[[:space:]]*(#|$)' "${MANIFEST}")
 echo "=== 汇总 ==="
 echo "下载: ${FETCHED}  已跳过(既有且校验通过): ${SKIPPED}  需手工处理: ${MANUAL_COUNT}  失败: ${FAILED}"
 echo ""
-echo "提醒: 插件 jar 不在本脚本范围内（数量多、来源杂），请参考 PLUGINS.md 手工放置"
-echo "到各 */plugins/ 目录后再运行 scripts/startup-check.sh。"
+echo "提醒: 除 ViaVersion 套件（协议桥接，缺了就没法跨服）外，其余插件 jar 不在本"
+echo "脚本范围内（数量多、来源杂），请参考 PLUGINS.md 手工放置到各 */plugins/ 目录"
+echo "后再运行 scripts/startup-check.sh。"
 
 if [ "${FAILED}" -gt 0 ]; then
   echo ""

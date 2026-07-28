@@ -71,6 +71,20 @@ check "VC plugins dir exists" '[ -d "${ROOT_DIR}/VC/plugins" ]'
 check "lobby plugins dir exists" '[ -d "${ROOT_DIR}/lobby/plugins" ]'
 check "2b2t plugins dir exists" '[ -d "${ROOT_DIR}/2b2t/plugins" ]'
 
+# ---- ViaVersion suite ----
+# lobby speaks protocol 775 and 2b2t speaks 776. Without Via on every hop no
+# single client protocol can reach both backends, so these are hard requirements
+# rather than optional plugins. Matched by prefix so a version bump does not
+# silently turn these checks into false negatives.
+echo ""
+echo "[ViaVersion Suite (protocol bridge)]"
+for dir in "VC" "lobby" "2b2t"; do
+  for plugin in "ViaVersion" "ViaBackwards" "ViaRewind"; do
+    check "${dir}: ${plugin} jar exists" \
+      "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname '${plugin}-*.jar' -print -quit | grep -q ."
+  done
+done
+
 # ---- LuckPerms config ----
 echo ""
 echo "[LuckPerms MySQL Config]"

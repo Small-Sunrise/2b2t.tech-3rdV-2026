@@ -24,3 +24,26 @@
 VC/velocity-3.5.0-SNAPSHOT-605.jar|URL|https://fill-data.papermc.io/v1/objects/0ec616020166465dacca3b790d3db2b246f8f7c13b3aaacaae60c825744a66e0/velocity-3.5.0-SNAPSHOT-605.jar|0ec616020166465dacca3b790d3db2b246f8f7c13b3aaacaae60c825744a66e0
 lobby/paper.jar|URL|https://fill-data.papermc.io/v1/objects/0555a0b0468a5198d8fb1a16e1f9e95c81a917a2dc8f2e09867b4044742f6401/paper-26.1.2-72.jar|0555a0b0468a5198d8fb1a16e1f9e95c81a917a2dc8f2e09867b4044742f6401
 2b2t/leaf-26.2-37.jar|MANUAL|Leaf 官方 GitHub Releases 的 ver-26.2 tag 只保留最新一次构建（当前已是 build 37），因此仍标记为 MANUAL：每次上游发布新 build 都会覆盖旧 build 的直链，github.com 的 release-download 直链在部分主机上不可达，可行的手工获取方式是调用 api.github.com 的 asset 端点并带上 `Accept: application/octet-stream` 头（例如 `curl -L -H "Accept: application/octet-stream" <asset_url> -o leaf-26.2-37.jar`，asset_url 从 `https://api.github.com/repos/Winds-Studio/Leaf/releases/tags/ver-26.2` 的 JSON 中取得），而不是直接下载 github.com 的 release 页面链接。请手工获取 build 37 的 jar，放到 2b2t/ 目录并命名为 leaf-26.2-37.jar；若改用更新的 build，请同步更新本清单、README 与 Dockerfile 中的文件名引用。|aedf7477511cf043497a5bc005ec4b88b5bb50de32d8975df4393f08e3be2c82
+
+# ViaVersion 套件（协议桥接）。
+#
+# 这三个是本项目里唯一被本脚本管理的"插件" jar，其余插件仍见 PLUGINS.md。
+# 理由：lobby 跑 Paper 26.1.2（协议 775）、2b2t 跑 Leaf 26.2（协议 776），
+# 两个后端协议号不同。缺了 Via，任何单一客户端协议都无法同时连上两个后端，
+# 跨服跳转必然断线——它是网络能否成立的前提，不是可选的玩法插件。
+#
+# 三份 jar 完全相同（Via 的 universal jar 同时支持 Paper 与 Velocity），
+# 只是要分别放进三个服务的 plugins/ 目录。
+# 来源为 Modrinth 官方 CDN 的按版本固化直链（每个版本一个不可变 URL，
+# 不会像 Leaf 那样被后续构建覆盖），sha256 为本地下载后实测，
+# 并已与 Modrinth API 公布的 sha512 交叉核对一致。
+
+VC/plugins/ViaVersion-5.11.0.jar|URL|https://cdn.modrinth.com/data/P1OZGk5p/versions/ZH8459B6/ViaVersion-5.11.0.jar|89db76c8e3e674238f5eee2bb7a9e9a2beeba0760bbd1b86494778e8a5a52f70
+VC/plugins/ViaBackwards-5.11.0.jar|URL|https://cdn.modrinth.com/data/NpvuJQoq/versions/hYhg2QBT/ViaBackwards-5.11.0.jar|41085a59d784c9a0d14917fe7487ef5e201a9da7825fd047f08d328ff33eecdc
+VC/plugins/ViaRewind-4.1.3.jar|URL|https://cdn.modrinth.com/data/TbHIxhx5/versions/r9d7WsYA/ViaRewind-4.1.3.jar|24ee7045d538287bb206e57fda071eb486c52b7a0ba452d06c582d36b5a1f8e8
+lobby/plugins/ViaVersion-5.11.0.jar|URL|https://cdn.modrinth.com/data/P1OZGk5p/versions/ZH8459B6/ViaVersion-5.11.0.jar|89db76c8e3e674238f5eee2bb7a9e9a2beeba0760bbd1b86494778e8a5a52f70
+lobby/plugins/ViaBackwards-5.11.0.jar|URL|https://cdn.modrinth.com/data/NpvuJQoq/versions/hYhg2QBT/ViaBackwards-5.11.0.jar|41085a59d784c9a0d14917fe7487ef5e201a9da7825fd047f08d328ff33eecdc
+lobby/plugins/ViaRewind-4.1.3.jar|URL|https://cdn.modrinth.com/data/TbHIxhx5/versions/r9d7WsYA/ViaRewind-4.1.3.jar|24ee7045d538287bb206e57fda071eb486c52b7a0ba452d06c582d36b5a1f8e8
+2b2t/plugins/ViaVersion-5.11.0.jar|URL|https://cdn.modrinth.com/data/P1OZGk5p/versions/ZH8459B6/ViaVersion-5.11.0.jar|89db76c8e3e674238f5eee2bb7a9e9a2beeba0760bbd1b86494778e8a5a52f70
+2b2t/plugins/ViaBackwards-5.11.0.jar|URL|https://cdn.modrinth.com/data/NpvuJQoq/versions/hYhg2QBT/ViaBackwards-5.11.0.jar|41085a59d784c9a0d14917fe7487ef5e201a9da7825fd047f08d328ff33eecdc
+2b2t/plugins/ViaRewind-4.1.3.jar|URL|https://cdn.modrinth.com/data/TbHIxhx5/versions/r9d7WsYA/ViaRewind-4.1.3.jar|24ee7045d538287bb206e57fda071eb486c52b7a0ba452d06c582d36b5a1f8e8
