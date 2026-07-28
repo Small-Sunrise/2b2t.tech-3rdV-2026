@@ -43,7 +43,7 @@ echo ""
 echo "[Server JARs]"
 check "VC: velocity jar exists" '[ -f "${ROOT_DIR}/VC/velocity-3.5.0-SNAPSHOT-605.jar" ]'
 check "lobby: paper.jar exists" '[ -f "${ROOT_DIR}/lobby/paper.jar" ]'
-check "2b2t: leaf-26.2-14.jar exists" '[ -f "${ROOT_DIR}/2b2t/leaf-26.2-14.jar" ]'
+check "2b2t: leaf-26.2-37.jar exists" '[ -f "${ROOT_DIR}/2b2t/leaf-26.2-37.jar" ]'
 
 # ---- EULA ----
 echo ""

@@ -75,7 +75,7 @@ FLUSH PRIVILEGES;
 
 - `VC/velocity-3.5.0-SNAPSHOT-605.jar` —— Velocity 代理的 jar 包
 - `lobby/paper.jar` —— 大厅服使用的 Paper jar 包
-- `2b2t/leaf-26.2-14.jar` —— 2b2t 服务器使用的 Leaf jar 包
+- `2b2t/leaf-26.2-37.jar` —— 2b2t 服务器使用的 Leaf jar 包
 - 执行 `cp .env.example .env`，然后填写 `FORWARDING_SECRET`、
   `LUCKPERMS_DB_PASSWORD` 等你需要用到的变量
 
@@ -84,10 +84,13 @@ FLUSH PRIVILEGES;
 的 jar 包，并逐一核对官方公布的 SHA-256 校验和；该脚本是幂等的——重复
 运行只会跳过校验和已匹配的既有文件，任何下载失败或校验不通过都会清理掉
 临时文件，不会留下半成品。Leaf jar 是例外：Leaf 的 GitHub Releases 每个
-Minecraft 版本只保留最新一次构建，历史上的 `2b2t/leaf-26.2-14.jar` 这个
-build 已经没有官方直链可用，脚本会将其标记为 `MANUAL`——请按脚本打印的
-提示，从 [Leaf 官方 Releases 页面](https://github.com/Winds-Studio/Leaf/releases)
-手工获取对应文件并放到该路径（若改用更新的 build，需要同步更新清单、本
+Minecraft 版本只保留最新一次构建，`2b2t/leaf-26.2-37.jar` 这个 build 的
+github.com release-download 直链会在上游发布下一个 build 时失效（而且该
+直链在部分主机上本来就不可达），脚本会将其标记为 `MANUAL`——请改用
+api.github.com 的 asset 端点手工获取（`curl -L -H "Accept:
+application/octet-stream" <asset_url> -o leaf-26.2-37.jar`，`<asset_url>`
+从 `https://api.github.com/repos/Winds-Studio/Leaf/releases/tags/ver-26.2`
+的 JSON 中取得），放到该路径（若改用更新的 build，需要同步更新清单、本
 README 与 Dockerfile 中的引用）。
 
 各 `*/plugins/` 目录下的插件 jar 包同样已被 `.gitignore` 排除——仓库中只

@@ -24,10 +24,16 @@ fi
 
 source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
+# Heap sizing via .env; unset falls back to the historical hardcoded
+# 8G/8G/6G values (production defaults are unchanged).
+SURVIVAL_JAVA_XMS="${SURVIVAL_JAVA_XMS:-8G}"
+SURVIVAL_JAVA_XMX="${SURVIVAL_JAVA_XMX:-8G}"
+SURVIVAL_JAVA_SOFT_MAX="${SURVIVAL_JAVA_SOFT_MAX:-6G}"
+
 run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" \
   java \
-    -Xms8G -Xmx8G \
-    -XX:SoftMaxHeapSize=6G \
+    -Xms"${SURVIVAL_JAVA_XMS}" -Xmx"${SURVIVAL_JAVA_XMX}" \
+    -XX:SoftMaxHeapSize="${SURVIVAL_JAVA_SOFT_MAX}" \
     -XX:+IgnoreUnrecognizedVMOptions \
     -XX:+UnlockExperimentalVMOptions \
     -Dfile.encoding=UTF-8 \
@@ -42,4 +48,4 @@ run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-26.2-14.jar --paper-dir "${PAPER_RUNTIME_CONFIG}" --nogui
+    -jar leaf-26.2-37.jar --paper-dir "${PAPER_RUNTIME_CONFIG}" --nogui

@@ -22,7 +22,7 @@ stop_service() {
       ;;
     2b2t)
       run_script="${ROOT_DIR}/2b2t/run.sh"
-      server_jar="leaf-26.2-14.jar"
+      server_jar="leaf-26.2-37.jar"
       ;;
     *)
       echo "Unknown service: ${name}"

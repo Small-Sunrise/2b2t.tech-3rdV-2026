@@ -24,10 +24,16 @@ fi
 
 source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
+# Heap sizing via .env; unset falls back to the historical hardcoded
+# 1G/1G/700M values (production defaults are unchanged).
+LOBBY_JAVA_XMS="${LOBBY_JAVA_XMS:-1G}"
+LOBBY_JAVA_XMX="${LOBBY_JAVA_XMX:-1G}"
+LOBBY_JAVA_SOFT_MAX="${LOBBY_JAVA_SOFT_MAX:-700M}"
+
 run_with_restart "Lobby server" "${RESTART_DELAY_SECONDS:-300}" \
   java \
-    -Xms1G -Xmx1G \
-    -XX:SoftMaxHeapSize=700M \
+    -Xms"${LOBBY_JAVA_XMS}" -Xmx"${LOBBY_JAVA_XMX}" \
+    -XX:SoftMaxHeapSize="${LOBBY_JAVA_SOFT_MAX}" \
     -XX:+IgnoreUnrecognizedVMOptions \
     -XX:+UnlockExperimentalVMOptions \
     -Dfile.encoding=UTF-8 \

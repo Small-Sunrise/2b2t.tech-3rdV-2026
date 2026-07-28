@@ -51,11 +51,11 @@ done
 
 # Verify upgrades from pid files that contain the Java child rather than the
 # run.sh supervisor do not leave the old restart loop alive.
-ln -s /bin/sleep "${TEST_DIR}/2b2t/leaf-26.2-14.jar"
+ln -s /bin/sleep "${TEST_DIR}/2b2t/leaf-26.2-37.jar"
 cat > "${TEST_DIR}/2b2t/run.sh" <<SH
 #!/usr/bin/env bash
 while true; do
-  "${TEST_DIR}/2b2t/leaf-26.2-14.jar" 30 &
+  "${TEST_DIR}/2b2t/leaf-26.2-37.jar" 30 &
   child_pid=\$!
   printf '%s\n' "\${child_pid}" > "${TEST_DIR}/pids/2b2t.pid"
   wait "\${child_pid}"

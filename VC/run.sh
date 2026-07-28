@@ -23,9 +23,14 @@ fi
 
 source "${BASH_SOURCE[0]%/*}/../scripts/service-loop.sh"
 
+# Heap sizing via .env; unset falls back to the historical hardcoded 1G/1G
+# values (production defaults are unchanged).
+VELOCITY_JAVA_XMS="${VELOCITY_JAVA_XMS:-1G}"
+VELOCITY_JAVA_XMX="${VELOCITY_JAVA_XMX:-1G}"
+
 run_with_restart "Velocity proxy" "${RESTART_DELAY_SECONDS:-300}" \
   java \
-      -Xms1G -Xmx1G \
+      -Xms"${VELOCITY_JAVA_XMS}" -Xmx"${VELOCITY_JAVA_XMX}" \
       -XX:+UnlockExperimentalVMOptions \
       -XX:+IgnoreUnrecognizedVMOptions \
       -XX:+UseZGC \
