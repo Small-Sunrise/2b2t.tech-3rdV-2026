@@ -40,20 +40,20 @@ if defined FORWARDING_SECRET if not "%FORWARDING_SECRET%"=="" (
 rem === Optional Floodgate key (same no-newline/no-BOM care). FLOODGATE_KEY_PEM
 rem     stores literal "\n" sequences for line breaks (mirrors run.sh's
 rem     `printf '%%b'`); turn them into real line breaks before writing.
-rem     Deliberately NOT wrapped in a parenthesized if-block: the caret
-rem     line-continuation trick used to build a literal linefeed below does
-rem     not combine reliably with compound "( ... )" statements in cmd. ===
+rem     NOTE: a pure-cmd "!VAR:\n=!LF!!" splice was tried first and is WRONG --
+rem     cmd parses that as "!VAR:\n=!" (replace \n with empty string) followed
+rem     by the literal text "LF" and a stray empty "!!", which silently
+rem     collapses the key to one line with "LF" appended. Delegating the
+rem     substitution to .NET's String.Replace via a one-line PowerShell call
+rem     avoids cmd's substitution-parsing rules entirely: the value is never
+rem     re-embedded into the command line (read directly from the process
+rem     environment as $env:FLOODGATE_KEY_PEM), so '%%', '!', quotes, etc. in
+rem     the key cannot corrupt the command, and File.WriteAllText defaults to
+rem     UTF-8 with no BOM and writes no trailing newline of its own. ===
 if not defined FLOODGATE_KEY_PEM goto :after_floodgate
 if "%FLOODGATE_KEY_PEM%"=="" goto :after_floodgate
 if not exist "plugins\floodgate" mkdir "plugins\floodgate"
-setlocal EnableDelayedExpansion
-set LF=^
-
-
-set "PEM_CONTENT=!FLOODGATE_KEY_PEM!"
-set "PEM_CONTENT=!PEM_CONTENT:\n=!LF!!"
-( <nul set /p "_OUT_=!PEM_CONTENT!" ) > "plugins\floodgate\key.pem"
-endlocal
+powershell -NoProfile -NonInteractive -Command "[System.IO.File]::WriteAllText('plugins\floodgate\key.pem', $env:FLOODGATE_KEY_PEM.Replace('\n', [string][char]10))"
 :after_floodgate
 
 rem === Heap sizing via .env. Unset falls back to the historical hardcoded

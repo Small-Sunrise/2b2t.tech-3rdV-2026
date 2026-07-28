@@ -43,6 +43,33 @@ rem     today's production behavior. ===
 set "PRETOUCH_FLAG=-XX:+AlwaysPreTouch"
 if "%JAVA_ALWAYS_PRE_TOUCH%"=="0" set "PRETOUCH_FLAG="
 
+rem === Sweep stale runtime config dirs left behind by an abnormally
+rem     terminated previous run (Ctrl+C, a closed console window, or
+rem     taskkill all skip the cleanup below, since cmd has no EXIT-trap
+rem     equivalent to bash's). Safe to run even while another instance of
+rem     this same launcher (or 2b2t's) is active: each live run holds an
+rem     exclusive lock on "<dir>\.lock" for exactly as long as java is
+rem     running (see the "9>" redirection further down). We must NOT just
+rem     blindly "rmdir /s /q" a candidate: that call deletes every file it
+rem     CAN delete before failing on the one that's locked, which would
+rem     gut a live instance's config out from under it while leaving an
+rem     empty shell + ".lock" behind. Instead, non-destructively probe the
+rem     lock first by attempting to rename ".lock" in place: a rename needs
+rem     the same exclusive access as a delete, so it fails harmlessly (and
+rem     touches nothing) while another process still holds the file open,
+rem     and only succeeds (proving no one holds it) on genuinely orphaned
+rem     directories, which are then safe to remove in full. Directories
+rem     from a much older build with no ".lock" at all also fail this probe
+rem     and are conservatively left alone rather than risked. The
+rem     "-lobby-" prefix is distinct from 2b2t's "-survival-" prefix so
+rem     this sweep can never touch (or race with) 2b2t's directories. ===
+for /d %%D in ("%TEMP%\2b2t-paper-config-lobby-*") do (
+  ren "%%D\.lock" ".lock.sweep-check" >nul 2>nul
+  if not errorlevel 1 (
+    rmdir /s /q "%%D" 2>nul
+  )
+)
+
 :loop
 rem === Config isolation: copy config\ into a fresh temp dir per run and pass
 rem     --paper-dir so Paper's in-place rewrite of paper-global.yml (which
@@ -55,11 +82,21 @@ if exist "%PAPER_RUNTIME_CONFIG%" goto loop
 mkdir "%PAPER_RUNTIME_CONFIG%" >nul 2>nul
 xcopy "config" "%PAPER_RUNTIME_CONFIG%\" /E /I /H /Y /Q >nul
 
-echo 启动大厅服务器...
-"%JAVA_EXE%" -Xms%LOBBY_JAVA_XMS% -Xmx%LOBBY_JAVA_XMX% -XX:SoftMaxHeapSize=%LOBBY_JAVA_SOFT_MAX% -XX:+IgnoreUnrecognizedVMOptions -XX:+UnlockExperimentalVMOptions -Dfile.encoding=UTF-8 %PRETOUCH_FLAG% -XX:+DisableExplicitGC -XX:+UseZGC -XX:-ZProactive -XX:ZCollectionIntervalMinor=0.98 -XX:ZUncommitDelay=5 --add-modules jdk.incubator.vector -jar paper.jar --paper-dir "%PAPER_RUNTIME_CONFIG%" --nogui
+rem === Plain ASCII only, deliberately: cmd.exe on this host (batch files
+rem     saved as UTF-8, active code page 936) corrupts its own script
+rem     parsing after enough "goto loop" passes if a re-executed echo line
+rem     contains multi-byte CJK text -- empirically reproducible, it
+rem     eventually aborts with "maximum setlocal recursion level reached"
+rem     with no java output at all. Confirmed both under output
+rem     redirection AND in a genuine interactive console window. ===
+echo Starting lobby server...
+rem === The lock redirect is applied directly to the java command line
+rem     (java inherits the open handle, so it stays held for exactly
+rem     java's lifetime with no wrapping block needed). ===
+"%JAVA_EXE%" -Xms%LOBBY_JAVA_XMS% -Xmx%LOBBY_JAVA_XMX% -XX:SoftMaxHeapSize=%LOBBY_JAVA_SOFT_MAX% -XX:+IgnoreUnrecognizedVMOptions -XX:+UnlockExperimentalVMOptions -Dfile.encoding=UTF-8 %PRETOUCH_FLAG% -XX:+DisableExplicitGC -XX:+UseZGC -XX:-ZProactive -XX:ZCollectionIntervalMinor=0.98 -XX:ZUncommitDelay=5 --add-modules jdk.incubator.vector -jar paper.jar --paper-dir "%PAPER_RUNTIME_CONFIG%" --nogui 9>"%PAPER_RUNTIME_CONFIG%\.lock"
 set "EXITCODE=%ERRORLEVEL%"
 rmdir /s /q "%PAPER_RUNTIME_CONFIG%" 2>nul
 
-echo lobby关闭 (exit %EXITCODE%)，1分钟后自动重启...
+echo lobby stopped (exit %EXITCODE%), restarting in 60s...
 timeout /t 60 /nobreak >nul
 goto loop
