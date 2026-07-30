@@ -47,3 +47,14 @@ lobby/plugins/ViaRewind-4.1.3.jar|URL|https://cdn.modrinth.com/data/TbHIxhx5/ver
 2b2t/plugins/ViaVersion-5.11.0.jar|URL|https://cdn.modrinth.com/data/P1OZGk5p/versions/ZH8459B6/ViaVersion-5.11.0.jar|89db76c8e3e674238f5eee2bb7a9e9a2beeba0760bbd1b86494778e8a5a52f70
 2b2t/plugins/ViaBackwards-5.11.0.jar|URL|https://cdn.modrinth.com/data/NpvuJQoq/versions/hYhg2QBT/ViaBackwards-5.11.0.jar|41085a59d784c9a0d14917fe7487ef5e201a9da7825fd047f08d328ff33eecdc
 2b2t/plugins/ViaRewind-4.1.3.jar|URL|https://cdn.modrinth.com/data/TbHIxhx5/versions/r9d7WsYA/ViaRewind-4.1.3.jar|24ee7045d538287bb206e57fda071eb486c52b7a0ba452d06c582d36b5a1f8e8
+
+# Floodgate（Geyser 的 Bedrock 认证组件），只装在 VC。
+#
+# 走 GeyserMC 官方下载站，URL 已按 version/build 固化（2.2.5 build 138），
+# sha256 取自该站点 API 公布值。
+#
+# 注意：spark 不在此列——Paper 与 Leaf 都已把 spark 打进服务端 jar 内
+# （META-INF/libraries/me/lucko/spark-paper/…，启动日志会打印 "This server
+# bundles the spark profiler"），再单独放一个 spark jar 属于重复加载。
+
+VC/plugins/floodgate-velocity.jar|URL|https://download.geysermc.org/v2/projects/floodgate/versions/2.2.5/builds/138/downloads/velocity|524744c5c3de67df4b84adc80babbf5d9f00412c1a593f74a8ae6e6dde92c06f
