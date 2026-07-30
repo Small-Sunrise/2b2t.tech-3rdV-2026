@@ -63,6 +63,27 @@ run_with_restart() {
     use_pipe=1
   fi
 
+  # Sending the console stop command is not reliable as a one-shot. If it
+  # lands while the server is still starting up, Paper buffers the console
+  # line and then throws it away on the first tick:
+  #
+  #   [ERROR]: Command exception: /stop
+  #   java.lang.NullPointerException: Cannot invoke
+  #     "ServerLevel.getGameRules()" because the return value of
+  #     "CommandSourceStack.getLevel()" is null
+  #       at Commands.executeCommandInContext
+  #       at DedicatedServer.handleConsoleInputs
+  #
+  # Observed for real on a lobby whose startup took 124s (AuthMe downloads 17
+  # libraries at boot): the stop was swallowed, the supervisor waited out the
+  # full timeout and then fell back to TERM -- i.e. exactly the ungraceful
+  # kill this whole mechanism exists to avoid. So resend it periodically
+  # while waiting; a later attempt lands once the server is actually up.
+  send_stop_command() {
+    [ -n "${child_stdin_fd}" ] || return 0
+    { printf '%s\n' "${stop_command}" >&"${child_stdin_fd}"; } 2>/dev/null || true
+  }
+
   # Once the console stop command has been sent, wait up to
   # STOP_TIMEOUT_SECONDS (the same variable/default stop-all.sh already
   # exposes) for the child to exit on its own, then TERM, then KILL as a
@@ -70,6 +91,7 @@ run_with_restart() {
   # safety net for a stuck/unresponsive child.
   escalate_stop() {
     local timeout="${STOP_TIMEOUT_SECONDS:-120}"
+    local resend_every="${STOP_RESEND_SECONDS:-15}"
     local waited=0
     while kill -0 "${child_pid}" 2>/dev/null; do
       if [ "${waited}" -ge "${timeout}" ]; then
@@ -89,6 +111,10 @@ run_with_restart() {
       fi
       sleep 1
       waited=$((waited + 1))
+      if [ "${resend_every}" -gt 0 ] && [ $((waited % resend_every)) -eq 0 ]; then
+        echo "${label}: still running after ${waited}s; resending console stop command (${stop_command})."
+        send_stop_command
+      fi
     done
   }
 
@@ -99,7 +125,7 @@ run_with_restart() {
     fi
     if [ -n "${child_stdin_fd}" ]; then
       echo "${label}: sending console stop command (${stop_command})..."
-      { printf '%s\n' "${stop_command}" >&"${child_stdin_fd}"; } 2>/dev/null || true
+      send_stop_command
       escalate_stop
     else
       # No pipe for this run (no stop command configured, or this child is

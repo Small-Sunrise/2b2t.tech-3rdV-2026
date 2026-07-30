@@ -2,13 +2,22 @@
 # Fetches the required server jars (Velocity / Paper / Leaf) for a fresh
 # clone, per scripts/jars.manifest.
 #
-# - Reads scripts/jars.manifest (path|URL-or-MANUAL|location|sha256).
+# - Reads scripts/jars.manifest (path|URL-or-GHASSET-or-MANUAL|location|sha256).
 # - Skips jars that already exist on disk with a matching sha256 (idempotent).
 # - Downloads to a temp file in the target directory, verifies sha256, then
 #   atomically renames into place. A failed/mismatched download never leaves
 #   a partial jar at the target path.
 # - MANUAL entries (no reliable official direct link) are never downloaded;
 #   the script prints a clear instruction instead.
+# - GHASSET entries are GitHub release assets fetched through the
+#   api.github.com asset endpoint rather than a github.com release-download
+#   link, because some hosts can reach the former but not the latter. On the
+#   Windows host this project is deployed to, a release download and
+#   `git ls-remote` fail every single time (measured 0/5) while the API
+#   endpoint works. That endpoint needs an explicit
+#   `Accept: application/octet-stream` header or it returns the asset's JSON
+#   metadata instead of the file. GITHUB_TOKEN is passed through when set,
+#   only to lift the anonymous API rate limit.
 # - Plugin jars are out of scope with ONE exception: the ViaVersion suite
 #   (ViaVersion / ViaBackwards / ViaRewind). lobby runs protocol 775 and 2b2t
 #   runs protocol 776, so without Via no single client protocol can reach both
@@ -63,8 +72,8 @@ while IFS='|' read -r rel_path kind location checksum; do
     continue
   fi
 
-  if [ "${kind}" != "URL" ]; then
-    echo "错误: ${rel_path} 的清单类型未知: '${kind}'（应为 URL 或 MANUAL）" >&2
+  if [ "${kind}" != "URL" ] && [ "${kind}" != "GHASSET" ]; then
+    echo "错误: ${rel_path} 的清单类型未知: '${kind}'（应为 URL、GHASSET 或 MANUAL）" >&2
     FAILED=$((FAILED + 1))
     continue
   fi
@@ -92,7 +101,14 @@ while IFS='|' read -r rel_path kind location checksum; do
   trap 'rm -f "${tmp_file}"; exit 130' INT TERM
   echo "→ 下载: ${rel_path}"
   echo "  来源: ${location}"
-  if ! curl -fsSL --retry 3 --connect-timeout 10 -o "${tmp_file}" "${location}"; then
+  curl_headers=()
+  if [ "${kind}" = "GHASSET" ]; then
+    curl_headers+=(-H "Accept: application/octet-stream")
+    if [ -n "${GITHUB_TOKEN:-}" ]; then
+      curl_headers+=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
+    fi
+  fi
+  if ! curl -fsSL --retry 3 --connect-timeout 10 "${curl_headers[@]}" -o "${tmp_file}" "${location}"; then
     echo "错误: 下载失败: ${location}" >&2
     rm -f "${tmp_file}"
     FAILED=$((FAILED + 1))
