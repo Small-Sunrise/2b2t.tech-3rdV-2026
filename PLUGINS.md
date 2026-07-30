@@ -80,7 +80,7 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 |------|------|------|----------|
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
-| ZNPCsPlus | 2.0.0 | GitHub | https://github.com/Pyrbu/ZNPCsPlus | 仅安装于 lobby（大厅服），替代 ServersNPC（v1.1.0 迁移） |
+| FancyNpcs | 2.11.0 | Modrinth | https://modrinth.com/plugin/fancynpcs | 仅安装于 lobby（大厅服）。取代无法在 26.x 上运行的 ZNPCsPlus，见下方兼容性表。要求 Java 25+，跨服跳转用 `send_to_server` 动作（依赖 velocity.toml 的 `bungee-plugin-message-channel`，本仓库已开启） |
 | MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 仅安装于 lobby（大厅服），替代 Srepay（微信/支付宝，v1.1.0 迁移） |
 
 ## 内置统计
@@ -113,4 +113,6 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 | lobby/fakeplayer 0.3.13 | 启动日志：`Unsupported Minecraft version: 26.1.2`，插件完全无法启用 | 停用该插件，等待上游发布支持 26.x 的版本后再启用 |
 | 2b2t/PlaceholderAPI | 在 Leaf 26.2 上加载失败：`java.lang.NumberFormatException: For input string: "b"`（版本号解析崩溃） | 升级到支持 26.x 的版本 |
 | 2b2t/TAB 6.1.0 | 日志：`Your server version (Paper 26.1.2) is marked as compatible, but the implementation does not exist` | 升级到支持 26.x 的版本 |
-| lobby/ZNPCsPlus 2.0.0 | 在 Paper 26.1.2 上初始化直接抛异常：`Version string must be in the format 'major.minor[.patch][+commit][-SNAPSHOT]', found '26.1.2.build.72' instead`——其内置的 PacketEvents 解析不了 Paper 的 API 版本号，`onLoad` 阶段就失败 | **不要放这个 jar**：放了每次启动都会多一条 ERROR，而插件本身完全不工作。2.0.0 已是上游最新 release，只能等新版 |
+| lobby/ZNPCsPlus 2.0.0 | 在 Paper 26.1.2 上初始化直接抛异常：`Version string must be in the format 'major.minor[.patch][+commit][-SNAPSHOT]', found '26.1.2.build.72' instead`——其内置的 PacketEvents 解析不了 Paper 的 API 版本号，`onLoad` 阶段就失败 | **不要放这个 jar**：放了每次启动都会多一条 ERROR，而插件本身完全不工作。2.0.0 已是上游最新 release，只能等新版 | 
+| lobby/AuthMe 6.0.0 | 启动日志：`WARNING! The protectInventory feature requires PacketEvents! Disabling it...` | 功能降级而非启动失败：登录前的背包保护不可用，其余功能（含 MySQL 存储）正常。要恢复该功能需额外安装 PacketEvents |
+| VC/LuckPerms 5.5.53 | Velocity 上加载翻译时报 `Error loading locale file: zh_TW.properties` | 只影响繁体中文翻译文件的加载，插件本身正常启用并连上 MySQL |

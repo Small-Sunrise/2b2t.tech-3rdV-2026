@@ -119,6 +119,21 @@ check "lobby: AuthMe jar exists" \
 check "lobby: MinePay.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/MinePay.jar" ]'
 check "VC: Floodgate plugin exists for Geyser floodgate auth" 'find "${ROOT_DIR}/VC/plugins" -maxdepth 1 -iname "floodgate*.jar" -print -quit | grep -q .'
 
+# LuckPerms owns the LUCKPERMS_DB_* credentials that inject-db-secrets.sh
+# writes; without the jar the whole MySQL config below is inert. It is needed
+# on both backends and on the proxy (different artifact per platform).
+for dir in "lobby" "2b2t"; do
+  check "${dir}: LuckPerms jar exists" \
+    "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'LuckPerms-Bukkit-*.jar' -print -quit | grep -q ."
+done
+check "VC: LuckPerms jar exists" \
+  'find "${ROOT_DIR}/VC/plugins" -maxdepth 1 -iname "LuckPerms-Velocity-*.jar" -print -quit | grep -q .'
+
+# FancyNpcs replaces ZNPCsPlus as the lobby's NPC plugin (see below and
+# PLUGINS.md). Verified enabling cleanly on Paper 26.1.2.
+check "lobby: FancyNpcs jar exists" \
+  'find "${ROOT_DIR}/lobby/plugins" -maxdepth 1 -iname "FancyNpcs-*.jar" -print -quit | grep -q .'
+
 # Inverted on purpose: ZNPCsPlus 2.0.0 (the newest upstream release) cannot run
 # on this stack at all. Its bundled PacketEvents blows up in onLoad with
 # "Version string must be in the format 'major.minor[.patch][+commit]
