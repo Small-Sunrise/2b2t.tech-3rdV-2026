@@ -1,7 +1,4 @@
 FROM eclipse-temurin:25-jre
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 \
-    && rm -rf /var/lib/apt/lists/*
 WORKDIR /runtime
 COPY VC/velocity-3.5.0-SNAPSHOT-605.jar /app/velocity.jar
 COPY scripts/inject-db-secrets.sh /usr/local/bin/inject-runtime-credentials

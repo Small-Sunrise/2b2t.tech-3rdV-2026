@@ -78,7 +78,7 @@ any service until you add these manually:
 
 - `VC/velocity-3.5.0-SNAPSHOT-605.jar` — the Velocity proxy jar
 - `lobby/paper.jar` — the Paper jar for the lobby server
-- `2b2t/leaf-26.2-14.jar` — the Leaf jar for the 2b2t server
+- `2b2t/leaf-26.2-37.jar` — the Leaf jar for the 2b2t server
 - `cp .env.example .env`, then fill in `FORWARDING_SECRET`,
   `LUCKPERMS_DB_PASSWORD`, and any other variables your setup needs
 
@@ -89,10 +89,15 @@ sunset), verifying each download against its published SHA-256; it's
 idempotent, so re-running it just skips jars that already match, and any
 failed/mismatched download is cleaned up rather than left half-written. The
 Leaf jar is the exception: Leaf's GitHub Releases only keep the latest build
-per Minecraft version, so the historical `2b2t/leaf-26.2-14.jar` build has no
-stable official direct link and the script marks it `MANUAL` — grab it by
-hand from the [Leaf releases page](https://github.com/Winds-Studio/Leaf/releases)
-and place it at that exact path (or switch to a newer build and update the
+per Minecraft version, so `2b2t/leaf-26.2-37.jar` has no stable
+github.com release-download link (it will be replaced the moment upstream
+ships the next build for this Minecraft version, and the plain release-page
+download URL is unreachable from some hosts anyway) and the script marks it
+`MANUAL` — grab it by hand via the api.github.com asset endpoint (`curl -L
+-H "Accept: application/octet-stream" <asset_url> -o leaf-26.2-37.jar`, with
+`<asset_url>` taken from
+`https://api.github.com/repos/Winds-Studio/Leaf/releases/tags/ver-26.2`) and
+place it at that exact path (or switch to a newer build and update the
 manifest, this README, and the Dockerfile reference together).
 
 Plugin jars under each `*/plugins/` directory are also gitignored — only

@@ -1,20 +1,24 @@
 # 2b2t.tech 插件清单
 
-> 核心: Leaf 26.2-14 | 更新日期: 2026-07-02
+> 核心: Leaf 26.2-37 | 更新日期: 2026-07-28
 
 ## Core
 
 | 插件 | 版本 | 下载地址 |
 |------|------|----------|
-| Leaf | 26.2-14 | https://github.com/Winds-Studio/Leaf/releases/tag/ver-26.2 |
+| Leaf | 26.2-37 | https://github.com/Winds-Studio/Leaf/releases/tag/ver-26.2 |
 
 ## ViaVersion Suite
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| ViaVersion | 5.10.1-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viaversion |
-| ViaBackwards | 5.10.1-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viabackwards |
-| ViaRewind | 4.1.3-SNAPSHOT | Modrinth | https://modrinth.com/plugin/viarewind |
+| ViaVersion | 5.11.0 | Modrinth | https://modrinth.com/plugin/viaversion |
+| ViaBackwards | 5.11.0 | Modrinth | https://modrinth.com/plugin/viabackwards |
+| ViaRewind | 4.1.3 | Modrinth | https://modrinth.com/plugin/viarewind |
+
+这三个由 `scripts/fetch-jars.sh` 自动拉取（见 `scripts/jars.manifest`），无需手工下载：
+lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客户端协议能同时连上
+两个后端。三个服务（VC / lobby / 2b2t）都要装，装的是同一份 universal jar。
 
 ## 基础依赖
 
@@ -98,6 +102,7 @@
 | Residence | CMILib 缺 v1_22_R1 字段 | 更新 CMILib + Residence |
 | AdvancedTeleport | 仅支持 1.17-1.19 | 等待作者更新 |
 | ProtocolLib | 未测试 1.26 | 已有新版本 |
+| MinePay | 上游最新构建只标注到 1.21.11，没有任何 26.x 构建可下载 | 等待作者更新；在此之前 lobby 没有支付功能 |
 
 ## 已知兼容性问题
 
@@ -108,3 +113,4 @@
 | lobby/fakeplayer 0.3.13 | 启动日志：`Unsupported Minecraft version: 26.1.2`，插件完全无法启用 | 停用该插件，等待上游发布支持 26.x 的版本后再启用 |
 | 2b2t/PlaceholderAPI | 在 Leaf 26.2 上加载失败：`java.lang.NumberFormatException: For input string: "b"`（版本号解析崩溃） | 升级到支持 26.x 的版本 |
 | 2b2t/TAB 6.1.0 | 日志：`Your server version (Paper 26.1.2) is marked as compatible, but the implementation does not exist` | 升级到支持 26.x 的版本 |
+| lobby/ZNPCsPlus 2.0.0 | 在 Paper 26.1.2 上初始化直接抛异常：`Version string must be in the format 'major.minor[.patch][+commit][-SNAPSHOT]', found '26.1.2.build.72' instead`——其内置的 PacketEvents 解析不了 Paper 的 API 版本号，`onLoad` 阶段就失败 | **不要放这个 jar**：放了每次启动都会多一条 ERROR，而插件本身完全不工作。2.0.0 已是上游最新 release，只能等新版 |

@@ -43,7 +43,7 @@ echo ""
 echo "[Server JARs]"
 check "VC: velocity jar exists" '[ -f "${ROOT_DIR}/VC/velocity-3.5.0-SNAPSHOT-605.jar" ]'
 check "lobby: paper.jar exists" '[ -f "${ROOT_DIR}/lobby/paper.jar" ]'
-check "2b2t: leaf-26.2-14.jar exists" '[ -f "${ROOT_DIR}/2b2t/leaf-26.2-14.jar" ]'
+check "2b2t: leaf-26.2-37.jar exists" '[ -f "${ROOT_DIR}/2b2t/leaf-26.2-37.jar" ]'
 
 # ---- EULA ----
 echo ""
@@ -61,7 +61,11 @@ check "2b2t run.sh executable" '[ -x "${ROOT_DIR}/2b2t/run.sh" ]'
 # ---- Java ----
 echo ""
 echo "[Java Runtime]"
-JAVA_VER=$(java -version 2>&1 | head -1 | grep -oE '\d+\.\d+\.\d+' || echo "unknown")
+# GNU grep ERE has no \d; the previous pattern never matched anything and
+# always fell through to "unknown". This only affects the *displayed*
+# version string below -- the actual gate on the next line already used a
+# correct ERE ([0-9], not \d) and is left untouched.
+JAVA_VER=$(java -version 2>&1 | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "unknown")
 check "Java 25+ installed (found: ${JAVA_VER})" 'java -version 2>&1 | grep -qE "version \"(2[5-9]|[3-9][0-9])\."'
 
 # ---- Plugin dirs exist ----
@@ -70,6 +74,20 @@ echo "[Plugin Directories]"
 check "VC plugins dir exists" '[ -d "${ROOT_DIR}/VC/plugins" ]'
 check "lobby plugins dir exists" '[ -d "${ROOT_DIR}/lobby/plugins" ]'
 check "2b2t plugins dir exists" '[ -d "${ROOT_DIR}/2b2t/plugins" ]'
+
+# ---- ViaVersion suite ----
+# lobby speaks protocol 775 and 2b2t speaks 776. Without Via on every hop no
+# single client protocol can reach both backends, so these are hard requirements
+# rather than optional plugins. Matched by prefix so a version bump does not
+# silently turn these checks into false negatives.
+echo ""
+echo "[ViaVersion Suite (protocol bridge)]"
+for dir in "VC" "lobby" "2b2t"; do
+  for plugin in "ViaVersion" "ViaBackwards" "ViaRewind"; do
+    check "${dir}: ${plugin} jar exists" \
+      "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname '${plugin}-*.jar' -print -quit | grep -q ."
+  done
+done
 
 # ---- LuckPerms config ----
 echo ""
@@ -91,11 +109,39 @@ done
 # ---- Key plugins present ----
 echo ""
 echo "[Key Plugins]"
-check "lobby: AuthMe.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/AuthMe-6.0.0.jar" ]'
-check "lobby: ZNPCsPlus-2.0.0.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/ZNPCsPlus-2.0.0.jar" ]'
+# Prefix-matched, like the Via checks: upstream AuthMe 6.0.0 does not publish a
+# plain "AuthMe-6.0.0.jar" at all -- its release assets are per-platform
+# ("AuthMe-6.0.0-Paper.jar", "-Spigot-1.21", "-Folia", ...), so the old exact
+# filename could never be satisfied by an official download. Prefix matching
+# also survives a version bump instead of turning into a false negative.
+check "lobby: AuthMe jar exists" \
+  'find "${ROOT_DIR}/lobby/plugins" -maxdepth 1 -iname "AuthMe-*.jar" -print -quit | grep -q .'
 check "lobby: MinePay.jar exists" '[ -f "${ROOT_DIR}/lobby/plugins/MinePay.jar" ]'
-check "2b2t: spark plugin exists" 'ls "${ROOT_DIR}/2b2t/plugins/spark-"*.jar >/dev/null 2>&1'
 check "VC: Floodgate plugin exists for Geyser floodgate auth" 'find "${ROOT_DIR}/VC/plugins" -maxdepth 1 -iname "floodgate*.jar" -print -quit | grep -q .'
+
+# Inverted on purpose: ZNPCsPlus 2.0.0 (the newest upstream release) cannot run
+# on this stack at all. Its bundled PacketEvents blows up in onLoad with
+# "Version string must be in the format 'major.minor[.patch][+commit]
+# [-SNAPSHOT]', found '26.1.2.build.72' instead", so installing the jar buys an
+# ERROR on every lobby start and a plugin that does nothing. See the
+# compatibility table in PLUGINS.md.
+check "lobby: no ZNPCsPlus jar (incompatible with 26.x, see PLUGINS.md)" \
+  '! find "${ROOT_DIR}/lobby/plugins" -maxdepth 1 -iname "ZNPCsPlus-*.jar" -print -quit | grep -q .'
+
+# spark is NOT a plugin jar to install here: Paper and Leaf both ship it inside
+# the server jar (META-INF/libraries/me/lucko/spark-paper/...), and announce it
+# at startup with "This server bundles the spark profiler". Dropping a separate
+# spark-*.jar into plugins/ on top of that is a duplicate load, so the check is
+# inverted: assert the bundled copy is really there, and that nobody added a
+# redundant jar next to it.
+for pair in "lobby:paper.jar" "2b2t:leaf-26.2-37.jar"; do
+  dir="${pair%%:*}"
+  jar="${pair##*:}"
+  check "${dir}: spark is bundled in ${jar}" \
+    "grep -aq 'spark-paper' \"\${ROOT_DIR}/${dir}/${jar}\" 2>/dev/null"
+  check "${dir}: no redundant spark jar in plugins/" \
+    "! find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'spark-*.jar' -print -quit | grep -q ."
+done
 
 # ---- No stale disabled plugins ----
 echo ""

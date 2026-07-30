@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Load environment variables from .env if present
-if [ -f "${BASH_SOURCE[0]%/*}/.env" ]; then
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load environment variables from .env if present.
+#
+# Deliberately keyed off ROOT_DIR (which goes through `dirname`) rather than
+# "${BASH_SOURCE[0]%/*}": that expansion returns the string unchanged when it
+# contains no slash, so invoking this script as `bash run-all.sh` -- no
+# leading ./ -- made it try to source "run-all.sh/.env", silently skip .env,
+# and then die in the credential injector with "QUEQIAO_ACCESS_TOKEN is
+# required while QueQiao is installed". `dirname` returns "." in that case.
+if [ -f "${ROOT_DIR}/.env" ]; then
   set -a
-  source "${BASH_SOURCE[0]%/*}/.env"
+  source "${ROOT_DIR}/.env"
   set +a
 fi
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_DIR="${ROOT_DIR}/logs"
 PID_DIR="${ROOT_DIR}/pids"
 

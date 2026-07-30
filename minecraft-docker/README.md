@@ -10,7 +10,7 @@ Geyser's Bedrock UDP port (`19132`) are published to the host.
 - The three gitignored server jars at their exact paths:
   - `VC/velocity-3.5.0-SNAPSHOT-605.jar`
   - `lobby/paper.jar`
-  - `2b2t/leaf-26.2-14.jar`
+  - `2b2t/leaf-26.2-37.jar`
 - Required plugin jars in each server's `plugins/` directory
 - A root `.env` created from `.env.example`, with all required secrets filled
   in

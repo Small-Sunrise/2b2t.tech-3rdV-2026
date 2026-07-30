@@ -1,9 +1,6 @@
 FROM eclipse-temurin:25-jre
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 \
-    && rm -rf /var/lib/apt/lists/*
 WORKDIR /data
-COPY 2b2t/leaf-26.2-14.jar /app/server.jar
+COPY 2b2t/leaf-26.2-37.jar /app/server.jar
 COPY scripts/inject-db-secrets.sh /usr/local/bin/inject-runtime-credentials
 COPY minecraft-docker/scripts/backend-entrypoint.sh /usr/local/bin/backend-entrypoint
 RUN chmod +x /usr/local/bin/inject-runtime-credentials /usr/local/bin/backend-entrypoint
