@@ -52,6 +52,20 @@ function is_config_like(p,    ext) {
 function is_benign_hex_path(p) {
     return (p in BENIGN_PATH)
 }
+# Locale / message files are UI text, not credential stores, and they are full
+# of the literal key "password". AuthMe 6.0.0 added dialog sections whose
+# labels are exactly `password: "&fPassword"`, which the key rule below
+# reported as two "non-placeholder value for password" findings and blocked a
+# commit over. Suppress the KEY rule -- and only the KEY rule -- for files
+# under an explicitly listed message directory. Matched by directory prefix so
+# a newly added locale file is covered too, but nothing outside those
+# directories is; the hex rule still applies everywhere.
+function is_benign_key_path(p,   d) {
+    for (d in BENIGN_KEY_DIR) {
+        if (index(p, d) == 1) return 1
+    }
+    return 0
+}
 function unquote(value,   idx, n, first, last) {
     gsub(/^[ \t]+/, "", value)
     gsub(/[ \t]+$/, "", value)
@@ -88,7 +102,7 @@ function try_key_match(t,   lower, klen, rest, seplen) {
     gsub(/[ \t]+$/, "", MATCHED_VALUE)
     return 1
 }
-function scan_line(rpath, config_like, allow_benign_hex, line_number,   line, trimmed, value, lower_value) {
+function scan_line(rpath, config_like, allow_benign_hex, line_number, allow_benign_key,   line, trimmed, value, lower_value) {
     line = $0
     sub(/\r$/, "", line)
 
@@ -98,7 +112,7 @@ function scan_line(rpath, config_like, allow_benign_hex, line_number,   line, tr
         return
     }
 
-    if (config_like && try_key_match(trimmed)) {
+    if (config_like && !allow_benign_key && try_key_match(trimmed)) {
         value = unquote(MATCHED_VALUE)
         lower_value = tolower(value)
         if (!(lower_value in PLACEHOLDER) && substr(value, 1, 2) != "${") {
@@ -132,17 +146,21 @@ BEGIN {
     BENIGN_PATH["2b2t/plugins/Essentials/items.json"] = 1
     BENIGN_PATH["lobby/plugins/Essentials/items.json"] = 1
 
+    BENIGN_KEY_DIR["lobby/plugins/AuthMe/messages/"] = 1
+    BENIGN_KEY_DIR["2b2t/plugins/AuthMe/messages/"] = 1
+
     SCAN_PATH = ENVIRON["SCAN_PATH"]
     if (SCAN_PATH != "") {
         IS_STAGED = 1
         staged_config_like = is_config_like(SCAN_PATH)
         staged_allow_benign_hex = is_benign_hex_path(SCAN_PATH)
+        staged_allow_benign_key = is_benign_key_path(SCAN_PATH)
     } else {
         IS_STAGED = 0
     }
 }
 IS_STAGED {
-    scan_line(SCAN_PATH, staged_config_like, staged_allow_benign_hex, NR)
+    scan_line(SCAN_PATH, staged_config_like, staged_allow_benign_hex, NR, staged_allow_benign_key)
     next
 }
 FNR == 1 {
@@ -150,9 +168,10 @@ FNR == 1 {
     sub(/^\.\//, "", report_path)
     file_config_like = is_config_like(report_path)
     file_allow_benign_hex = is_benign_hex_path(report_path)
+    file_allow_benign_key = is_benign_key_path(report_path)
 }
 {
-    scan_line(report_path, file_config_like, file_allow_benign_hex, FNR)
+    scan_line(report_path, file_config_like, file_allow_benign_hex, FNR, file_allow_benign_key)
 }
 '
 

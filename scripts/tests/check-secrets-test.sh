@@ -47,4 +47,34 @@ printf '%s\n' 'password: unstaged-real-value' > "${TEST_DIR}/fixture.yml"
 git -C "${TEST_DIR}" add fixture.yml
 expect_fail "staged-only behavior"
 
+# Locale files are UI text, not credential stores: AuthMe 6.0.0 ships dialog
+# labels that are literally `password: '&fPassword'`, which used to be reported
+# as a leak and blocked the commit. The key rule is suppressed for the listed
+# message directories -- and nowhere else, which the second half asserts.
+mkdir -p "${TEST_DIR}/lobby/plugins/AuthMe/messages"
+cat > "${TEST_DIR}/lobby/plugins/AuthMe/messages/messages_zh.yml" <<'YAML'
+dialog:
+    login:
+        password: '&fPassword'
+    register:
+        confirm_password: '&fConfirm Password'
+YAML
+git -C "${TEST_DIR}" add lobby/plugins/AuthMe/messages/messages_zh.yml
+if ! (cd "${TEST_DIR}" && bash "${ROOT_DIR}/scripts/check-secrets.sh" --staged >/dev/null 2>&1); then
+  echo "expected locale message labels to be allowed" >&2
+  exit 1
+fi
+git -C "${TEST_DIR}" reset -q
+
+# The same content outside a message directory must still be reported.
+mkdir -p "${TEST_DIR}/lobby/plugins/AuthMe"
+cp "${TEST_DIR}/lobby/plugins/AuthMe/messages/messages_zh.yml" "${TEST_DIR}/lobby/plugins/AuthMe/config.yml"
+git -C "${TEST_DIR}" add lobby/plugins/AuthMe/config.yml
+if (cd "${TEST_DIR}" && bash "${ROOT_DIR}/scripts/check-secrets.sh" --staged >/dev/null 2>&1); then
+  echo "expected the same labels OUTSIDE a message dir to still be flagged" >&2
+  exit 1
+fi
+git -C "${TEST_DIR}" reset -q
+rm -rf "${TEST_DIR}/lobby"
+
 echo "check-secrets test: OK"
