@@ -83,6 +83,26 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 | FancyNpcs | 2.11.0 | Modrinth | https://modrinth.com/plugin/fancynpcs | 仅安装于 lobby（大厅服）。取代无法在 26.x 上运行的 ZNPCsPlus，见下方兼容性表。要求 Java 25+，跨服跳转用 `send_to_server` 动作（依赖 velocity.toml 的 `bungee-plugin-message-channel`，本仓库已开启） |
 | MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 仅安装于 lobby（大厅服），替代 Srepay（微信/支付宝，v1.1.0 迁移） |
 
+### 大厅 NPC 跳转配置（FancyNpcs）
+
+插件 jar 与默认配置已入库（`lobby/plugins/FancyNpcs/`），但**没有预置任何 NPC**——
+NPC 需要一个具体坐标，只能在服内创建。创建一个「点一下就进生存服」的 NPC：
+
+```
+/npc create hub_to_survival
+/npc action hub_to_survival RIGHT_CLICK add send_to_server 2b2t
+```
+
+`2b2t` 是 `VC/velocity.toml` 的 `[servers]` 里的服务名。`send_to_server` 走
+BungeeCord 插件消息通道，依赖 `velocity.toml` 的
+`bungee-plugin-message-channel = true`（本仓库已是 `true`）。
+
+创建后 NPC 会写进 `lobby/plugins/FancyNpcs/npcs.yml`，该文件已被跟踪，记得提交。
+
+> `lobby/plugins/FancyAnalytics/config.json` 是 FancyNpcs 作者的遥测配置，按本仓库
+> 既有惯例（bStats / cStats / PluginMetrics 的配置都入库且保持开启）一并入库、保持
+> 默认开启。要关掉就把 `send_metrics` 与 `send_errors` 改成 `false`。
+
 ## 内置统计
 
 以下插件由其他插件内置携带，随父插件自动更新，无需手动下载：

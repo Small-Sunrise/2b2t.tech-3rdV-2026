@@ -67,6 +67,17 @@ replay_pid*.log
 **/plugins/Essentials/items.json
 # Plan auto-downloads the GeoIP database on first run
 **/plugins/Plan/GeoLite2-Country.mmdb
+# LuckPerms re-downloads its translation bundles on every start (config.yml's
+# "auto-install-translations: true"), so this directory is a download cache,
+# not configuration -- its own status.json is literally {"lastRefresh": <epoch>}.
+# Tracking it meant 35 files per server churned on every single boot (105 across
+# the three services), which drowned out every real config change in git status.
+**/plugins/**/translations/repository/
+# AuthMe writes a timestamped backup of its messages file whenever a plugin
+# upgrade adds new keys, e.g. backup_messages_zh_20260731_0922.yml
+**/plugins/AuthMe/messages/backup_messages_*.yml
+# FancyNpcs records the version it last ran as; regenerated on every start
+**/plugins/FancyNpcs/version.yml
 **/*.tmp
 **/*.db
 **/*.mv.db
