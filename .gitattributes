@@ -1,0 +1,7 @@
+# Paper and its plugins write these files with LF even on Windows. Keep the
+# checkout format identical so a no-op server save does not dirty the tree.
+/lobby/*.json text eol=lf
+/lobby/*.yml text eol=lf
+/lobby/server.properties text eol=lf
+/lobby/plugins/**/*.json text eol=lf
+/lobby/plugins/**/*.yml text eol=lf
