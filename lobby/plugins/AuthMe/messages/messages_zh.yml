@@ -1,18 +1,12 @@
-# List of global tags:
-# %nl% - Goes to new line.
-# %username% - Replaces the username of the player receiving the message.
-# %displayname% - Replaces the nickname (and colors) of the player receiving the message.
-
 # Registration
 registration:
-    disabled: '&8[&6玩家系统&8] &c目前服务器暂时禁止注册，请到服务器论坛以得到更多资讯'
-    name_taken: '&8[&6玩家系统&8] &c此用户已经在此服务器注册过'
+    reg_only: '&8[&6玩家系统&8] &f只允许注册过的玩家进服！请到/reg注册'
     register_request: '&8[&6玩家系统&8] &c请输入“/register <密码> <再输入一次以确定密码>”以注册'
     command_usage: '&8[&6玩家系统&8] &c正确用法：“/register <密码> <再输入一次以确定密码>”'
-    reg_only: '&8[&6玩家系统&8] &f只允许注册过的玩家进服！请到/reg注册'
     success: '&8[&6玩家系统&8] &c已成功注册！'
+    disabled: '&8[&6玩家系统&8] &c目前服务器暂时禁止注册，请到服务器论坛以得到更多资讯'
+    name_taken: '&8[&6玩家系统&8] &c此用户已经在此服务器注册过'
     kicked_admin_registered: '有一位管理员刚刚为您完成了注册，请重新登录'
-
 # Password errors on registration
 password:
     match_error: '&8[&6玩家系统&8] &f密码不相同'
@@ -20,88 +14,84 @@ password:
     unsafe_password: '&8[&6玩家系统&8] &f你不能使用安全性过低的密码。 '
     forbidden_characters: '&4您的密码包含了非法字符。可使用的字符: %valid_chars'
     wrong_length: '&8[&6玩家系统&8] &c你的密码不符合要求'
-
 # Login
 login:
+    login_request: '&8[&6玩家系统&8] &c请输入“/login <密码>”以登录'
     command_usage: '&8[&6玩家系统&8] &c正确用法：“/login <密码>”'
     wrong_password: '&8[&6玩家系统&8] &c错误的密码'
     success: '&8[&6玩家系统&8] &c已成功登录！'
-    login_request: '&8[&6玩家系统&8] &c请输入“/login <密码>”以登录'
     timeout_error: '&8[&6玩家系统&8] &f登录超时'
-
 # Errors
 error:
     denied_command: '&c您需要先通过验证才能使用该命令！'
     denied_chat: '&c您需要先通过验证才能聊天！'
-    unregistered_user: '&8[&6玩家系统&8] &c此用户名还未注册过'
     not_logged_in: '&8[&6玩家系统&8] &c你还未登录！'
+    logged_in: '&8[&6玩家系统&8] &c你已经登陆过了！'
     no_permission: '&8[&6玩家系统&8] &c没有权限'
     unexpected_error: '&8[&6玩家系统&8] &f发现错误，请联系管理员'
-    max_registration: '&8[&6玩家系统&8] &f你不允许再为你的IP在服务器注册更多用户了！'
-    logged_in: '&8[&6玩家系统&8] &c你已经登陆过了！'
-    kick_for_vip: '&8[&6玩家系统&8] &cA VIP玩家加入了已满的服务器!'
+    unregistered_user: '&8[&6玩家系统&8] &c此用户名还未注册过'
     kick_unresolved_hostname: '&8[&6玩家系统&8] &c发生了一个错误: 无法解析玩家的Hostname'
+    kick_for_vip: '&8[&6玩家系统&8] &cA VIP玩家加入了已满的服务器!'
     tempban_max_logins: '&c由于您登录失败次数过多，已被暂时禁止登录。'
-
+    max_registration: '&8[&6玩家系统&8] &f你不允许再为你的IP在服务器注册更多用户了！'
 # AntiBot
 antibot:
     kick_antibot: '&8[&6玩家系统&8] &f验证程序已启用 !请稍等几分钟后再次进入服务器'
     auto_enabled: '&8[&6玩家系统&8] &f验证程序由于大量异常连接而启用'
     auto_disabled: '&8[&6玩家系统&8] &f验证程序由于异常连接减少而在 %m 分钟后停止'
-
 # Unregister
 unregister:
-    success: '&8[&6玩家系统&8] &c成功删除此用户！'
     command_usage: '&8[&6玩家系统&8] &c正确用法：“/unregister <密码>”'
-
+    success: '&8[&6玩家系统&8] &c成功删除此用户！'
 # Other messages
 misc:
-    account_not_activated: '&8[&6玩家系统&8] &f你的帐号还未激活，请查看你的邮箱！'
-    password_changed: '&8[&6玩家系统&8] &c密码已成功修改！'
     logout: '&8[&6玩家系统&8] &c已成功登出！'
-    reload: '&8[&6玩家系统&8] &f配置以及数据已经重新加载完毕'
+    account_not_activated: '&8[&6玩家系统&8] &f你的帐号还未激活，请查看你的邮箱！'
     usage_change_password: '&8[&6玩家系统&8] &f正确用法：“/changepassword 旧密码 新密码”'
+    password_changed: '&8[&6玩家系统&8] &c密码已成功修改！'
     accounts_owned_self: '您拥有 %count 个账户：'
     accounts_owned_other: '玩家 %name 拥有 %count 个账户：'
-
+    reload: '&8[&6玩家系统&8] &f配置以及数据已经重新加载完毕'
 # Session messages
 session:
     valid_session: '&8[&6玩家系统&8] &c欢迎回来，已帮你自动登录到此服务器'
     invalid_session: '&8[&6玩家系统&8] &f登录数据异常，请等待登录结束'
-
 # Error messages when joining
 on_join_validation:
     same_ip_online: '已有一个同IP玩家在游戏中了！'
     same_nick_online: '&8[&6玩家系统&8] &f同样的用户名现在在线且已经登录了！'
+    not_owner_error: '&8[&6玩家系统&8] &4警告！ &c你并不是此帐户的拥有者，请立即登出！ '
     name_length: '&8[&6玩家系统&8] &c你的用户名太短或者太长了'
     characters_in_name: '&8[&6玩家系统&8] &c你的用户名包含非法字母，用户名里允许的字母: %valid_chars'
-    kick_full_server: '&8[&6玩家系统&8] &c抱歉，服务器已满!'
-    country_banned: '这个服务器禁止该国家登陆'
-    not_owner_error: '&8[&6玩家系统&8] &4警告！ &c你并不是此帐户的拥有者，请立即登出！ '
     invalid_name_case: '&8[&6玩家系统&8] &c你应该使用「%valid」而并非「%invalid」登入游戏。 '
+    country_banned: '这个服务器禁止该国家登陆'
+    kick_full_server: '&8[&6玩家系统&8] &c抱歉，服务器已满!'
     quick_command: '&8[&6玩家系统&8] &c您发送命令的速度太快了，请重新加入服务器再等待一会后再使用命令'
-
 # Email
 email:
     add_email_request: '&8[&6玩家系统&8] &c请输入“/email add <你的邮箱> <再输入一次以确认>”以添加您的邮箱到此帐号'
     usage_email_add: '&8[&6玩家系统&8] &f用法: /email add <邮箱> <确认邮箱地址> '
-    usage_email_change: '&8[&6玩家系统&8] &f用法: /email change <旧邮箱> <新邮箱> '
-    new_email_invalid: '&8[&6玩家系统&8] &f新邮箱无效!'
-    old_email_invalid: '&8[&6玩家系统&8] &f旧邮箱无效!'
-    invalid: '&8[&6玩家系统&8] &f无效的邮箱'
     added: '&8[&6玩家系统&8] &f邮箱已添加 !'
     add_not_allowed: '&8[&6玩家系统&8] &c服务器不允许添加邮箱地址'
     request_confirmation: '&8[&6玩家系统&8] &f确认你的邮箱 !'
+    usage_email_change: '&8[&6玩家系统&8] &f用法: /email change <旧邮箱> <新邮箱> '
     changed: '&8[&6玩家系统&8] &f邮箱已修改 !'
     change_not_allowed: '&8[&6玩家系统&8] &c服务器不允许修改邮箱地址'
     email_show: '&8[&6玩家系统&8] &2您当前的电子邮件地址为： &f%email'
     no_email_for_account: '&8[&6玩家系统&8] &2您当前并没有任何邮箱与该账号绑定'
+    invalid: '&8[&6玩家系统&8] &f无效的邮箱'
+    new_email_invalid: '&8[&6玩家系统&8] &f新邮箱无效!'
+    old_email_invalid: '&8[&6玩家系统&8] &f旧邮箱无效!'
     already_used: '&8[&6玩家系统&8] &4邮箱已被使用'
     incomplete_settings: '&8[&6玩家系统&8] 错误：必要设置未设定完成，请联系管理员'
     send_failure: '&8[&6玩家系统&8] 邮件发送失败，请联系管理员'
-    change_password_expired: '&8[&6玩家系统&8] 您不能使用此命令更改密码'
     email_cooldown_error: '&8[&6玩家系统&8] &c邮件已在几分钟前发送，您需要等待 %time 后才能再次请求发送'
-
+    confirm_code_sent: '&3A verification code has been sent to &f%email&3. Use &f/email confirm <code>&3 to confirm.'
+    usage_email_confirm: '&cUsage: /email confirm <code>'
+    confirm_wrong_code: '&cWrong confirmation code. Please try again.'
+    confirm_code_expired: '&cNo pending email confirmation found. Please start the process again.'
+    confirm_success: '&2Email address confirmed and saved to your account!'
+    change_password_expired: '&8[&6玩家系统&8] 您不能使用此命令更改密码'
 # Password recovery by email
 recovery:
     forgot_password_hint: '&8[&6玩家系统&8] &c忘了你的密码？请输入：“/email recovery <你的邮箱>”'
@@ -113,7 +103,6 @@ recovery:
         tries_exceeded: '您已经达到输入验证码次数的最大允许次数。请使用 "/email recovery [邮箱]" 来生成一个新的'
         correct: '验证码正确！'
         change_password: '请使用 /email setpassword <新密码> 立即设置新的密码'
-
 # Captcha
 captcha:
     usage_captcha: '&8[&6玩家系统&8] &c正确用法：/captcha %captcha_code'
@@ -121,7 +110,6 @@ captcha:
     valid_captcha: '&8[&6玩家系统&8] &c你的验证码是有效的！'
     captcha_for_registration: '注册前您需要先提供验证码，请使用指令：/captcha %captcha_code'
     register_captcha_valid: '&2有效的验证码！您现在可以使用 /register 注册啦！'
-
 # Verification code
 verification:
     code_required: '&3这个命令非常敏感，需要电子邮件验证！请检查您的收件箱，并遵循邮件的指导。'
@@ -131,7 +119,6 @@ verification:
     already_verified: '&2您已经可以在当前会话中执行任何敏感命令！'
     code_expired: '&3您的验证码已失效！执行另一个敏感命令以获得新的验证码！'
     email_needed: '&3为了验证您的身份，您需要将一个电子邮件地址与您的帐户绑定！！'
-
 # Time units
 time:
     second: '秒'
@@ -142,7 +129,6 @@ time:
     hours: '小时'
     day: '天'
     days: '天'
-
 # Two-factor authentication
 two_factor:
     code_created: '&8[&6玩家系统&8] &a你的代码是 %code，你可以使用 %url 来进行扫描'
@@ -155,3 +141,89 @@ two_factor:
     not_enabled_error: '&8[&6玩家系统&8] &c双重认证码未在您的账号上启用，请使用 &a/2fa add &c来启用'
     removed_success: '&8[&6玩家系统&8] &c双重认证码已从您的账号上删除'
     invalid_code: '&8[&6玩家系统&8] &c无效的验证码'
+# Dialog UI
+dialog:
+    login:
+        title: '&6Login'
+        body: '&7Please enter your password to continue.'
+        password: '&fPassword'
+        button: '&aLogin'
+        recovery_email: '&fRecovery Email (optional)'
+        recovery_button: '&eForgot Password?'
+    register:
+        title: '&6Register'
+        body: '&7Create an account to start playing on this server.'
+        password: '&fPassword'
+        confirm_password: '&fConfirm Password'
+        email: '&fEmail'
+        confirm_email: '&fConfirm Email'
+        button: '&aRegister'
+    two_factor:
+        title: '&6Two-Factor Authentication'
+        body: '&7Open your authenticator app and enter the 6-digit code.'
+        code: '&f2FA Code'
+        button: '&aVerify'
+    recovery:
+        title: '&6Password Recovery'
+        body: '&7Enter your registered email address and a reset code will be sent to you.'
+        email: '&fEmail Address'
+        button: '&aSend Recovery Email'
+    button:
+        cancel: '&cCancel'
+# Command validation messages
+command:
+    player_only: '&cThis command is only for players.'
+    player_only_alternative: '&cPlayer only! Please use %alternative instead.'
+    failed_to_parse: '&4Failed to parse AuthMe command!'
+    unknown: '&4Unknown command!'
+    incorrect_arguments: '&4Incorrect command arguments!'
+    did_you_mean: '&eDid you mean &6%cmd&e?'
+    see_help: '&eUse the command &6/%cmd&e to view help.'
+    detailed_help: '&6Detailed help: &f/%cmd'
+# Admin command messages
+admin:
+    antibot:
+        status: '&2AntiBot status: %status'
+        override_enabled: '&2AntiBot Manual Override: enabled!'
+        override_disabled: '&2AntiBot Manual Override: disabled!'
+        invalid_mode: '&cInvalid AntiBot mode!'
+    force_login:
+        player_offline: '&cPlayer needs to be online!'
+        forbidden: '&cYou cannot force login the player %name!'
+        success: '&2Force login for %name performed!'
+    accounts:
+        ip_not_found: '&cThis IP does not exist in the database.'
+        single_account: '&2%name is a single account player.'
+        no_last_ip: '&cNo known last IP address for player.'
+    email_show: '&2%name''s email: %email'
+    reload:
+        db_type_change: '&eNote: cannot change database type during /authme reload.'
+        error: '&cError occurred during reload of AuthMe.'
+    spawn:
+        set_success: '&2Correctly defined new spawn point.'
+        set_fail: '&cSetSpawn has failed, please retry.'
+        first_set_success: '&2Correctly defined new first spawn point.'
+        first_set_fail: '&cSetFirstSpawn has failed, please retry.'
+        not_defined: '&cSpawn has failed, please try to define the spawn.'
+        first_not_defined: '&cFirst spawn has failed, please try to define the first spawn.'
+# Premium mode
+premium:
+    feature_disabled: '&cPremium mode is not enabled on this server.'
+    account_not_found: '&cNo Mojang account found for your username.'
+    already_enabled: '&ePremium mode is already enabled for your account.'
+    enable_success: '&2Premium mode enabled! You will no longer need to authenticate on login.'
+    not_enabled: '&ePremium mode is not enabled for your account.'
+    disable_success: '&2Premium mode disabled. You will need to authenticate again.'
+    error: '&cAn error occurred while verifying your premium status. Please try again later.'
+    pending_kick: '&ePremium verification requested. Please reconnect to confirm ownership of your Mojang account.'
+    pending_fail: '&cPremium verification failed. Please log in with your password.'
+    admin:
+        not_registered: '&c%name is not registered.'
+        already_enabled: '&ePremium mode is already enabled for %name.'
+        account_not_found: '&cNo Mojang account found for %name.'
+        enable_success: '&2Premium mode enabled for %name.'
+        not_enabled: '&ePremium mode is not enabled for %name.'
+        disable_success: '&2Premium mode disabled for %name.'
+        impostor_kicked: '&eA player online as %name had a mismatched UUID and has been kicked.'
+        kick_reason: '&cPremium settings for your account have been changed by an admin. Please reconnect.'
+        pending: '&ePremium verification pending for %name. They must reconnect to confirm ownership of the Mojang account.'
