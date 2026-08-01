@@ -5,3 +5,11 @@
 /lobby/server.properties text eol=lf
 /lobby/plugins/**/*.json text eol=lf
 /lobby/plugins/**/*.yml text eol=lf
+/2b2t/*.json text eol=lf
+/2b2t/*.yml text eol=lf
+/2b2t/server.properties text eol=lf
+/2b2t/config/**/*.yml text eol=lf
+/2b2t/plugins/**/*.json text eol=lf
+/2b2t/plugins/**/*.yml text eol=lf
+/VC/plugins/**/*.json text eol=lf
+/VC/plugins/**/*.yml text eol=lf

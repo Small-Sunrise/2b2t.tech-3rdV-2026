@@ -1,5 +1,9 @@
 # If you need help, you can join our Discord - https://viaversion.com/discord
 #
+# Passes custom model data into items, as well as the original Vanilla 1.21.4+ item name into custom_model_data strings.
+# This allows client resource packs to restore the appearance of newer items entirely missing from this older version.
+pass-original-item-name-to-resource-packs: true
+#
 # Always shows a mapped mob's original name, and not only when hovering over it with the cursor.
 always-show-original-mob-name: true
 #
@@ -45,6 +49,9 @@ map-display-entities: true
 # Suppresses warnings of missing emulations for certain features that are not supported (e.g. world height in 1.17+).
 suppress-emulation-warnings: false
 #
+# If enabled, dialogs will be shown via chest inventories for 1.21.5 clients on 1.21.6+ servers.
+dialogs-via-chests: true
+#
 # Dialog styling. You can also use translation keys here.
 dialog-style:
   page-navigation-title: '&9&lPage navigation'
@@ -60,3 +67,8 @@ dialog-style:
   previous-option: '&9Right click: &6Go to previous option'
   set-text: '&9Left click/close: &6Set text'
   close: '&9Left click: &6Close'
+#
+# If enabled, the code of conduct will be shown as a dialog for 1.21.7 clients on 1.21.9+ servers.
+# Note that this is not supported for clients below 1.21.6 right now due to missing support for
+# dialogs during the configuration phase.
+code-of-conduct-as-dialog: true

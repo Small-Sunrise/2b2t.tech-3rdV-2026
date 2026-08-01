@@ -21,9 +21,12 @@ if [ -n "${FORWARDING_SECRET:-}" ]; then
   export PAPER_VELOCITY_SECRET="${FORWARDING_SECRET}"
 fi
 
-PAPER_RUNTIME_CONFIG="$(mktemp -d "${TMPDIR:-/tmp}/2b2t-paper-config.XXXXXX")"
-trap 'rm -rf "${PAPER_RUNTIME_CONFIG}"' EXIT
-cp -a config/. "${PAPER_RUNTIME_CONFIG}/"
+# Paper rewrites these source-controlled configs even when their settings do
+# not change. Run against disposable copies, as the lobby launcher does.
+SURVIVAL_RUNTIME_CONFIG="$(mktemp -d "${TMPDIR:-/tmp}/2b2t-survival-config.XXXXXX")"
+trap 'rm -rf "${SURVIVAL_RUNTIME_CONFIG}"' EXIT
+cp -a config/. "${SURVIVAL_RUNTIME_CONFIG}/"
+cp -a server.properties bukkit.yml commands.yml spigot.yml "${SURVIVAL_RUNTIME_CONFIG}/"
 
 # Inject runtime credentials from .env via the shared helper script
 if [ -f "../scripts/inject-db-secrets.sh" ]; then
@@ -66,4 +69,10 @@ run_with_restart "2b2t server" "${RESTART_DELAY_SECONDS:-300}" "stop" \
     -XX:ZUncommitDelay=5 \
     --add-modules jdk.incubator.vector \
     -Xlog:gc*:logs/gc.log:time,level,tags:filecount=5,filesize=20M \
-    -jar leaf-26.2-37.jar --paper-dir "${PAPER_RUNTIME_CONFIG}" --nogui
+    -jar leaf-26.2-37.jar \
+    --paper-dir "${SURVIVAL_RUNTIME_CONFIG}" \
+    --config "${SURVIVAL_RUNTIME_CONFIG}/server.properties" \
+    --bukkit-settings "${SURVIVAL_RUNTIME_CONFIG}/bukkit.yml" \
+    --commands-settings "${SURVIVAL_RUNTIME_CONFIG}/commands.yml" \
+    --spigot-settings "${SURVIVAL_RUNTIME_CONFIG}/spigot.yml" \
+    --nogui
