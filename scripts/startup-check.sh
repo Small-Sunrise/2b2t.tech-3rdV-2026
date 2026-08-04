@@ -145,6 +145,22 @@ for dir in "lobby" "2b2t"; do
     "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'EssentialsX-*.jar' -print -quit | grep -q ."
 done
 
+# VIP/S-VIP 权益依赖，按实测结果分服安装（见 docs/VIP-SVIP-DESIGN.md 第 10 节）。
+check "2b2t: DupePlus jar exists" \
+  'find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "DupePlus-*.jar" -print -quit | grep -q .'
+check "2b2t: EnderChestVault jar exists" \
+  'find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "EnderChestVault-*.jar" -print -quit | grep -q .'
+check "lobby: DeluxeMenus jar exists" \
+  'find "${ROOT_DIR}/lobby/plugins" -maxdepth 1 -iname "DeluxeMenus-*.jar" -print -quit | grep -q .'
+
+# 反向断言：这两个在 26.x 上实测启用失败，放进去只会每次启动多一条 ERROR。
+check "2b2t: no Residence jar (CMILib lacks v1_22_R1 on 26.2)" \
+  '! find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "Residence*.jar" -print -quit | grep -q .'
+for dir in "lobby" "2b2t"; do
+  check "${dir}: no TChat jar (SQLite dependency download times out)" \
+    "! find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'TChat-*.jar' -print -quit | grep -q ."
+done
+
 # FancyNpcs replaces ZNPCsPlus as the lobby's NPC plugin (see below and
 # PLUGINS.md). Verified enabling cleanly on Paper 26.1.2.
 check "lobby: FancyNpcs jar exists" \
