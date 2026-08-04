@@ -110,6 +110,24 @@ lobby/plugins/WorldEdit-7.4.4.jar|URL|https://cdn.modrinth.com/data/1u6JkXh5/ver
 lobby/plugins/EssentialsX-2.22.0.jar|URL|https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar|bda4685105977fca2e209820a9f0ad24275bd103390a03236f38e59bfdac58e6
 2b2t/plugins/EssentialsX-2.22.0.jar|URL|https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar|bda4685105977fca2e209820a9f0ad24275bd103390a03236f38e59bfdac58e6
 
+# DupePlus 1.4.3：Modrinth 明确标注支持 26.2，仅装在生存服，用于 VIP 的
+# /dupe 权益。sha256 为本地下载后实测，并与 Modrinth 公布的 sha512 交叉核对。
+2b2t/plugins/DupePlus-1.4.3.jar|URL|https://cdn.modrinth.com/data/pyRTWAFM/versions/8Qtj30zW/DupePlus-1.4.3.jar|4f6bbb35c54e3f1eee752bce7fb9b7ad7b5569d09ee65eb150f1426bc10f4bc1
+
+# EnderChestVault 1.0.0：上游只标注到 1.21.11，但已实机在 Leaf 26.2 启用成功。
+# 注意这不是历史那个分页型插件：它按 ecvault.size.<slots> 权限授予单个背包，
+# 最大 54 格，没有 /ecvpages。详见 docs/VIP-SVIP-DESIGN.md。
+2b2t/plugins/EnderChestVault-1.0.0.jar|URL|https://cdn.modrinth.com/data/9wX8pg4e/versions/V2kW5bKB/EnderChestVault-1.0.0.jar|56e81c0be8ec6e779793429cd95729b9c2204743361897efaa28806d4bd02c27
+
+# DeluxeMenus 1.14.1：上游只标注到 1.21.11，但已实机在 Paper 26.1.2 启用成功
+# 并挂接 PlaceholderAPI 与 Vault。仅装在 lobby，是充值/购买菜单的载体。
+lobby/plugins/DeluxeMenus-1.14.1-Release.jar|URL|https://cdn.modrinth.com/data/kKZkPgJ7/versions/PNKQ6RMs/DeluxeMenus-1.14.1-Release.jar|ec10a1317152aa57d76eec8cb3e1e7dc7f52e45c7a5d742c0baa1e394496ec20
+
+# 刻意不在清单中：
+#   - TChat 5.0.0：两端都因启动时下载 SQLite 驱动超时而启用失败。
+#   - Residence 6.0.0.1 + CMILib 1.5.9.6：Leaf 26.2 上缺 v1_22_R1 字段。
+# 两者的实测结论见 PLUGINS.md 的已知兼容性问题表。
+
 # FancyNpcs：lobby 的 NPC 插件，取代无法在 26.x 上运行的 ZNPCsPlus。
 #
 # 选它的理由：Modrinth 上 2.11.0 正式版明确声明支持 26.1.2 与 26.2，要求 Java 25，
