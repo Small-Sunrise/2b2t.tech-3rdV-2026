@@ -1,0 +1,118 @@
+commands:
+  aliases:
+    - axovaults
+    - av
+    - vault
+    - vaults
+    - pv
+    - backpack
+    - playervault
+
+language:
+  default: en_US
+  auto-detect-client: true
+  fallback: en_US
+  fallbacks:
+    - en_US
+
+storage:
+  type: SQLITE
+  auto-migrate: true
+  batch-save-delay-millis: 250
+  backends:
+    YAML:
+      enabled: false
+      vault-directory: vaults
+      player-directory: players
+    JSON:
+      enabled: false
+      directory: json
+      pretty-print: true
+    SQLITE:
+      enabled: true
+      file: axovaults.db
+      table: axovaults_players
+    MYSQL:
+      enabled: false
+      host: localhost
+      port: 3306
+      database: axovaults
+      username: root
+      password: ""
+      table: axovaults_players
+      parameters: "useSSL=false&characterEncoding=utf8"
+    MARIADB:
+      enabled: false
+      host: localhost
+      port: 3306
+      database: axovaults
+      username: root
+      password: ""
+      table: axovaults_players
+      parameters: "useSSL=false"
+    POSTGRESQL:
+      enabled: false
+      host: localhost
+      port: 5432
+      database: axovaults
+      username: postgres
+      password: ""
+      table: axovaults_players
+      parameters: ""
+    REDIS:
+      enabled: false
+      uri: "redis://localhost:6379/0"
+      key-prefix: "axovaults:player:"
+      timeout-millis: 2000
+    MONGODB:
+      enabled: false
+      uri: "mongodb://localhost:27017"
+      database: axovaults
+      collection: player_data
+    H2:
+      enabled: false
+      file: h2/axovaults
+      username: sa
+      password: ""
+      table: axovaults_players
+
+cache:
+  enabled: true
+  max-size: 5000
+  expire-after-minutes: 30
+
+vaults:
+  size: 54
+  default-amount: 1
+  max-history-entries: 200
+  auto-create-first: true
+
+gui:
+  list-size: 54
+  page-storage-slots: 45
+  items:
+    vault: ENDER_CHEST
+    locked-vault: RED_STAINED_GLASS_PANE
+    favorite-vault: NETHER_STAR
+    navigation-fill: BLACK_STAINED_GLASS_PANE
+    previous-page: ARROW
+    next-page: ARROW
+    back: BARRIER
+    history-entry: PAPER
+
+sounds:
+  command:
+    enabled: true
+    sound: BLOCK_BARREL_OPEN
+    volume: 1.0
+    pitch: 1.0
+
+cross-server:
+  enabled: false
+  mode: REDIS
+
+migrations:
+  auto-run: false
+
+debug:
+  inventory-sessions: false

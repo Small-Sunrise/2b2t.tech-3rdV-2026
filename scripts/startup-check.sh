@@ -148,8 +148,8 @@ done
 # VIP/S-VIP 权益依赖，按实测结果分服安装（见 docs/VIP-SVIP-DESIGN.md 第 10 节）。
 check "2b2t: DupePlus jar exists" \
   'find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "DupePlus-*.jar" -print -quit | grep -q .'
-check "2b2t: EnderChestVault jar exists" \
-  'find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "EnderChestVault-*.jar" -print -quit | grep -q .'
+check "2b2t: AxoVaults jar exists" \
+  'find "${ROOT_DIR}/2b2t/plugins" -maxdepth 1 -iname "AxoVaults-*.jar" -print -quit | grep -q .'
 check "lobby: DeluxeMenus jar exists" \
   'find "${ROOT_DIR}/lobby/plugins" -maxdepth 1 -iname "DeluxeMenus-*.jar" -print -quit | grep -q .'
 
