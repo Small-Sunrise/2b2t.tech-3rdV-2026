@@ -81,6 +81,7 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 | JoinLeaveMessage | 0.2 | SpigotMC | https://www.spigotmc.org/resources/9262/ |
 | PlayerTime | 1.0.7-RELEASE | SpigotMC | https://www.spigotmc.org/resources/58915/ |
 | FancyNpcs | 2.11.0 | Modrinth | https://modrinth.com/plugin/fancynpcs | 仅安装于 lobby（大厅服）。取代无法在 26.x 上运行的 ZNPCsPlus，见下方兼容性表。要求 Java 25+，跨服跳转用 `send_to_server` 动作（依赖 velocity.toml 的 `bungee-plugin-message-channel`，本仓库已开启） |
+| AxoVaults | 2.0.3 | Modrinth | https://modrinth.com/plugin/axovaults | 仅安装于 2b2t（生存服），承载 VIP/S-VIP 的会员末影箱。`paper-plugin.yml` 的 `api-version` 直接写作 `26.2`；用 `axovaults.amount.<n>` 表达页数、`axovaults.size.<slots>` 表达每页格数，因此权益随 LuckPerms 临时组自动到期 |
 | MinePay | latest | Modrinth | https://modrinth.com/plugin/minepay | 仅安装于 lobby（大厅服），替代 Srepay（微信/支付宝，v1.1.0 迁移） |
 
 ### 大厅 NPC 跳转配置（FancyNpcs）
@@ -141,4 +142,4 @@ BungeeCord 插件消息通道，依赖 `velocity.toml` 的
 | VC/LuckPerms 5.5.53 | Velocity 上加载翻译时报 `Error loading locale file: zh_TW.properties` | 只影响繁体中文翻译文件的加载，插件本身正常启用并连上 MySQL |
 | 2b2t/Residence 6.0.0.1 + CMILib 1.5.9.6 | Leaf 26.2 上启用失败：`NoSuchFieldError: ... Version does not have member field 'v1_22_R1'` | 上游最新可下载的 GitHub 资产仍是 2025-09 的 6.0.0.1，而 6.0.2.3 只有 tag、没有资产（改为仅 Spigot 分发）。需要更新的 CMILib + Residence 才能修复，因此 VIP/SVIP 的领地额度暂时无法实现 |
 | lobby+2b2t/TChat 5.0.0 | 两端都启用失败：`RuntimeException: The SQLite databases could not be prepared`，根因是 `TimeoutException`，即 TChat 启动时下载 SQLite 驱动超时（30 秒硬超时） | 属运行期依赖下载问题，不是版本不兼容：`plugins/TChat/libraries/cache/` 里已成功缓存 HikariCP。可在网络更快的主机重试，或预先放置 `org.xerial:sqlite-jdbc` 后再启用 |
-| 2b2t/EnderChestVault | Modrinth 上的 `EnderChestVault 1.0.0` 与历史配置（`config-version: 3.3`、`/ecvpages`、每页 45 格）**不是同一个插件**：它是权限驱动的单一背包（`ecvault.size.9/18/27/36/45/54`，最大 54 格），没有分页概念 | 已实机在 Leaf 26.2 启用成功。若采用它，VIP/SVIP 的"末影箱页数"需改为按权限授予的格数，且权限随会员到期自动失效，不再需要 `ecvpages set` 与 60 天回收任务 |
+| 2b2t/EnderChestVault 1.0.0 | Modrinth 上这个同名插件与历史配置（`config-version: 3.3`、`/ecvpages`、每页 45 格）**不是同一个插件**：它只有单个背包（`ecvault.size.<slots>`，最大 54 格），没有分页 | 虽然能在 Leaf 26.2 启用，但无法表达「3 页」权益，已改用 AxoVaults |

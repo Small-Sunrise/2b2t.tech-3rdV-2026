@@ -19,6 +19,14 @@ require_line "${BOOTSTRAP}" "lp group vip permission set essentials.back.ondeath
 require_line "${BOOTSTRAP}" "lp group vip permission set dupeplus.dupe true"
 require_line "${BOOTSTRAP}" "lp group vip permission set residence.group.vip true"
 require_line "${BOOTSTRAP}" "lp group svip permission set residence.group.svip true"
+require_line "${BOOTSTRAP}" "lp group vip permission set axovaults.amount.1 true"
+require_line "${BOOTSTRAP}" "lp group vip permission set axovaults.size.45 true"
+require_line "${BOOTSTRAP}" "lp group svip permission set axovaults.amount.3 true"
+
+if grep -Eq '^lp group (vip|svip) permission set axovaults\.amount\.unlimited' "${BOOTSTRAP}"; then
+  echo "VIP bootstrap must not grant unlimited vaults" >&2
+  exit 1
+fi
 
 if grep -Eq '^lp group (vip|svip) permission set essentials\.(home|sethome)([. ]|$)' "${BOOTSTRAP}"; then
   echo "VIP bootstrap must not grant home/sethome" >&2

@@ -78,6 +78,9 @@ replay_pid*.log
 **/plugins/AuthMe/messages/backup_messages_*.yml
 # FancyNpcs records the version it last ran as; regenerated on every start
 **/plugins/FancyNpcs/version.yml
+# AxoVaults records which storage backend was last active plus a timestamp;
+# regenerated on every start, so it is runtime state rather than configuration
+**/plugins/AxoVaults/storage-state.yml
 **/*.tmp
 **/*.db
 **/*.mv.db
