@@ -15,7 +15,8 @@
 #   MANUAL - 没有可靠、稳定的官方直链（例如历史 build 已被覆盖），
 #            脚本不会下载，只会打印提示，需要人工获取后手工放置。
 #
-# 所有 URL / sha256 均来自官方来源，严禁编造：
+# 所有 URL 均为官方来源；sha256 优先采用上游公布的 digest，上游未公布时则
+# 从固定 release asset 下载后本地计算并记录，严禁编造：
 #   - Velocity / Paper: PaperMC Fill API v3 (https://fill.papermc.io/v3),
 #     该 API 已取代已下线的 api.papermc.io v2。
 #   - Leaf: Winds-Studio/Leaf 官方 GitHub Releases。注意 Leaf 的发布方式是
@@ -77,6 +78,37 @@ lobby/plugins/LuckPerms-Bukkit-5.5.53.jar|URL|https://cdn.modrinth.com/data/Vebn
 2b2t/plugins/LuckPerms-Bukkit-5.5.53.jar|URL|https://cdn.modrinth.com/data/Vebnzrzj/versions/MBSY8toc/LuckPerms-Bukkit-5.5.53.jar|fc8d4eccbf11c1e844af4527f018bbfde90c1866a9aba1bf880173a8e644cd59
 VC/plugins/LuckPerms-Velocity-5.5.53.jar|URL|https://cdn.modrinth.com/data/Vebnzrzj/versions/BmxJvHsa/LuckPerms-Velocity-5.5.53.jar|3f48aaafd0c6b2362e02dc1b74ada0bbe57f2562def54508bd64a6618e53cbac
 lobby/plugins/AuthMe-6.0.0-Paper.jar|GHASSET|https://api.github.com/repos/AuthMe/AuthMeReloaded/releases/assets/414653954|58948fcbc697497506257d09d8a7909bf48de6aefe7bec6ba5ab4c41be41b7b8
+
+# PlaceholderAPI 2.12.3：上游发行说明明确修复 Paper 26.x 版本字符串解析，
+# 并声明可在 26.2 上运行（Paper 支持仍标记为 experimental）。同一 Bukkit jar
+# 分别放入 lobby 与 2b2t；sha256 来自 GitHub release asset 的官方 digest。
+lobby/plugins/PlaceholderAPI-2.12.3.jar|GHASSET|https://api.github.com/repos/PlaceholderAPI/PlaceholderAPI/releases/assets/465403523|fde03259f5af6938f3c33eeb4d814000a1adabf1d2304ce14970be81f609a437
+2b2t/plugins/PlaceholderAPI-2.12.3.jar|GHASSET|https://api.github.com/repos/PlaceholderAPI/PlaceholderAPI/releases/assets/465403523|fde03259f5af6938f3c33eeb4d814000a1adabf1d2304ce14970be81f609a437
+
+# ProtocolLib 5.5.0-SNAPSHOT dev build：正式版 5.4.0 只支持到 1.21.8；当前
+# dev-build 的上游说明明确列出 26.1、26.1.2 与 26.2，并包含 Leaf 构造器选择
+# 修复。GitHub 的 dev-build asset 会滚动覆盖，因此这里同时锁定 asset id、
+# 2026-07-18 构建内容及其官方 sha256 digest。
+lobby/plugins/ProtocolLib-5.5.0-SNAPSHOT.jar|GHASSET|https://api.github.com/repos/dmulloy2/ProtocolLib/releases/assets/481517389|9f7f5f42a50c0101001248b17d1c2383043e9b35d298fca6bb34aff65eb9d842
+2b2t/plugins/ProtocolLib-5.5.0-SNAPSHOT.jar|GHASSET|https://api.github.com/repos/dmulloy2/ProtocolLib/releases/assets/481517389|9f7f5f42a50c0101001248b17d1c2383043e9b35d298fca6bb34aff65eb9d842
+
+# Vault 1.7.3：上游最后一个正式版。GitHub 的旧 release asset 没有 digest
+# 字段，下面的 sha256 由 asset id 22988910 的官方二进制本地计算得到。
+lobby/plugins/Vault-1.7.3.jar|GHASSET|https://api.github.com/repos/MilkBowl/Vault/releases/assets/22988910|a6b5ed97f43a5cf5bbaf00a7c8cd23c5afc9bd003f849875af8b36e6cf77d01d
+2b2t/plugins/Vault-1.7.3.jar|GHASSET|https://api.github.com/repos/MilkBowl/Vault/releases/assets/22988910|a6b5ed97f43a5cf5bbaf00a7c8cd23c5afc9bd003f849875af8b36e6cf77d01d
+
+# WorldEdit 7.4.4 Bukkit 正式版：Modrinth 明确标注支持 Paper/Spigot
+# 26.1.2 与 26.2。sha256 为本地下载后实测，并与 Modrinth 公布的 sha512
+# 交叉核对一致。
+lobby/plugins/WorldEdit-7.4.4.jar|URL|https://cdn.modrinth.com/data/1u6JkXh5/versions/qNuPcliz/worldedit-bukkit-7.4.4.jar|44c97ee6c1df9afa127df3c5a2c6a7108f826fb44ab7b255a7ec4250feb89b9d
+2b2t/plugins/WorldEdit-7.4.4.jar|URL|https://cdn.modrinth.com/data/1u6JkXh5/versions/qNuPcliz/worldedit-bukkit-7.4.4.jar|44c97ee6c1df9afa127df3c5a2c6a7108f826fb44ab7b255a7ec4250feb89b9d
+
+# EssentialsX 2.22.0：上游正式支持 Paper 26.1.2；在 Leaf 26.2 上实测也能完整
+# 启用，但会上报 DANGEROUS_FORK 数据丢失警告。服主为保留 VIP/SVIP 的 home、
+# back 与经济权益明确接受该风险，两个后端均安装。sha256 与 Modrinth 公布的
+# sha512 已交叉核对一致。
+lobby/plugins/EssentialsX-2.22.0.jar|URL|https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar|bda4685105977fca2e209820a9f0ad24275bd103390a03236f38e59bfdac58e6
+2b2t/plugins/EssentialsX-2.22.0.jar|URL|https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar|bda4685105977fca2e209820a9f0ad24275bd103390a03236f38e59bfdac58e6
 
 # FancyNpcs：lobby 的 NPC 插件，取代无法在 26.x 上运行的 ZNPCsPlus。
 #

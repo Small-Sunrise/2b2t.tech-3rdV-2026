@@ -24,9 +24,9 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
-| ProtocolLib | latest | GitHub | https://github.com/dmulloy2/ProtocolLib/releases |
+| ProtocolLib | 5.5.0-SNAPSHOT-589ee12 | GitHub dev-build | https://github.com/dmulloy2/ProtocolLib/releases/tag/dev-build |
 | LuckPerms | 5.5.53 | Modrinth | https://modrinth.com/plugin/luckperms |
-| PlaceholderAPI | latest | Modrinth | https://modrinth.com/plugin/placeholderapi |
+| PlaceholderAPI | 2.12.3 | GitHub | https://github.com/PlaceholderAPI/PlaceholderAPI/releases/tag/2.12.3 |
 | Vault | 1.7.3 | GitHub | https://github.com/MilkBowl/Vault/releases |
 | CMILib | 1.5.9.9 | GitHub | https://github.com/Zrips/CMILib/releases |
 
@@ -46,7 +46,7 @@ lobby 是协议 775、2b2t 是协议 776，缺了 Via 就没有任何一个客�
 | 插件 | 版本 | 来源 | 下载地址 |
 |------|------|------|----------|
 | EssentialsX | 2.22.0 | Modrinth | https://modrinth.com/plugin/essentialsx |
-| WorldEdit | 7.4.4-beta-01 | Modrinth | https://modrinth.com/plugin/worldedit |
+| WorldEdit | 7.4.4 | Modrinth | https://modrinth.com/plugin/worldedit |
 | Residence | 6.0.0.1 | GitHub | https://github.com/Zrips/Residence/releases |
 | QuickShop-Hikari | 6.2.0.11 | Modrinth | https://modrinth.com/plugin/quickshop-hikari |
 | AdvancedTeleport | 6.2.0 | Modrinth | https://modrinth.com/plugin/advancedteleport |
@@ -121,7 +121,11 @@ BungeeCord 插件消息通道，依赖 `velocity.toml` 的
 |------|------|----------|
 | Residence | CMILib 缺 v1_22_R1 字段 | 更新 CMILib + Residence |
 | AdvancedTeleport | 仅支持 1.17-1.19 | 等待作者更新 |
-| ProtocolLib | 未测试 1.26 | 已有新版本 |
+| ProtocolLib | 正式版 5.4.0 只支持到 1.21.8 | 使用 5.5.0-SNAPSHOT-589ee12；已在 Paper 26.1.2 与 Leaf 26.2 实机启用 |
+| PlaceholderAPI | 2.11.x 会因 26.x 版本号解析抛出 `NumberFormatException` | 使用修复该问题的 2.12.3；已在两个后端实机启用，上游仍将 Paper 26.x 支持标为 experimental |
+| Vault | 1.7.3 发布于 2020，未声明 26.x | 已在两个后端实机启用并挂接 SuperPermissions；尚未安装经济实现 |
+| WorldEdit | 7.4.4 正式版明确标注支持 26.1.2 与 26.2 | 已在两个后端实机启用，取代清单中原先的 beta 版本 |
+| EssentialsX | 2.22.0 正式支持 Paper 26.1.2；Leaf 26.2 被上游硬编码为 `DANGEROUS_FORK` | 两个后端均实机启用。服主为保留 VIP/SVIP 的 `/home`、`/back` 与经济权益，明确接受 Leaf 上的数据丢失警告；必须保持备份并在升级后复测 |
 | MinePay | 上游最新构建只标注到 1.21.11，没有任何 26.x 构建可下载 | 等待作者更新；在此之前 lobby 没有支付功能 |
 
 ## 已知兼容性问题
@@ -131,7 +135,6 @@ BungeeCord 插件消息通道，依赖 `velocity.toml` 的
 | 插件 | 现象 | 建议动作 |
 |------|------|----------|
 | lobby/fakeplayer 0.3.13 | 启动日志：`Unsupported Minecraft version: 26.1.2`，插件完全无法启用 | 停用该插件，等待上游发布支持 26.x 的版本后再启用 |
-| 2b2t/PlaceholderAPI | 在 Leaf 26.2 上加载失败：`java.lang.NumberFormatException: For input string: "b"`（版本号解析崩溃） | 升级到支持 26.x 的版本 |
 | 2b2t/TAB 6.1.0 | 日志：`Your server version (Paper 26.1.2) is marked as compatible, but the implementation does not exist` | 升级到支持 26.x 的版本 |
 | lobby/ZNPCsPlus 2.0.0 | 在 Paper 26.1.2 上初始化直接抛异常：`Version string must be in the format 'major.minor[.patch][+commit][-SNAPSHOT]', found '26.1.2.build.72' instead`——其内置的 PacketEvents 解析不了 Paper 的 API 版本号，`onLoad` 阶段就失败 | **不要放这个 jar**：放了每次启动都会多一条 ERROR，而插件本身完全不工作。2.0.0 已是上游最新 release，只能等新版 | 
 | lobby/AuthMe 6.0.0 | 启动日志：`WARNING! The protectInventory feature requires PacketEvents! Disabling it...` | 功能降级而非启动失败：登录前的背包保护不可用，其余功能（含 MySQL 存储）正常。要恢复该功能需额外安装 PacketEvents |

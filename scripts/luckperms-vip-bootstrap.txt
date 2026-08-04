@@ -1,0 +1,33 @@
+# Run these commands from any backend console after LuckPerms has connected to
+# the shared MySQL database. Re-running the set/meta commands is safe; create
+# and parent-add may report that an existing group/relation already exists.
+
+lp creategroup vip
+lp creategroup svip
+
+lp group vip setweight 10
+lp group svip setweight 20
+lp group vip parent add default
+lp group svip parent add vip
+
+lp group vip meta setprefix 100 "&a&l[VIP]+ &r"
+lp group svip meta setprefix 200 "&#FFD700&l[&#FF69B4&lS-VIP&#FFD700&l]+ &r"
+
+lp group default permission set essentials.back false
+lp group default permission set essentials.back.ondeath false
+
+lp group vip permission set dupeplus.dupe true
+lp group vip permission set essentials.back true
+lp group vip permission set essentials.back.ondeath true
+lp group vip permission set tchat.group.vip true
+lp group vip permission set tchat.tag.vip true
+lp group vip permission set residence.group.vip true
+
+lp group svip permission set tchat.group.svip true
+lp group svip permission set tchat.tag.svip true
+lp group svip permission set residence.group.svip true
+
+# Deliberately absent: essentials.home, essentials.sethome, residence.admin.*
+# and all reward amounts. Membership time, payouts, check-ins, ECV pages and
+# Residence bypass flags belong to the audited entitlement service/config, not
+# to permanent LuckPerms nodes.
