@@ -88,12 +88,13 @@ jobs:
       - name: 运行 scripts/tests 下的全部自建 fixture 测试
         run: |
           set -euo pipefail
-          # 以下 4 个测试均自建临时 fixture（mktemp -d），不依赖真实 jar 或 .env。
+          # 测试不依赖真实 jar 或 .env；VIP/SVIP 测试额外校验声明式权益合同与配置。
           for t in \
             scripts/tests/inject-db-secrets-test.sh \
             scripts/tests/check-secrets-test.sh \
             scripts/tests/service-loop-test.sh \
             scripts/tests/launcher-lifecycle-test.sh \
+            scripts/tests/vip-benefits-test.sh \
           ; do
             echo "==> $t"
             bash "$t"

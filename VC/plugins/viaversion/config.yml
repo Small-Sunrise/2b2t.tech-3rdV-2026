@@ -72,8 +72,8 @@ velocity-ping-save: true
 # It will fall back to the default option if none found.
 velocity-servers:
   default: 4
-  lobby: 772
-  2b2t: 772
+  lobby: 775
+  2b2t: 776
 #
 #----------------------------------------------------------#
 #                  GLOBAL PACKET LIMITER                   #

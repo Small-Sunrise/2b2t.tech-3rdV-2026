@@ -100,7 +100,7 @@ groups:
   svip:
     permission: tchat.group.svip
     priority: 2
-    prefix: "&a&lMOD"
+    prefix: "&#FFD700&lS-VIP"
     suffix: ""
     format-enabled: true
     format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&b"
@@ -132,7 +132,7 @@ groups:
   vip:
     permission: tchat.group.vip
     priority: 3
-    prefix: "&a&lMOD"
+    prefix: "&a&lVIP"
     suffix: ""
     format-enabled: true
     format: "%vault_prefix%&f[%tchat_tag_displayname%&f]%tchat_nick% : ¡&a"

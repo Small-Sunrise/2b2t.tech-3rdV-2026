@@ -129,6 +129,22 @@ done
 check "VC: LuckPerms jar exists" \
   'find "${ROOT_DIR}/VC/plugins" -maxdepth 1 -iname "LuckPerms-Velocity-*.jar" -print -quit | grep -q .'
 
+# These Bukkit dependencies were each verified on both Paper 26.1.2 and Leaf
+# 26.2. ProtocolLib intentionally uses the 5.5.0 development line: 5.4.0 only
+# supports through 1.21.8, while this build contains explicit 26.1/26.2 fixes.
+for dir in "lobby" "2b2t"; do
+  for plugin in "PlaceholderAPI" "ProtocolLib" "Vault"; do
+    check "${dir}: ${plugin} jar exists" \
+      "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname '${plugin}-*.jar' -print -quit | grep -q ."
+  done
+  check "${dir}: WorldEdit jar exists" \
+    "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'WorldEdit-*.jar' -print -quit | grep -q ."
+done
+for dir in "lobby" "2b2t"; do
+  check "${dir}: EssentialsX jar exists" \
+    "find \"\${ROOT_DIR}/${dir}/plugins\" -maxdepth 1 -iname 'EssentialsX-*.jar' -print -quit | grep -q ."
+done
+
 # FancyNpcs replaces ZNPCsPlus as the lobby's NPC plugin (see below and
 # PLUGINS.md). Verified enabling cleanly on Paper 26.1.2.
 check "lobby: FancyNpcs jar exists" \

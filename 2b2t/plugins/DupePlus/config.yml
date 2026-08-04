@@ -24,7 +24,7 @@ dupe:
 
   # Make it false to let everyone allowed to use this command (Default: false)
   # Permission: dupeplus.dupe
-  permission: false
+  permission: true
 
   # Settings to change the Dupe Command into a Custom command.
   custom-command:
@@ -41,7 +41,7 @@ dupe:
   # The message sent to the player when try to execute dupe or reloadconfig no permission (Only if the above is true) (Default: "<prefix> <dark_gray>|</dark_gray> <red>You are not allowed to use this command</red>")
   # Allowed Message Variables: <prefix>
   # Leave blank for no message
-  permission-message: "<prefix> <red>You are not allowed to use this command</red>"
+  permission-message: "<prefix> <red>此功能仅限 VIP 或 S-VIP 使用</red>"
 
   # The message sent to the player when you duplicate an item. (Default: "<prefix> <dark_gray>|</dark_gray> <gray>Duped <item_name></gray>")
   # Allowed Message Variables: <prefix>, <item_type>, <item_name>, <old_item_count>, <new_item_count>

@@ -18,12 +18,8 @@
 #   `Accept: application/octet-stream` header or it returns the asset's JSON
 #   metadata instead of the file. GITHUB_TOKEN is passed through when set,
 #   only to lift the anonymous API rate limit.
-# - Plugin jars are out of scope with ONE exception: the ViaVersion suite
-#   (ViaVersion / ViaBackwards / ViaRewind). lobby runs protocol 775 and 2b2t
-#   runs protocol 776, so without Via no single client protocol can reach both
-#   backends and cross-server travel is impossible. It is a prerequisite for
-#   the network to work at all, not an optional gameplay plugin. Everything
-#   else: see PLUGINS.md.
+# - The manifest also contains the compatibility-validated core plugins needed
+#   by a fresh clone. Optional gameplay plugins remain documented in PLUGINS.md.
 #
 # Usage:
 #   bash scripts/fetch-jars.sh [path-to-manifest]
@@ -137,9 +133,8 @@ done < <(grep -Ev '^[[:space:]]*(#|$)' "${MANIFEST}")
 echo "=== 汇总 ==="
 echo "下载: ${FETCHED}  已跳过(既有且校验通过): ${SKIPPED}  需手工处理: ${MANUAL_COUNT}  失败: ${FAILED}"
 echo ""
-echo "提醒: 除 ViaVersion 套件（协议桥接，缺了就没法跨服）外，其余插件 jar 不在本"
-echo "脚本范围内（数量多、来源杂），请参考 PLUGINS.md 手工放置到各 */plugins/ 目录"
-echo "后再运行 scripts/startup-check.sh。"
+echo "提醒: 清单只管理已完成兼容性验证的核心插件；其余可选插件仍请参考"
+echo "PLUGINS.md，逐个验证后再加入清单。"
 
 if [ "${FAILED}" -gt 0 ]; then
   echo ""
